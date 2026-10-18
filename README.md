@@ -10,7 +10,7 @@
 
 产房的寂静，不会停留在产房。人口下行的影响，会沿着年龄阶梯逐级向上传导：从婴儿奶粉、托育机构、幼儿园开始，接着是小学、中学、高校，最终传导到就业市场、婚姻选择、房产需求和养老体系。人口的变化，会在不久的将来，显露出真正的力量。
 
-[「人口档案馆」](https://demoarchive.net)用数据、地图与可视化记录这条下行曲线：既呈现全国与各省的出生人口、生育率和未来预测，也整理关于人口的常见争论、各方观点与思想实验。本网站不评判任何个体的生育选择，也无意为任何人做出选择。本网站只是想针对“人口与未来”的关系，提出一些新观点（准确来说，是整理一些已有的旧观点），供大家讨论。
+[「人口档案馆」](https://demoarchive.net)通过数据、地图与文字的形式，记录下这些信息：既展示出生人口、生育率及未来预测等数据，也整理关于人口议题下的常见争论、各方观点与思想实验。本网站不评判任何个体的生育选择，也无意为任何人做出选择。本网站只是想针对“人口与未来”的关系，提出一些新观点（准确来说，是整理一些已有的旧观点），供大家讨论。
 
 ## 网站内容
 
@@ -30,20 +30,18 @@
 
 全部文件位于仓库 `data/` 目录，也可在[数据中心](https://demoarchive.net/datacenter/)逐项下载。
 
-各组数据的起始年份不同，具体见各行说明及文件内表注。
-
 | # | 数据组 | 文件 | 内容与说明 |
 | --- | --- | --- | --- |
-| 1 | [全国历年出生人口](https://demoarchive.net/datacenter/#secNat) | `nbs-national-data.xlsx`<br>`yuwa-births-backcast.xlsx` | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
-| 2 | [七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus) | `population-census-2020.xlsx` | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
-| 3 | [各年代年均出生人口](https://demoarchive.net/datacenter/#secDec) | `avg-births-by-decade.xlsx` | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
-| 4 | [未来人口预测](https://demoarchive.net/datacenter/#secFc) | `forecast-all.xlsx`<br>`forecast-population.xlsx`<br>`forecast-births.xlsx`<br>`forecast-deaths.xlsx`<br>`forecast-decrease.xlsx` | 2026\~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
-| 5 | [各省历年出生数据](https://demoarchive.net/datacenter/#secProv) | `provinces/*.xlsx`（34 份） | 34 个省级行政区历年出生人口及出生率数据。按地区分组见下表。 |
-| 6 | [各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline) | `provincial-births-decline-2016-2025.xlsx` | 各省 2016 与 2025 年出生人口及降幅（%）。 |
-| 7 | [各国生育率](https://demoarchive.net/datacenter/#secWorld) | `wdi-tfr-by-country.xlsx` | 世界银行 WDI，1960\~2024 年各国（总和）生育率。 |
-| 8 | [各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport) | `public-family-spending-by-type-gdp-pct.xlsx` | OECD SOCX，2010\~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
+| 1 | [全国历年出生人口](https://demoarchive.net/datacenter/#secNat) | [`nbs-national-data.xlsx`](data/nbs-national-data.xlsx)<br>[`yuwa-births-backcast.xlsx`](data/yuwa-births-backcast.xlsx) | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
+| 2 | [七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus) | [`population-census-2020.xlsx`](data/population-census-2020.xlsx) | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
+| 3 | [各年代年均出生人口](https://demoarchive.net/datacenter/#secDec) | [`avg-births-by-decade.xlsx`](data/avg-births-by-decade.xlsx) | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
+| 4 | [未来人口预测](https://demoarchive.net/datacenter/#secFc) | [`forecast-all.xlsx`](data/forecast-all.xlsx)<br>[`forecast-population.xlsx`](data/forecast-population.xlsx)<br>[`forecast-births.xlsx`](data/forecast-births.xlsx)<br>[`forecast-deaths.xlsx`](data/forecast-deaths.xlsx)<br>[`forecast-decrease.xlsx`](data/forecast-decrease.xlsx) | 2026\~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
+| 5 | [各省历年出生数据](https://demoarchive.net/datacenter/#secProv) | [`provinces/*.xlsx`](data/provinces/)（34 份） | 34 个省级行政区历年出生人口及出生率数据。详细信息见[下表](#各省历年出生数据下载)。 |
+| 6 | [各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline) | [`provincial-births-decline-2016-2025.xlsx`](data/provincial-births-decline-2016-2025.xlsx) | 各省 2016 与 2025 年出生人口及降幅（%）。 |
+| 7 | [各国生育率](https://demoarchive.net/datacenter/#secWorld) | [`wdi-tfr-by-country.xlsx`](data/wdi-tfr-by-country.xlsx) | 世界银行 WDI，1960\~2024 年各国（总和）生育率。 |
+| 8 | [各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport) | [`public-family-spending-by-type-gdp-pct.xlsx`](data/public-family-spending-by-type-gdp-pct.xlsx) | OECD SOCX，2010\~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
 
-### 省级数据文件
+### 各省历年出生数据下载
 
 文件均位于 `data/provinces/`；点击省级行政区名称打开对应 xlsx。每份数据表内均附详细数据来源、统计口径与注释。
 
