@@ -12,67 +12,46 @@
 
 以下按网站顶部导航顺序排列。
 
-### 1. 正在来临的危险
-
-人口缩减不是一次性事件，而是沿着年龄阶梯逐级传导。2016 年出生 1883 万人，2025 年只剩 792 万人；这批孩子减少的影响，会依次抵达幼儿园、中学、高等教育、日常消费品、公务员与事业编、房地产及上下游、互联网等行业。
-
-页面逐项拆解：全国幼儿园数量从 2021 年的 29.48 万所降至 2025 年的 23.19 万所，四年减少 21%；初中、高中、高等教育学龄人口将分别在 2026 年、2029 年和 2032 年前后达峰；房地产的需求主力是 30 岁上下的首次置业人群，出生人口减半的真正冲击还在十余年之后。电力和医院可能是例外，但产科与儿科正在萎缩。
-
-### 2. 各省生育地图
-
-用地图与排名呈现中国人口变化的地区差异：2016~2025 年各省出生人口降幅排序，以及 1949~2025 年分省出生人口与出生率地图。点击省份可查看该省历年数据，相关数据同步收录于数据中心。
-
-### 3. 未来人口预测
-
-以队列要素法推演 2026~2100 年中国人口。高、中、低三种情景的总和生育率分别为 1.3、1.0、0.8；三情景共用同一套死亡率假设，因此 2050 年前的死亡人口基本一致。可交互查看总人口、出生人口、死亡人口与年减少人数。预测为模型结果，仅供参考。
-
-### 4. 各国生育率与生育支持
-
-两部分：1960~2024 年世界各国（总和）生育率地图与历年变化；2010~2023 年 OECD 国家家庭福利公共支出占 GDP 的比重排名与走势。用国际比较观察中国生育水平的位置，以及各国生育支持政策的力度差异。
-
-### 5. 永恒的争论
-
-整理六种常见论点并逐条回应：人口过多论、收缩红利论、机器替代论、内卷降低论、少生优生论、补贴无用论。争论的关键不在立场，而在事实与推理是否站得住。
-
-### 6. 各方观点
-
-收录普京（俄罗斯）、李光耀（新加坡）、马斯克（美国）、李显龙（新加坡）、梁建章（中国）、黄文政（中国）关于人口问题的公开表述，共 74 条，按时间倒序排列，并附原文出处。
-
-### 7. 思想实验
-
-三篇叙事型思想实验：
-
-- 《少子化的囚徒困境》：生育是个人选择，个体理性叠加起来，却可能把社会推向谁也不想要的未来。
-- 《博士与母亲》：名校博士 A 与养育五个孩子的母亲 B，三十年后社会评价体系逆转；文章讨论“即期产出”与“代际底座”的错位。
-- 《2060年的五百万》：把 500 万元养老储蓄放进 2060 年的人口结构，拆解服务端、资产端与兑付端的三重压力。
-
-### 8. 数据中心
-
-汇总全国、各省、预测与国际比较共 8 组数据，均可下载 xlsx，也可在页面中交互查看。完整文件清单与说明见下一节。
-
-### 9. 其他
-
-人口数据常用概念解释：总人口、出生人口、出生率、（总和）生育率、出生率与生育率的区别、世代更替水平、老龄化与少子化、婴儿潮与回声潮。另含关于本站的立场说明、数据来源致谢与联系方式。
+| # | 栏目 | 内容 |
+| --- | --- | --- |
+| 1 | [正在来临的危险](https://demoarchive.net/harms/) | 人口缩减沿年龄阶梯向上传导：2016 年出生 1883 万，2025 年只剩 792 万；幼儿园、中学、高等教育、日常消费品、公务员与事业编、房地产、互联网依次承压，电力和医院可能是例外。 |
+| 2 | [各省生育地图](https://demoarchive.net/map/) | 2016~2025 年各省出生人口降幅排序，以及 1949~2025 年分省出生人口与出生率地图；点击省份查看历年数据。 |
+| 3 | [未来人口预测](https://demoarchive.net/forecast/) | 队列要素法推演 2026~2100 年人口；高、中、低三情景总和生育率为 1.3、1.0、0.8，可查看总人口、出生、死亡与年减少人数。 |
+| 4 | [各国生育率与生育支持](https://demoarchive.net/world/) | 1960~2024 年世界各国（总和）生育率地图；2010~2023 年 OECD 国家家庭福利公共支出占 GDP 比重排名与走势。 |
+| 5 | [永恒的争论](https://demoarchive.net/debates/) | 逐条回应六种常见论点：人口过多论、收缩红利论、机器替代论、内卷降低论、少生优生论、补贴无用论。 |
+| 6 | [各方观点](https://demoarchive.net/viewpoints/) | 普京、李光耀、马斯克、李显龙、梁建章、黄文政六人关于人口问题的公开表述，共 74 条，按时间倒序并附出处。 |
+| 7 | [思想实验](https://demoarchive.net/thought-experiment/) | 三篇叙事型实验：《少子化的囚徒困境》《博士与母亲》《2060年的五百万》，分别讨论个体理性、代际账本与养老兑付。 |
+| 8 | [数据中心](https://demoarchive.net/datacenter/) | 全国、各省、预测与国际比较共 8 组数据；在线交互查看，并可下载 xlsx，清单见下一节。 |
+| 9 | [其他](https://demoarchive.net/other/) | 人口概念解释：总人口、出生人口、出生率、（总和）生育率、世代更替水平、老龄化与少子化、婴儿潮与回声潮；另含关于本站与联系方式。 |
 
 ## 数据中心可下载内容
 
-| 章节 | 文件 | 内容与说明 |
-| --- | --- | --- |
-| 1. 全国历年出生人口 | `data/nbs-national-data.xlsx` | 国家统计局口径。1949 年以来全国历年出生人口、出生率、年末总人口；1981 年及以前为户籍统计，1982、1990、2000、2010、2020 年为人口普查推算数，其余年份为年度人口抽样调查推算数。 |
-| 1. 全国历年出生人口 | `data/yuwa-births-backcast.xlsx` | 育娲人口智库回溯数据，用于与国家统计局口径对照；本站 1949 年数据取自该报告。 |
-| 2. 七普回溯出生人口 | `data/population-census-2020.xlsx` | 依据 2020 年第七次全国人口普查“全国分年龄人口”回溯的“当年出生、2020 年仍健在”人数。 |
-| 3. 各年代年均出生人口 | `data/avg-births-by-decade.xlsx` | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
-| 4. 未来人口预测 | `data/forecast-all.xlsx` | 2026~2100 年高、中、低三情景完整预测（总和生育率 1.3 / 1.0 / 0.8），含总人口、出生人口、死亡人口与年减少人数。 |
-| 4. 未来人口预测 | `data/forecast-population.xlsx` | 总人口预测，单位万人。 |
-| 4. 未来人口预测 | `data/forecast-births.xlsx` | 出生人口预测，单位万人。 |
-| 4. 未来人口预测 | `data/forecast-deaths.xlsx` | 死亡人口预测，单位万人。 |
-| 4. 未来人口预测 | `data/forecast-decrease.xlsx` | 年减少人数预测，单位万人。 |
-| 5. 各省历年出生数据 | `data/provinces/*.xlsx` | 34 个省级行政区各一份，1949 年以来历年出生数据。文件名按拼音，如 `guangdong.xlsx`、`sichuan.xlsx`。 |
-| 6. 各省出生人口下降幅度 | `data/provincial-births-decline-2016-2025.xlsx` | 各省 2016 年与 2025 年出生人口及降幅（%）；降幅 =（2025 年 − 2016 年）÷ 2016 年。 |
-| 7. 各国生育率 | `data/wdi-tfr-by-country.xlsx` | 世界银行 WDI，1960~2024 年各国（总和）生育率。 |
-| 8. 各国生育补贴支出 | `data/public-family-spending-by-type-gdp-pct.xlsx` | OECD SOCX，2010~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
+全部文件位于仓库 `data/` 目录，也可在[数据中心](https://demoarchive.net/datacenter/)逐项下载。
 
-省级文件共 34 份：`anhui`、`aomen`、`beijing`、`chongqing`、`fujian`、`gansu`、`guangdong`、`guangxi`、`guizhou`、`hainan`、`hebei`、`heilongjiang`、`henan`、`hubei`、`hunan`、`jiangsu`、`jiangxi`、`jilin`、`liaoning`、`neimenggu`、`ningxia`、`qinghai`、`shaanxi`、`shandong`、`shanghai`、`shanxi`、`sichuan`、`taiwan`、`tianjin`、`xianggang`、`xinjiang`、`xizang`、`yunnan`、`zhejiang`。
+| # | 数据组 | 文件 | 内容与说明 |
+| --- | --- | --- | --- |
+| 1 | [全国历年出生人口](https://demoarchive.net/datacenter/#secNat) | `nbs-national-data.xlsx`<br>`yuwa-births-backcast.xlsx` | 1949 年以来全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。 |
+| 2 | [七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus) | `population-census-2020.xlsx` | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
+| 3 | [各年代年均出生人口](https://demoarchive.net/datacenter/#secDec) | `avg-births-by-decade.xlsx` | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
+| 4 | [未来人口预测](https://demoarchive.net/datacenter/#secFc) | `forecast-all.xlsx`<br>`forecast-population.xlsx`<br>`forecast-births.xlsx`<br>`forecast-deaths.xlsx`<br>`forecast-decrease.xlsx` | 2026~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
+| 5 | [各省历年出生数据](https://demoarchive.net/datacenter/#secProv) | `provinces/*.xlsx`（34 份） | 34 个省级行政区各一份，1949 年以来历年出生数据；按地区分组见下表。 |
+| 6 | [各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline) | `provincial-births-decline-2016-2025.xlsx` | 各省 2016 与 2025 年出生人口及降幅（%）；降幅 =（2025 年 − 2016 年）÷ 2016 年。 |
+| 7 | [各国生育率](https://demoarchive.net/datacenter/#secWorld) | `wdi-tfr-by-country.xlsx` | 世界银行 WDI，1960~2024 年各国（总和）生育率。 |
+| 8 | [各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport) | `public-family-spending-by-type-gdp-pct.xlsx` | OECD SOCX，2010~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
+
+### 各省数据文件
+
+省级文件按拼音命名，不含“省 / 市 / 自治区”后缀，全部位于 `data/provinces/`。
+
+| 地区 | 文件 |
+| --- | --- |
+| 华北 | `beijing.xlsx`、`tianjin.xlsx`、`hebei.xlsx`、`shanxi.xlsx`、`neimenggu.xlsx` |
+| 东北 | `liaoning.xlsx`、`jilin.xlsx`、`heilongjiang.xlsx` |
+| 华东 | `shanghai.xlsx`、`jiangsu.xlsx`、`zhejiang.xlsx`、`anhui.xlsx`、`fujian.xlsx`、`jiangxi.xlsx`、`shandong.xlsx`、`taiwan.xlsx` |
+| 华中 | `henan.xlsx`、`hubei.xlsx`、`hunan.xlsx` |
+| 华南 | `guangdong.xlsx`、`guangxi.xlsx`、`hainan.xlsx`、`xianggang.xlsx`、`aomen.xlsx` |
+| 西南 | `chongqing.xlsx`、`sichuan.xlsx`、`guizhou.xlsx`、`yunnan.xlsx`、`xizang.xlsx` |
+| 西北 | `shaanxi.xlsx`、`gansu.xlsx`、`qinghai.xlsx`、`ningxia.xlsx`、`xinjiang.xlsx` |
 
 ## 数据来源
 
