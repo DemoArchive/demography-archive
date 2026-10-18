@@ -316,6 +316,17 @@ html{
 .tl-shell .tl-swap .tp-anim{animation:none;opacity:1;transform:none;}
 @keyframes tp-swap-in{from{opacity:0}to{opacity:1}}
 
+/* —— GitHub 开源入口（桌面最右端；窄屏位于汉堡按钮左侧） —— */
+.nav-github{
+  flex:none;display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;margin-left:4px;border-radius:50%;
+  color:#171A20;text-decoration:none;
+  transition:background-color .33s,color .33s;
+}
+.nav-github:hover{background:#F4F4F4;}
+.nav-github:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
+.nav-github svg{width:19px;height:19px;display:block;fill:currentColor;}
+
 /* —— 汉堡按钮（窄屏显示，桌面隐藏） —— */
 .nav-burger{
   display:none;flex:none;flex-direction:column;justify-content:center;gap:5px;
@@ -360,6 +371,7 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 @media (max-width:1080px){
   .menu.tl-panel{display:none;}
   .nav-burger{display:flex;}
+  .nav-github{margin-left:auto;}
   .nav-links{gap:2px;padding:0;border-radius:0;background:transparent;}
   .nav-links > a,.nav-drop > a{font-size:12.5px;padding:0 8px;height:auto;}
   .nav-links > *:nth-child(n+4){display:none;}

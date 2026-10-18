@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>未来人口预测 - 人口档案馆</title>
-<meta name="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景，并可按自定义生育率实时查看。本页数据均为预测结果，仅供参考。预测方法详见“人口预测模型”（队列要素法）">
+<meta name="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景，并可自定义生育率。本页数据均为预测结果，仅供参考。预测方法详见“人口预测模型”（队列要素法）">
 <meta property="og:title" content="未来人口预测 - 人口档案馆">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
@@ -83,7 +83,7 @@
 
   /* ---------- 自定义生育率 ---------- */
   .tfr-ctl{display:flex;align-items:center;gap:8px;min-height:34px;}
-  .tfr-label{font-size:12px;color:var(--muted);letter-spacing:normal;white-space:nowrap;}
+  .tfr-label{font-size:12px;color:var(--muted);letter-spacing:normal;white-space:nowrap;flex:none;}
   .tfr-range{
     width:150px;height:20px;margin:0;background:transparent;cursor:pointer;
     -webkit-appearance:none;appearance:none;
@@ -101,13 +101,13 @@
   .tfr-range:focus-visible{outline:2px solid var(--accent);outline-offset:4px;}
   .tfr-out{
     font-family:var(--serif);font-weight:500;font-size:14px;line-height:1;
-    min-width:34px;text-align:right;font-variant-numeric:tabular-nums;color:var(--faint);
+    min-width:34px;text-align:right;font-variant-numeric:tabular-nums;color:var(--faint);flex:none;
   }
   .tfr-ctl.on .tfr-out{color:var(--accent);}
   .tfr-reset{
     font-size:11.5px;line-height:1.4;color:var(--muted);background:none;
     border:1px solid var(--line);border-radius:3px;padding:3px 7px;cursor:pointer;
-    transition:color .2s,border-color .2s,opacity .2s;
+    white-space:nowrap;flex:none;transition:color .2s,border-color .2s,opacity .2s;
   }
   .tfr-reset:hover:not(:disabled){color:var(--ink);border-color:#D9D9D9;}
   .tfr-reset:disabled{opacity:.35;cursor:default;}
@@ -274,7 +274,7 @@
     footer .foot-inner{padding:0 20px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=45">
+  <link rel="stylesheet" href="../nav.css?v=46">
 </head>
 <body>
 
@@ -380,6 +380,8 @@
         </div>
       </div>
     </div>
+    <a class="nav-github" href="https://github.com/DemoArchive/demography-archive" target="_blank" rel="noopener" aria-label="GitHub 开源仓库" title="GitHub 开源仓库"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
     <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -389,7 +391,7 @@
     <h1>未来人口预测</h1>
     <span class="head-src">本页数据均为预测结果，仅供参考。预测方法详见<a href="#method">“人口预测模型”</a></span>
   </div>
-  <p class="sub">2026~2100 年：总人口、出生人口、死亡人口、年减少人数；包含高、中、低三种预测情景，并可自定义生育率实时查看</p>
+  <p class="sub">2026~2100 年：总人口、出生人口、死亡人口、年减少人数；包含高、中、低三种预测情景，并可自定义生育率</p>
 </header>
 
 <div class="controls">
@@ -400,11 +402,11 @@
     <button data-m="dec">年减少人数</button>
   </div>
   <div class="tfr-ctl" id="tfrCtl">
-    <label class="tfr-label" for="tfrRange">自定义 TFR</label>
-    <input class="tfr-range" id="tfrRange" type="range" min="0.5" max="2" step="0.05" value="1" aria-label="自定义总和生育率">
+    <label class="tfr-label" for="tfrRange">自定义生育率（TFR）</label>
+    <input class="tfr-range" id="tfrRange" type="range" min="0.7" max="3" step="0.05" value="1" aria-label="自定义总和生育率">
     <output class="tfr-out" id="tfrOut" for="tfrRange">1.00</output>
     <button class="tfr-reset" id="tfrReset" type="button" disabled>清除</button>
-    <span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">拖动滑块添加自定义情景：从 2025 年约 0.963 线性变化，2035 年达到设定值，此后保持不变。0.8~1.3 以外为三情景外推，误差较大。</span></span>
+    <span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">拖动滑块添加自定义情景，可在 0.7~3.0 之间调整：从 2025 年约 0.963 线性变化，2035 年达到设定值，此后保持不变。0.8~1.3 以外为三情景外推，误差较大。</span></span>
   </div>
 </div>
 
@@ -507,7 +509,7 @@ q(t,a,s)     = 1 − [1 − q_raw(t,a,s)]^exp(λ(t))</div>
           <p>2026—2035 年 −20 万/年，2036—2050 年 −15 万/年，2051—2100 年 −10 万/年；主要落在 20—59 岁，男女各半。</p>
           <p>2021—2025 年是校准期：出生、死亡直接采用国家统计局实际值；每年反解死亡率整体水平，使模型死亡人数等于实际死亡人数；官方总人口变化与“出生 − 死亡”的差额，统一计入净迁移/统计误差。由此，2025 年总人口与官方值 14.0489 亿一致。</p>
           <p>2026 年起进入预测。三种情景仅在 TFR 上不同（低 0.8 / 中 1.0 / 高 1.3），死亡率、迁移、出生性别比等参数完全相同。</p>
-          <p><b>自定义生育率：</b>页面顶部可将目标 TFR 设为 0.5~2.0 之间的任意值，仍按 2025 年 0.963、2035 年达到目标的路径推算。各年出生、死亡与总人口由低、中、高三情景按目标值插值（0.8~1.3 以外为外推），用于交互查看，不是独立模型结果。</p>
+          <p><b>自定义生育率：</b>页面顶部可将目标 TFR 设为 0.7~3.0 之间的任意值，仍按 2025 年 0.963、2035 年达到目标的路径推算。各年出生、死亡与总人口由低、中、高三情景按目标值插值（0.8~1.3 以外为外推），用于交互查看，不是独立模型结果。</p>
         </div>
       </div>
       <p class="method-note">基准人口：2020 年七普表 3-1（31 省 14.0978 亿）+ 200 万现役军人，合计 14.1178 亿；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">UN WPP 2024</a>；2021—2025 年数据来自国家统计局。完整参数与逐年结果见<a href="../datacenter/index.html#secFc">数据中心 → 4. 未来人口预测</a>。</p>
