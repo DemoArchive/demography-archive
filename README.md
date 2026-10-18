@@ -41,6 +41,8 @@
 
 全部文件位于仓库 `data/` 目录，也可在[数据中心](https://demoarchive.net/datacenter/)逐项下载。
 
+各组数据的起始年份不同，具体见各行说明及文件内表注。
+
 | # | 数据组 | 文件 | 内容与说明 |
 | --- | --- | --- | --- |
 | 1 | [全国历年出生人口](https://demoarchive.net/datacenter/#secNat) | `nbs-national-data.xlsx`<br>`yuwa-births-backcast.xlsx` | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
