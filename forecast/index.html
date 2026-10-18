@@ -127,6 +127,7 @@
   .chart-box{height:480px;position:relative;}
   #chart{width:100%;height:100%;}
   .legend-bar{position:absolute;top:0;left:0;right:0;z-index:5;height:24px;display:flex;justify-content:center;align-items:center;gap:18px;}
+  .y-unit{position:absolute;top:25px;left:66px;z-index:6;font-size:10px;line-height:1;color:#8E8E8E;letter-spacing:normal;pointer-events:none;}
   .lg-item{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;transition:opacity .33s;}
   .lg-item:hover .lg-t{color:var(--ink);}
   .lg-item.off{opacity:.32;}
@@ -257,6 +258,7 @@
     .tfr-ctl .tip::after{display:none;}
     .board{grid-template-columns:1fr;padding:0 20px;}
     .chart-box{height:340px;}
+    .y-unit{left:0;}
     .stat-col{flex-direction:row;flex-wrap:wrap;}
     .stat{flex:1 1 40%;}
     .legend-bar{gap:12px;}
@@ -274,7 +276,7 @@
     footer .foot-inner{padding:0 20px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=46">
+  <link rel="stylesheet" href="../nav.css?v=47">
 </head>
 <body>
 
@@ -406,13 +408,14 @@
     <input class="tfr-range" id="tfrRange" type="range" min="0.7" max="3" step="0.05" value="1" aria-label="自定义总和生育率">
     <output class="tfr-out" id="tfrOut" for="tfrRange">1.00</output>
     <button class="tfr-reset" id="tfrReset" type="button" disabled>清除</button>
-    <span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">拖动滑块添加自定义情景，可在 0.7~3.0 之间调整：从 2025 年约 0.963 线性变化，2035 年达到设定值，此后保持不变。0.8~1.3 以外为三情景外推，误差较大。</span></span>
+    <span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">拖动滑块添加自定义情景，可在 0.7~3.0 之间调整：从 2025 年约 0.963 线性变化，2035 年达到设定值，此后保持不变。</span></span>
   </div>
 </div>
 
 <main class="board">
   <div class="chart-box">
     <div class="legend-bar" id="legendBar"></div>
+    <span class="y-unit" id="yUnit">亿人</span>
     <div id="chart"></div>
   </div>
   <div class="stat-col" id="statCol"></div>
@@ -509,7 +512,7 @@ q(t,a,s)     = 1 − [1 − q_raw(t,a,s)]^exp(λ(t))</div>
           <p>2026—2035 年 −20 万/年，2036—2050 年 −15 万/年，2051—2100 年 −10 万/年；主要落在 20—59 岁，男女各半。</p>
           <p>2021—2025 年是校准期：出生、死亡直接采用国家统计局实际值；每年反解死亡率整体水平，使模型死亡人数等于实际死亡人数；官方总人口变化与“出生 − 死亡”的差额，统一计入净迁移/统计误差。由此，2025 年总人口与官方值 14.0489 亿一致。</p>
           <p>2026 年起进入预测。三种情景仅在 TFR 上不同（低 0.8 / 中 1.0 / 高 1.3），死亡率、迁移、出生性别比等参数完全相同。</p>
-          <p><b>自定义生育率：</b>页面顶部可将目标 TFR 设为 0.7~3.0 之间的任意值，仍按 2025 年 0.963、2035 年达到目标的路径推算。各年出生、死亡与总人口由低、中、高三情景按目标值插值（0.8~1.3 以外为外推），用于交互查看，不是独立模型结果。</p>
+          <p><b>自定义生育率：</b>页面顶部可将目标 TFR 设为 0.7~3.0 之间的任意值，仍按 2025 年 0.963、2035 年达到目标的路径推算。各年出生、死亡与总人口由低、中、高三情景按目标值插值/外推，用于交互查看，不是独立模型结果。</p>
         </div>
       </div>
       <p class="method-note">基准人口：2020 年七普表 3-1（31 省 14.0978 亿）+ 200 万现役军人，合计 14.1178 亿；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">UN WPP 2024</a>；2021—2025 年数据来自国家统计局。完整参数与逐年结果见<a href="../datacenter/index.html#secFc">数据中心 → 4. 未来人口预测</a>。</p>
@@ -615,12 +618,14 @@ function maxFor(k){
 var chart = echarts.init(document.getElementById('chart'));
 var MQ_NARROW = window.matchMedia('(max-width:960px)');
 function option(){
+  var yUnit = document.getElementById('yUnit');
+  if (yUnit) yUnit.textContent = isPop() ? '亿人' : '万人';
   return {
     /* 自定义情景拖动时关闭补间动画，保证曲线实时跟手；默认三情景仍保留入场动画 */
     animation: !customData,
     /* 窄屏改用 containLabel 自适应贴边：y 轴刻度贴画布左缘，消除固定 left 66/40 的死空白；
        bottom 相应减小抵消 x 刻度被计入 grid 的高度 */
-    grid: MQ_NARROW.matches ? { left: 2, right: 12, top: 30, bottom: 14, containLabel: true } : { left: 66, right: 24, top: 30, bottom: 34 },
+    grid: MQ_NARROW.matches ? { left: 2, right: 12, top: 44, bottom: 14, containLabel: true } : { left: 66, right: 24, top: 30, bottom: 34 },
     tooltip: {
       trigger: 'axis', textStyle: { fontSize: 11.5 },
       valueFormatter: function(v){ return fmtVal(v); }

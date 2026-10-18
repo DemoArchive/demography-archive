@@ -342,11 +342,16 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 
 /* —— 10 项导航的分段间距，保证单行不溢出（1080px 以下收进汉堡面板） —— */
 @media (min-width:1081px){
-  .nav-links{gap:4px;}
+  .nav-links{gap:4px;margin-left:auto;}
   .nav-links > a,.nav-drop > a{padding:0 8px;}
+  .nav-github{margin-left:-5.5px;}
+}
+@media (min-width:1241px) and (max-width:1320px){
+  .nav-github{margin-left:-11.5px;}
 }
 @media (min-width:1321px){
   .nav-links > a,.nav-drop > a{padding:0 12px;}
+  .nav-github{margin-left:-7.5px;}
 }
 @media (max-width:1320px){
   .nav-links > a,.nav-drop > a{font-size:12.5px;}
