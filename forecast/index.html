@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>未来人口预测 - 人口档案馆</title>
-<meta name="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景。本页数据均为预测结果，仅供参考。预测方法详见“人口预测模型”（队列要素法）">
+<meta name="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景，并可按自定义生育率实时查看。本页数据均为预测结果，仅供参考。预测方法详见“人口预测模型”（队列要素法）">
 <meta property="og:title" content="未来人口预测 - 人口档案馆">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
@@ -80,6 +80,48 @@
   .seg button{font-size:12.5px;letter-spacing:normal;padding:8px 15px;background:transparent;border:none;cursor:pointer;color:var(--muted);border-radius:4px;white-space:nowrap;transition:color .33s,background .33s,box-shadow .33s;}
   .seg button.on{background:#FFFFFF;color:var(--ink);font-weight:500;}
   .seg button:hover:not(.on){color:var(--ink);}
+
+  /* ---------- 自定义生育率 ---------- */
+  .tfr-ctl{display:flex;align-items:center;gap:8px;min-height:34px;}
+  .tfr-label{font-size:12px;color:var(--muted);letter-spacing:normal;white-space:nowrap;}
+  .tfr-range{
+    width:150px;height:20px;margin:0;background:transparent;cursor:pointer;
+    -webkit-appearance:none;appearance:none;
+  }
+  .tfr-range::-webkit-slider-runnable-track{height:2px;background:#E3E4E6;border-radius:1px;}
+  .tfr-range::-webkit-slider-thumb{
+    -webkit-appearance:none;width:12px;height:12px;margin-top:-5px;border-radius:50%;
+    background:var(--accent);border:2px solid #FFFFFF;box-shadow:0 1px 3px rgba(23,26,32,.25);
+  }
+  .tfr-range::-moz-range-track{height:2px;background:#E3E4E6;border-radius:1px;}
+  .tfr-range::-moz-range-thumb{
+    width:10px;height:10px;border-radius:50%;background:var(--accent);
+    border:2px solid #FFFFFF;box-shadow:0 1px 3px rgba(23,26,32,.25);
+  }
+  .tfr-range:focus-visible{outline:2px solid var(--accent);outline-offset:4px;}
+  .tfr-out{
+    font-family:var(--serif);font-weight:500;font-size:14px;line-height:1;
+    min-width:34px;text-align:right;font-variant-numeric:tabular-nums;color:var(--faint);
+  }
+  .tfr-ctl.on .tfr-out{color:var(--accent);}
+  .tfr-reset{
+    font-size:11.5px;line-height:1.4;color:var(--muted);background:none;
+    border:1px solid var(--line);border-radius:3px;padding:3px 7px;cursor:pointer;
+    transition:color .2s,border-color .2s,opacity .2s;
+  }
+  .tfr-reset:hover:not(:disabled){color:var(--ink);border-color:#D9D9D9;}
+  .tfr-reset:disabled{opacity:.35;cursor:default;}
+  .tfr-ctl .tip{width:240px;}
+  .lg-item.lg-custom{cursor:default;}
+  .lg-item.lg-custom .lg-sw{background:none;border-top:2px dashed #171A20;height:0;}
+  .lg-item.lg-custom .lg-t{color:var(--ink);}
+  .srow.custom .sw{background:none;border-top:2px dashed #171A20;height:0;}
+  .srow.custom .sn{color:var(--ink);}
+  .stat-col.has-custom .stat{padding:8px 14px;}
+  .stat-col.has-custom .srows{gap:2px;}
+  .stat-col.has-custom .srow .sn{font-size:11.5px;}
+  .stat-col.has-custom .srow .sv{font-size:13.5px;line-height:1.1;}
+  .stat-col.has-custom .srow.mid .sv{font-size:15px;}
 
   .board{max-width:1200px;margin:20px auto 0;padding:0 32px;display:grid;grid-template-columns:1fr 300px;gap:20px;}
   .chart-box{height:480px;position:relative;}
@@ -209,6 +251,10 @@
     .controls{padding:0 20px;}
     /* 四个指标按钮在手机宽度下放不下（按钮文字不换行），收紧内边距避免顶出横向滚动 */
     .seg button{padding:8px 9px;font-size:12px;}
+    .tfr-ctl{flex:1 1 100%;margin-top:2px;}
+    .tfr-range{flex:1 1 auto;width:auto;min-width:0;}
+    .tfr-ctl .tip{position:fixed;left:50%;top:auto;bottom:14px;transform:translate(-50%,4px);width:min(320px,86vw);}
+    .tfr-ctl .tip::after{display:none;}
     .board{grid-template-columns:1fr;padding:0 20px;}
     .chart-box{height:340px;}
     .stat-col{flex-direction:row;flex-wrap:wrap;}
@@ -343,7 +389,7 @@
     <h1>未来人口预测</h1>
     <span class="head-src">本页数据均为预测结果，仅供参考。预测方法详见<a href="#method">“人口预测模型”</a></span>
   </div>
-  <p class="sub">2026~2100 年：总人口、出生人口、死亡人口、年减少人数；包含高、中、低三种预测情景</p>
+  <p class="sub">2026~2100 年：总人口、出生人口、死亡人口、年减少人数；包含高、中、低三种预测情景，并可自定义生育率实时查看</p>
 </header>
 
 <div class="controls">
@@ -352,6 +398,13 @@
     <button data-m="births">出生人口</button>
     <button data-m="death">死亡人口</button>
     <button data-m="dec">年减少人数</button>
+  </div>
+  <div class="tfr-ctl" id="tfrCtl">
+    <label class="tfr-label" for="tfrRange">自定义 TFR</label>
+    <input class="tfr-range" id="tfrRange" type="range" min="0.5" max="2" step="0.05" value="1" aria-label="自定义总和生育率">
+    <output class="tfr-out" id="tfrOut" for="tfrRange">1.00</output>
+    <button class="tfr-reset" id="tfrReset" type="button" disabled>清除</button>
+    <span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">拖动滑块添加自定义情景：从 2025 年约 0.963 线性变化，2035 年达到设定值，此后保持不变。0.8~1.3 以外为三情景外推，误差较大。</span></span>
   </div>
 </div>
 
@@ -365,7 +418,7 @@
 
 <section class="notes">
   <div class="note-card">
-    <h3>三种情景的假设</h3>
+    <h3>三种预设情景的假设</h3>
     <div class="scen-grid">
       <div class="scen-item h">
         <div class="scen-h"><span class="sw" style="background:#8E8E8E"></span>高预测</div>
@@ -380,7 +433,7 @@
         <p>从 2025 年约 0.96 逐步下降，2035 年降到 0.8；此后保持 0.8。</p>
       </div>
     </div>
-    <div class="scen-note">注：生育率指<span class="term-hint" tabindex="0" aria-describedby="tfr-def">总和生育率 (TFR)<span class="tip" id="tfr-def" role="tooltip">指一个国家或地区的妇女在育龄期间平均生育的子女数。</span></span>；2025 年由实际出生 792 万反推约 0.96。三情景仅生育率不同，共用同一死亡率假设——2050 年前死亡人口几乎相同，此后才因人口规模差异略有分化。</div>
+    <div class="scen-note">注：生育率指<span class="term-hint" tabindex="0" aria-describedby="tfr-def">总和生育率 (TFR)<span class="tip" id="tfr-def" role="tooltip">指一个国家或地区的妇女在育龄期间平均生育的子女数。</span></span>；2025 年由实际出生 792 万反推约 0.96。三情景仅生育率不同，共用同一死亡率假设——2050 年前死亡人口几乎相同，此后才因人口规模差异略有分化。自定义情景由三情景插值/外推。</div>
   </div>
   <details class="note-card method-card" id="method">
     <summary>
@@ -454,6 +507,7 @@ q(t,a,s)     = 1 − [1 − q_raw(t,a,s)]^exp(λ(t))</div>
           <p>2026—2035 年 −20 万/年，2036—2050 年 −15 万/年，2051—2100 年 −10 万/年；主要落在 20—59 岁，男女各半。</p>
           <p>2021—2025 年是校准期：出生、死亡直接采用国家统计局实际值；每年反解死亡率整体水平，使模型死亡人数等于实际死亡人数；官方总人口变化与“出生 − 死亡”的差额，统一计入净迁移/统计误差。由此，2025 年总人口与官方值 14.0489 亿一致。</p>
           <p>2026 年起进入预测。三种情景仅在 TFR 上不同（低 0.8 / 中 1.0 / 高 1.3），死亡率、迁移、出生性别比等参数完全相同。</p>
+          <p><b>自定义生育率：</b>页面顶部可将目标 TFR 设为 0.5~2.0 之间的任意值，仍按 2025 年 0.963、2035 年达到目标的路径推算。各年出生、死亡与总人口由低、中、高三情景按目标值插值（0.8~1.3 以外为外推），用于交互查看，不是独立模型结果。</p>
         </div>
       </div>
       <p class="method-note">基准人口：2020 年七普表 3-1（31 省 14.0978 亿）+ 200 万现役军人，合计 14.1178 亿；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">UN WPP 2024</a>；2021—2025 年数据来自国家统计局。完整参数与逐年结果见<a href="../datacenter/index.html#secFc">数据中心 → 4. 未来人口预测</a>。</p>
@@ -496,6 +550,50 @@ var SCEN = [
   {s:'低预测', c:'#E13D3D', w:1.6, tip:'从 2025 年约 0.96 逐步下降，2035 年降到 0.8；此后保持 0.8。'}
 ];
 var visible = { '高预测': true, '中预测': true, '低预测': true };
+
+/* ---------- 自定义生育率：三情景之间插值 / 外推 ---------- */
+var TFR0 = 0.963;
+var TFR_TARGET = { '低预测': 0.8, '中预测': 1.0, '高预测': 1.3 };
+var customTarget = null;
+var customData = null;
+function tfrPath(y, target){
+  return TFR0 + (target - TFR0) * Math.min(1, Math.max(0, (y - 2025) / 10));
+}
+var TFR_W = {};
+var TFR_D = {};
+SCEN.forEach(function(sm){
+  TFR_W[sm.s] = years.map(function(y, i){
+    return ser('births', sm.s)[i] / tfrPath(y, TFR_TARGET[sm.s]);
+  });
+  TFR_D[sm.s] = ser('death', sm.s);
+});
+function interpTarget(a, b, c, target){
+  if (target <= 1.0) {
+    var t = (target - 0.8) / 0.2;
+    return a + (b - a) * t;
+  }
+  var t2 = (target - 1.0) / 0.3;
+  return b + (c - b) * t2;
+}
+function buildCustom(target){
+  var out = { pop: [], births: [], death: [], dec: [] };
+  var prev = 140489; /* 2025 年末总人口，万人 */
+  for (var i = 0; i < years.length; i++){
+    var y = years[i];
+    var w = interpTarget(TFR_W['低预测'][i], TFR_W['中预测'][i], TFR_W['高预测'][i], target);
+    var b = tfrPath(y, target) * w;
+    var d = interpTarget(TFR_D['低预测'][i], TFR_D['中预测'][i], TFR_D['高预测'][i], target);
+    var m = y <= 2035 ? -20 : (y <= 2050 ? -15 : -10);
+    var p = prev + b - d + m;
+    out.births.push(b);
+    out.death.push(d);
+    out.pop.push(p);
+    out.dec.push(prev - p);
+    prev = p;
+  }
+  return out;
+}
+function customLabel(){ return '自定义 ' + customTarget.toFixed(2); }
 function niceMax(v){
   var p = Math.pow(10, Math.floor(Math.log(v)/Math.log(10)));
   var d = v / p;
@@ -503,19 +601,21 @@ function niceMax(v){
   for (var i = 0; i < steps.length; i++){ if (d <= steps[i]) return steps[i] * p; }
   return 10 * p;
 }
-var YMAX = {};
-METRICS.forEach(function(m){
+function maxFor(k){
   var mx = 0;
   SCEN.forEach(function(sm){
-    ser(m.k, sm.s).forEach(function(v){ if (v > mx) mx = v; });
+    ser(k, sm.s).forEach(function(v){ if (v > mx) mx = v; });
   });
-  YMAX[m.k] = niceMax(mx);
-});
+  if (customData) customData[k].forEach(function(v){ if (v > mx) mx = v; });
+  return niceMax(mx);
+}
 
 var chart = echarts.init(document.getElementById('chart'));
 var MQ_NARROW = window.matchMedia('(max-width:960px)');
 function option(){
   return {
+    /* 自定义情景拖动时关闭补间动画，保证曲线实时跟手；默认三情景仍保留入场动画 */
+    animation: !customData,
     /* 窄屏改用 containLabel 自适应贴边：y 轴刻度贴画布左缘，消除固定 left 66/40 的死空白；
        bottom 相应减小抵消 x 刻度被计入 grid 的高度 */
     grid: MQ_NARROW.matches ? { left: 2, right: 12, top: 30, bottom: 14, containLabel: true } : { left: 66, right: 24, top: 30, bottom: 34 },
@@ -529,15 +629,22 @@ function option(){
       axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E', interval: function(index, value){ return value % 10 === 0; } }
     },
     yAxis: {
-      type: 'value', min: 0, max: YMAX[metric], splitNumber: 5,
+      type: 'value', min: 0, max: maxFor(metric), splitNumber: 5,
       splitLine: { lineStyle: { color: '#EEEEEE' } },
       axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E', formatter: function(v){ return isPop() ? fmtY(v) : v.toLocaleString('en-US'); } },
       axisLine: { show: false }, axisTick: { show: false }
     },
-    series: SCEN.filter(function(sm){ return visible[sm.s]; }).map(function(sm){
-      return { name: sm.s, type: 'line', data: ser(metric, sm.s), symbol: 'none', smooth: 0.35,
-        lineStyle: { color: sm.c, width: sm.w }, itemStyle: { color: sm.c } };
-    })
+    series: (function(){
+      var list = SCEN.filter(function(sm){ return visible[sm.s]; }).map(function(sm){
+        return { name: sm.s, type: 'line', data: ser(metric, sm.s), symbol: 'none', smooth: 0.35,
+          lineStyle: { color: sm.c, width: sm.w }, itemStyle: { color: sm.c } };
+      });
+      if (customData){
+        list.push({ name: customLabel(), type: 'line', data: customData[metric], symbol: 'none', smooth: 0.35,
+          lineStyle: { color: '#171A20', width: 2.2, type: 'dashed' }, itemStyle: { color: '#171A20' }, z: 4 });
+      }
+      return list;
+    })()
   };
 }
 function stats(){
@@ -550,20 +657,26 @@ function stats(){
     html += '<div class="stat">'
           + '<div class="k"><span>' + name + '（' + y + '）</span><span class="unit">' + unit + '</span></div>'
           + '<div class="srows">';
-    SCEN.forEach(function(sm){
-      var arr = ser(metric, sm.s);
-      var v = idx >= 0 ? arr[idx] : null;
-      var val = v == null ? '—' : (isPop() ? fmtY(v) : fmtW(v));
-      html += '<div class="srow' + (sm.s === '中预测' ? ' mid' : '') + '">'
-            + '<span class="sw" style="background:' + sm.c + '"></span>'
-            + '<span class="sn">' + sm.s + '</span>'
+    var rows = SCEN.map(function(sm){
+      return { s: sm.s, c: sm.c, v: idx >= 0 ? ser(metric, sm.s)[idx] : null, mid: sm.s === '中预测', custom: false };
+    });
+    if (customData){
+      rows.push({ s: '自定义', c: '#171A20', v: idx >= 0 ? customData[metric][idx] : null, mid: false, custom: true });
+    }
+    rows.forEach(function(row){
+      var val = row.v == null ? '—' : (isPop() ? fmtY(row.v) : fmtW(row.v));
+      html += '<div class="srow' + (row.mid ? ' mid' : '') + (row.custom ? ' custom' : '') + '">'
+            + '<span class="sw"' + (row.custom ? '' : ' style="background:' + row.c + '"') + '></span>'
+            + '<span class="sn">' + row.s + '</span>'
             + '<span class="dots"></span>'
             + '<span class="sv">' + val + '</span>'
             + '</div>';
     });
     html += '</div></div>';
   });
-  document.getElementById('statCol').innerHTML = html;
+  var col = document.getElementById('statCol');
+  col.innerHTML = html;
+  col.classList.toggle('has-custom', !!customData);
 }
 function renderLegend(){
   var html = '';
@@ -574,10 +687,17 @@ function renderLegend(){
           + '<span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">' + sm.tip + '</span></span>'
           + '</span>';
   });
+  if (customData){
+    html += '<span class="lg-item lg-custom">'
+          + '<span class="lg-sw"></span>'
+          + '<span class="lg-t">' + customLabel() + '</span>'
+          + '</span>';
+  }
   document.getElementById('legendBar').innerHTML = html;
 }
 function toggleScen(item){
   var s = item.getAttribute('data-s');
+  if (!s || !(s in visible)) return;
   visible[s] = !visible[s];
   item.classList.toggle('off', !visible[s]);
   chart.setOption(option(), true);
@@ -621,6 +741,50 @@ window.addEventListener('resize', function(){
 chart.setOption(option(), true);
 renderLegend();
 stats();
+
+/* ---------- 自定义生育率交互 ---------- */
+var tfrRange = document.getElementById('tfrRange');
+var tfrOut = document.getElementById('tfrOut');
+var tfrReset = document.getElementById('tfrReset');
+var tfrCtl = document.getElementById('tfrCtl');
+var tfrTimer = 0;
+function applyCustom(target){
+  customTarget = target;
+  customData = buildCustom(target);
+  tfrOut.textContent = target.toFixed(2);
+  tfrCtl.classList.add('on');
+  tfrReset.disabled = false;
+  chart.setOption(option(), true);
+  stats();
+  renderLegend();
+}
+function clearCustom(){
+  if (tfrTimer){ clearTimeout(tfrTimer); tfrTimer = 0; }
+  customTarget = null;
+  customData = null;
+  tfrRange.value = '1';
+  tfrOut.textContent = '1.00';
+  tfrCtl.classList.remove('on');
+  tfrReset.disabled = true;
+  chart.setOption(option(), true);
+  stats();
+  renderLegend();
+}
+tfrRange.addEventListener('input', function(){
+  var v = parseFloat(tfrRange.value);
+  tfrOut.textContent = v.toFixed(2);
+  if (tfrTimer) return;
+  tfrTimer = window.setTimeout(function(){
+    tfrTimer = 0;
+    applyCustom(parseFloat(tfrRange.value));
+  }, 50);
+});
+tfrRange.addEventListener('change', function(){
+  if (tfrTimer){ clearTimeout(tfrTimer); tfrTimer = 0; }
+  applyCustom(parseFloat(tfrRange.value));
+});
+tfrReset.addEventListener('click', clearCustom);
+
 /* 顶部导航悬停目录：#pop / #births / #death / #dec 直达对应指标 */
 function applyHash(){
   var h = location.hash.slice(1);
