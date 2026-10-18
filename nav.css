@@ -1,0 +1,407 @@
+/* ============================================================
+   人口档案馆 · 全站导航组件（Apple 官网风格 · 自包含，唯一权威样式）
+   所有页面通过 <link rel="stylesheet" href="nav.css?v=26"> 引用，
+   页面内不得再定义 .nav/.brand/.nav-links/.nav-drop/.menu 规则。
+   设计语言：磨砂玻璃浮层、13-14px 导航文字、0.33s 统一过渡。
+   悬停面板为满幅（铺满视口宽度）磨砂浮层：悬停任一顶栏标题展开该栏目
+   专属面板——栏目导语 + 页面招牌可视化缩略图（折线图/地图/博弈树/头像）
+   + 子目录链接，由 nav.js 按 PANELS 数据表生成（.tl-panel），自上而下
+   展开 + 逐条淡入。全部面板共用一个持久壳（.tl-shell）：顶栏栏目间
+   切换时面板不完整重新展开，旧内容原地快速淡出、新内容整块原地延迟淡入
+   （.tl-swap；逐条错峰滑入只用于首次展开，且切换时不带位移——各栏目小标题
+   落在同一位置，带位移会叠出重影），壳体高度从当前值过渡到新内容高度
+   （Tesla 官网同款）。
+   展开/收起为卷帘式高度揭示（Apple 官网同款）：壳体高度在 0 与内容高度间
+   过渡（展开 .46s / 收起 .34s，cubic-bezier(.32,.72,0,1)），内容随壳缘被
+   裁出/收回，不做 scaleY 压扁与整体位移。
+   ============================================================ */
+html{
+  overflow-y:scroll;
+  /* --nav-h 由 nav.js 写入 = 顶栏高度，供固定定位的面板贴住顶栏下缘。 */
+  --nav-h:58px;
+}
+@media (max-width:960px){html{--nav-h:54px;}}
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.75);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  view-transition-name:site-nav;
+}
+::view-transition-old(site-nav),::view-transition-new(site-nav){animation:none;height:100%;}
+[id]{scroll-margin-top:78px;}
+.nav-inner{
+  max-width:1200px;margin:0 auto;padding:0 24px;
+  height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;align-items:baseline;gap:10px;white-space:nowrap;text-decoration:none;}
+.brand .zh{
+  font-family:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-weight:500;font-size:20px;letter-spacing:.1em;color:#171A20;
+}
+.nav-links{display:flex;gap:2px;align-items:center;}
+.nav-links > a,.nav-drop > a{
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-size:13px;font-weight:500;color:#171A20;
+  padding:0 10px;height:32px;display:inline-flex;align-items:center;
+  border-radius:4px;white-space:nowrap;text-decoration:none;
+  transition:color .33s,background-color .33s;
+}
+.nav-links > a:hover,.nav-drop > a:hover{background:#F4F4F4;}
+.nav-links > a.here,.nav-drop > a.here{background:#F4F4F4;color:#171A20;}
+/* —— 悬停面板（Apple 官网风格：满幅磨砂浮层 + 栏目专属内容 + 展开动画）——
+   关键约束：带 backdrop-filter 的元素会成为「背景根」，其子树内的 backdrop-filter
+   将采样不到页面内容（磨砂失效，已实测）。而顶栏 .nav 自带磨砂，
+   因此面板由 nav.js 直接生成在 body 下（.tl-panel），脱离 .nav 子树，
+   由 JS 用 .tl-open 控制显隐；窄屏不走面板，.nav-drop 内的原生 .menu 走手风琴。
+   —— */
+.nav-drop{position:relative;display:inline-flex;align-items:center;}
+
+/* 面板壳：满幅磨砂浮层，固定在顶栏下缘。
+   展开/收起一律走「卷帘式高度揭示」（Apple 官网 globalnav 同款）：壳体高度
+   在 0 与内容高度之间过渡，overflow:hidden 让内容随壳缘自上而下被裁出、自下
+   而上被收回。不再用 scaleY 压扁 + 整体位移——压扁会把面板内的文字在展开
+   过程中纵向拉伸变形，位移则让面板整块从顶栏里「掉」出来。 */
+.menu{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:60;
+  width:auto;max-width:none;
+  background:rgba(255,255,255,.72);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid #EEEEEE;
+  box-shadow:0 18px 40px rgba(0,0,0,.06);
+  opacity:0;visibility:hidden;
+}
+.menu.tl-open{opacity:1;visibility:visible;}
+
+/* —— 持久壳（Tesla 式切换）：全部面板共用这一个磨砂壳。顶栏栏目间切换时
+   壳保持张开：被替换内容降级为绝对定位淡出层（.tl-out），新内容错峰淡入
+   （nav.js 给内容块加 .tl-run 重放入场动画），壳体高度由 nav.js 量好
+   当前值/目标值后过渡过去，过渡结束恢复 auto。overflow:hidden 让高度
+   形变时内容随壳缘渐显渐裁，不会溢出到壳外。 —— */
+.menu.tl-shell{
+  box-sizing:border-box;overflow:hidden;height:0;
+  /* 收起方向（.tl-open 被摘掉后走这里的过渡）：比展开快一点，收得干脆 */
+  transition:opacity .22s ease,visibility .34s,
+             height .34s cubic-bezier(.32,.72,0,1);
+}
+/* 张开态：高度回到 auto（auto 不能过渡，过渡期间由 nav.js 把起止高度钉成
+   内联值），展开比收起慢一点，「拉开」的过程看得清；visibility 立刻生效，
+   延迟只在收起时才需要（等高度动画走完再隐藏） */
+.menu.tl-shell.tl-open{
+  height:auto;
+  transition:opacity .24s ease,visibility 0s,
+             height .46s cubic-bezier(.32,.72,0,1);
+}
+/* 内容块定为 relative：与淡出层（absolute）同属定位元素、按 DOM 顺序绘制，
+   后插入的新内容才能盖住旧内容 */
+.tl-shell .tl-content{position:relative;}
+/* 被替换内容：钉在壳顶的覆盖层，原地快速淡出，结束后由 nav.js 摘除。
+   **不带位移**：各栏目面板的小标题（「围绕低生育率的主要争议」/「不同人物对
+   低生育率的看法」等）都落在同一位置，出场若带位移，两段文字会在错开的
+   位置上叠成重影；原地线性淡出 + 新内容错开一点再淡入（见 .tl-swap），
+   同位置的文字读起来才是「换字」而不是「换块」（Apple 官网同款）。 */
+.menu.tl-shell .tl-out{
+  position:absolute;top:0;left:0;right:0;pointer-events:none;
+  animation:tp-out .16s linear forwards;
+}
+@keyframes tp-out{from{opacity:1}to{opacity:0}}
+
+/* —— 罩层：面板展开时将其外的页面内容模糊+微白化（Apple 官网同款）——
+   独立挂 body 下、画在面板之下（z:45 < 60 < 顶栏 50）：自身的 backdrop-filter
+   负责模糊页面内容，顶栏绘制在其上保持清晰；pointer-events 在展开时拦截
+   页面点击（点罩层即收起面板，也避免面板开着时误点页面链接）。 */
+.nav-veil{
+  position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;z-index:45;
+  background:rgba(255,255,255,.45);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  backdrop-filter:blur(16px) saturate(150%);
+  opacity:0;visibility:hidden;pointer-events:none;
+  /* 与面板同步：展开 .24s、收起 .22s */
+  transition:opacity .22s ease,visibility .34s;
+}
+.nav-veil.show{
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:opacity .24s ease,visibility 0s;
+}
+
+/* ============================================================
+   悬停面板内容（.tp-*）：导语区 + 内容区
+   布局模式由 nav.js 写在 .tp-<mode> 上：
+   .tp-numbered   子目录网格（危险 3 列 / 数据中心 2 列）
+   .tp-cardgrid      两张「图卡」（地图/图表缩略图 + 标题）
+   .tp-chart-links 左图右目录（预测折线图 / 博弈树）
+   .tp-quotes     观点 + 原话引文的两行式条目
+   .tp-people     头像 + 人名 + 国别的人物条目
+   .tp-groupwrap     分组目录（其他：概念解释 / 关于本站）
+   .tp-cta        左图右导语 + 圆角按钮（正在减少的中国）
+   ============================================================ */
+/* 面板内容：左右缘由 nav.js 量取顶栏栏目行后写入 —— 左缘对齐第一个栏目
+   「正在来临的危险」的文字左缘，右缘对齐最后一个栏目「其他」的文字右缘，
+   面板内容与栏目行两端正对齐；变量未就绪时退回限宽 980px 居中 */
+.tp-inner{
+  box-sizing:border-box;
+  margin:0 var(--panel-right,calc((100% - 980px)/2 + 24px))
+           0 var(--panel-left,calc((100% - 980px)/2 + 24px));
+  padding:26px 0 30px;
+}
+.tp-head{margin:0 0 18px;}
+.tp-kicker{
+  margin:0 0 7px;font-size:12px;font-weight:500;letter-spacing:.14em;color:#3E6AE1;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+.tp-lead{
+  margin:0;font-size:19px;font-weight:600;letter-spacing:.015em;color:#1D1D1F;line-height:1.45;
+  font-family:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+.tp-sub{
+  margin:7px 0 0;font-size:13px;color:#86868B;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+/* 「正在减少的中国」面板删去导语后，副题升为头部首行，不再留顶距 */
+.tp-head .tp-sub:first-child{margin-top:0;}
+/* 导语与副题同行（未来人口预测）：基线对齐、中间以空格隔开 */
+.tp-head.inline{display:flex;align-items:baseline;gap:.5em;flex-wrap:wrap;}
+.tp-head.inline .tp-sub{margin-top:0;}
+/* 同行时两段文字字体完全一致：导语（如「2026~2100 年」）与副题同字号、
+   同字重、同灰度、同字族，不加粗不放大 */
+.tp-head.inline .tp-lead{
+  font-size:13px;font-weight:400;letter-spacing:normal;color:#86868B;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+.tp-body{display:flex;gap:40px;align-items:center;}
+.tp-body > *{min-width:0;}
+
+/* 条目行：顶栏同款字号手感，悬停浅灰底 */
+.tp-row{
+  display:flex;align-items:center;gap:10px;min-width:0;
+  font-size:14px;font-weight:400;color:#171A20;text-decoration:none;
+  padding:9px 10px;margin:0 -10px;border-radius:6px;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  transition:color .2s,background-color .2s;
+}
+.tp-row:hover{background:#F4F4F4;color:#171A20;}
+.tp-row .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* 目录网格（危险 / 数据中心）与引文条目（永恒的争论）：
+   多列一律「自上而下」填充（Apple 官网同款阅读顺序）——用多栏流式布局，
+   条目先填满第一列再进第二列；列高由浏览器自动均衡。 */
+.tp-grid{flex:1;}
+.tp-grid > *{break-inside:avoid;}
+.tp-grid.cols2{columns:2;column-gap:32px;}
+.tp-grid.cols3{columns:3;column-gap:32px;}
+/* 「数据中心」二列目录（numbered 模式）：限宽使列宽收窄贴向内容，两列相互靠近；
+   不影响「永恒的争论」引文面板（quotes 模式同用 cols2，保持满幅） */
+.tp-numbered .tp-grid.cols2{max-width:600px;}
+
+/* 两行式引文条目（永恒的争论） */
+.tp-q{flex-direction:column;align-items:flex-start;gap:2px;padding:9px 10px;}
+.tp-q .t{font-weight:500;white-space:normal;}
+.tp-q .q{font-size:12px;color:#86868B;line-height:1.55;white-space:normal;display:block;}
+
+/* 人物条目（各方观点） */
+.tp-person{gap:14px;}
+.tp-person .ava{
+  flex:none;width:48px;height:48px;border-radius:50%;object-fit:cover;
+  background:#F5F5F7;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
+}
+.tp-person .who{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.tp-person .n{font-size:14px;font-weight:500;color:#171A20;line-height:1.3;}
+.tp-person .c{font-size:12px;color:#86868B;line-height:1.3;}
+.tp-person:hover .n{color:#3E6AE1;}
+
+/* 图卡：缩略图等高居中（透明底图直接融进白卡），下方名称行随图形居中 */
+.tp-card{display:flex;flex-direction:column;gap:10px;min-width:0;text-decoration:none;}
+.tp-card .im{
+  height:clamp(200px,21vw,280px);
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 18px;box-sizing:border-box;
+  background:#FDFDFE;border:1px solid #E8E8ED;border-radius:14px;overflow:hidden;
+  transition:transform .38s cubic-bezier(.32,.72,0,1),box-shadow .38s,border-color .38s;
+}
+.tp-card .im img{
+  max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;-webkit-user-drag:none;user-select:none;
+}
+.tp-card:hover .im{
+  transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(0,0,0,.09);
+  border-color:#DADADF;
+}
+.tp-card .cap{
+  display:flex;align-items:baseline;justify-content:center;gap:10px;
+  font-size:13px;font-weight:500;color:#171A20;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+/* 名称随图形居中：行尾「›」占据的宽度会把文字挤偏，行首放一个等宽的
+   隐形镜像占位（同字符、同字体、同字号）抵消，让名称本身几何居中 */
+.tp-card .cap::before{content:"›";visibility:hidden;font-size:15px;line-height:1;}
+.tp-card .cap-t{min-width:0;}
+.tp-card .cap-a{color:#86868B;font-size:15px;line-height:1;transition:transform .33s,color .33s;}
+.tp-card:hover .cap-t{color:#3E6AE1;}
+.tp-card:hover .cap-a{color:#3E6AE1;transform:translateX(3px);}
+
+/* 双图卡（地图 / 世界） */
+.tp-cardgrid{flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;}
+/* 四图卡（未来人口预测）：四张缩略折线图排成一行，图高收窄以控制面板整体高度 */
+.tp-cardgrid.cards4{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;}
+.tp-cardgrid.cards4 .tp-card{gap:8px;}
+.tp-cardgrid.cards4 .tp-card .im{height:140px;padding:8px 10px;}
+.tp-cardgrid.cards4 .tp-card .cap{font-size:12.5px;}
+.tp-cardgrid.cards4 .tp-card .cap-a{font-size:14px;}
+.tp-cardgrid.cards4 .tp-card .cap::before{font-size:14px;}
+
+/* 左图右目录（预测 / 思想实验） */
+.tp-chart-links .tp-visual{flex:0 0 400px;}
+/* 右列 = 小标题（cfg.listTitle，如「三个思想实验」）+ 三行目录：
+   整块顶对齐图片顶边，行目自上而下紧凑顺排，不做均匀拉伸 */
+.tp-chart-links .tp-list{flex:1;align-self:flex-start;}
+.tp-list{display:block;min-width:0;}
+.tp-list.cols2{columns:2;column-gap:28px;}
+/* 「其他 · 概念解释」两列：采用与「数据中心」二列目录相同的列距
+   （列表 600px / 列间距 32px，列宽 284px，列起点间隔 316px） */
+.tp-group .tp-list.cols2{width:600px;max-width:100%;column-gap:32px;}
+.tp-list > *{break-inside:avoid;}
+
+/* 分组目录（其他） */
+/* 组间间隔略大于概念解释的列距（88 > 20），形成分组层级；内容靠左顺排 */
+.tp-groupwrap{flex:1;display:flex;gap:88px;align-items:flex-start;}
+.tp-group{min-width:0;}
+/* 概念解释组不再撑满剩余宽度（原 flex:1.7），列宽收窄贴住内容 */
+.tp-group.grow{flex:0 1 auto;}
+.tp-group-h{
+  margin:0 0 8px;font-size:12px;font-weight:500;color:#8E8E8E;letter-spacing:.02em;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+
+/* 导语 + 行动按钮（正在减少的中国） */
+.tp-cta .tp-visual{flex:1 1 auto;}
+.tp-cta .tp-visual .im{height:clamp(220px,23vw,300px);}
+.tp-cta .tp-aside{flex:0 0 300px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;}
+.tp-note{
+  margin:0;font-size:13px;color:#86868B;line-height:1.8;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+.tp-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:500;color:#3E6AE1;text-decoration:none;
+  padding:8px 16px;border:1px solid #C7C7CC;border-radius:980px;
+  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  transition:color .33s,background-color .33s,border-color .33s;
+}
+.tp-btn::after{content:"›";font-size:15px;line-height:1;transition:transform .33s;}
+.tp-btn:hover{background:#3E6AE1;border-color:#3E6AE1;color:#fff;}
+.tp-btn:hover::after{transform:translateX(2px);}
+
+/* 展开时逐条淡入：--i 由 nav.js 写入，步进错峰。入场用动画而非过渡：
+   .tl-run 一加上就从头重放，换栏目时新内容才能重新错峰淡入；
+   只挂在 .tl-run、不挂 .tl-open——收起时内容保持可见，随壳整体淡出 */
+.tp-anim{opacity:0;transform:translateY(-6px);}
+.tl-shell .tl-run .tp-anim{
+  animation:tp-in .34s cubic-bezier(.32,.72,0,1) both;
+  animation-delay:calc(var(--i,0) * 24ms + 40ms);
+}
+@keyframes tp-in{
+  from{opacity:0;transform:translateY(-6px);}
+  to{opacity:1;transform:none;}
+}
+/* 已展开状态下左右换栏目（.tl-swap）：内容整块原地淡入，不带位移、不留重影。
+   逐条错峰滑入只留给首次展开（.tl-run）——否则每次切换六条文字都会重新自上
+   而下滚入一遍，与 Apple 官网不一致；故此处同时停用条目自身的 tp-in 与其
+   隐匿初态，只让整块做一次淡入。
+   **时序**：旧内容 .16s 线性淡出，新内容错开 .07s 才开始淡入（backwards 填充
+   保证延迟期间为全透明），两者只在浅透明区短暂交叠——同位置的小标题因此
+   读起来是「旧字消散、新字显现」的一次溶解，既不是两块半透明文字长期重叠
+   的重影，也不是文字整段消失再出现的闪断。 */
+.tl-shell .tl-swap{animation:tp-swap-in .3s cubic-bezier(.32,.72,0,1) .07s both;}
+.tl-shell .tl-swap .tp-anim{animation:none;opacity:1;transform:none;}
+@keyframes tp-swap-in{from{opacity:0}to{opacity:1}}
+
+/* —— 汉堡按钮（窄屏显示，桌面隐藏） —— */
+.nav-burger{
+  display:none;flex:none;flex-direction:column;justify-content:center;gap:5px;
+  width:40px;height:34px;margin-left:10px;padding:0 10px;
+  background:transparent;border:none;border-radius:4px;cursor:pointer;
+}
+.nav-burger span{display:block;width:100%;height:2px;border-radius:2px;background:#171A20;transition:transform .33s,opacity .33s;}
+.nav-burger:hover{background:#F4F4F4;}
+.nav-burger:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
+body.nav-open .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+body.nav-open .nav-burger span:nth-child(2){opacity:0;}
+body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* —— 10 项导航的分段间距，保证单行不溢出（1080px 以下收进汉堡面板） —— */
+@media (min-width:1081px){
+  .nav-links{gap:4px;}
+  .nav-links > a,.nav-drop > a{padding:0 8px;}
+}
+@media (min-width:1321px){
+  .nav-links > a,.nav-drop > a{padding:0 12px;}
+}
+@media (max-width:1320px){
+  .nav-links > a,.nav-drop > a{font-size:12.5px;}
+  .tp-lead{font-size:18px;}
+}
+@media (max-width:1240px){
+  .nav-inner{gap:8px;padding:0 16px;}
+  .nav-links > a,.nav-drop > a{font-size:11.5px;padding:0 6px;}
+  .tp-inner{padding-top:20px;padding-bottom:24px;}
+  .tp-body{gap:28px;}
+  .tp-cardgrid{gap:22px;}
+  .tp-card .im{height:clamp(170px,19vw,230px);}
+  .tp-chart-links .tp-visual{flex-basis:330px;}
+  .tp-cta .tp-aside{flex-basis:250px;}
+  .tp-groupwrap{gap:64px;}
+  .tp-row{font-size:13px;padding:7px 10px;}
+}
+@media (max-width:960px){
+  .nav-inner{padding:0 14px;height:54px;}
+}
+/* —— 窄屏：顶栏保留前 3 项（纯文字、无底纹），其余收进汉堡面板（子目录手风琴） —— */
+@media (max-width:1080px){
+  .menu.tl-panel{display:none;}
+  .nav-burger{display:flex;}
+  .nav-links{gap:2px;padding:0;border-radius:0;background:transparent;}
+  .nav-links > a,.nav-drop > a{font-size:12.5px;padding:0 8px;height:auto;}
+  .nav-links > *:nth-child(n+4){display:none;}
+  body.nav-open .nav-links{
+    position:absolute;top:100%;left:0;right:0;z-index:60;
+    display:flex;flex-direction:column;align-items:stretch;gap:2px;
+    background:#FFFFFF;border-bottom:1px solid #EEEEEE;
+    padding:8px 12px 12px;margin:0;
+    max-height:calc(100vh - 55px);max-height:calc(100dvh - 55px);
+    overflow-y:auto;
+  }
+  body.nav-open .nav-links > *{display:flex;}
+  body.nav-open .nav-links > a,
+  body.nav-open .nav-drop > a{width:100%;height:40px;font-size:14px;padding:0 12px;}
+  body.nav-open .nav-links > a.here,
+  body.nav-open .nav-drop > a.here{background:#F4F4F4;color:#171A20;}
+  body.nav-open .nav-drop{display:block;width:100%;}
+  body.nav-open .nav-drop > a::after{content:"▾";margin-left:auto;font-size:11px;color:#8E8E8E;transition:transform .33s;}
+  body.nav-open .nav-drop.expanded > a::after{transform:rotate(180deg);}
+  /* 窄屏恢复手风琴列表：解除桌面端满幅磨砂面板的固定定位/胶囊排布/入场动画 */
+  body.nav-open .nav-drop .menu{
+    position:static;display:none;width:auto;min-width:0;margin:2px 0 4px 14px;padding:0 0 2px;
+    background:transparent;border:none;border-left:2px solid #EEEEEE;border-radius:0;
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+    box-shadow:none;opacity:1;visibility:visible;transform:none;
+  }
+  body.nav-open .nav-drop.expanded .menu{display:block;}
+  body.nav-open .menu a{
+    height:38px;font-size:13px;padding:0 8px 0 12px;margin:0;border-radius:4px;
+    display:flex;align-items:center;background:transparent;opacity:1;transform:none;transition:none;
+  }
+  body.nav-open .menu a:hover{background:#F4F4F4;}
+}
+/* —— 手机宽度：品牌 + 前 3 项 + 汉堡按钮约需 500px，≤560px 视口放不下时
+   整栏被撑宽、页面出现横向滑动，汉堡按钮被推出屏幕右缘（需左滑才能看到）。
+   因此全部栏目收进汉堡面板，顶栏只留品牌与汉堡按钮（DESIGN.md：Mobile 即汉堡折叠）。
+   body.nav-open 时 .nav-links 以更高优先级恢复为全屏面板，不受此隐藏影响 —— */
+@media (max-width:560px){
+  .nav-links{display:none;}
+}
+@media (max-width:374px){
+  .nav-inner{padding:0 8px;gap:8px;}
+  .brand .zh{font-size:17px;letter-spacing:.1em;}
+  .nav-links > a,.nav-drop > a{font-size:11.5px;padding:0 6px;}
+}

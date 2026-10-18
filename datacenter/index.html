@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据中心 - 人口档案馆</title>
+<meta name="description" content="人口档案馆：数据中心，全国历年出生人口、未来人口预测、各省历年出生数据——在线浏览，xlsx 一键下载。">
+<meta property="og:title" content="数据中心 - 人口档案馆">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#F4F4F4; --ink:#171A20; --body-c:#393C41;
+    --muted:#5C5E62; --faint:#8E8E8E; --line:#EEEEEE; --accent:#3E6AE1;
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:var(--sans);}
+  [id]{scroll-margin-top:78px;}
+
+
+  /* 标题与下方正文左对齐：目录列 220px + 栏间距 44px + 区块内边距 32px */
+  .head{max-width:1200px;margin:0 auto;padding:30px 32px 0 296px;}
+  .kicker{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--accent);margin-bottom:16px;}
+  .kicker::before{content:"";display:inline-block;width:22px;height:1px;background:var(--accent);vertical-align:middle;margin-right:12px;}
+  .head h1{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);letter-spacing:normal;}
+
+  section.block{max-width:1200px;margin:0 auto;padding:52px 32px 0;}
+  .b-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
+  .b-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(20px,2.4vw,27px);letter-spacing:normal;margin-bottom:10px;}
+  .b-head .d{font-size:14px;color:var(--ink);line-height:1.7;letter-spacing:normal;}
+  .dl{
+    display:inline-flex;align-items:center;gap:8px;flex:none;
+    font-size:12.5px;letter-spacing:normal;padding:8px 18px;border-radius:4px;
+    border:1px solid #D0D1D2;background:#FFFFFF;color:#393C41;
+    transition:border-color .33s,color .33s,background-color .33s;
+  }
+  .dl:hover{border-color:#171A20;color:#171A20;}
+  .chart-box{height:320px;}
+  .sec-note{max-width:1200px;margin:12px auto 0;padding:0 2px;font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;}
+  /* 双源说明：按数据源分栏，左标签右内容，避免多句堆叠成一团 */
+  .src-note{margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;align-items:start;}
+  .src-h{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink);letter-spacing:normal;margin-bottom:6px;}
+  .src-h i{width:16px;height:2px;border-radius:1px;flex:none;}
+  .src-row{padding:2px 0;font-size:11.5px;line-height:1.9;letter-spacing:normal;color:var(--faint);font-weight:400;}
+  .chart-box>div{width:100%;height:100%;display:block;}
+  .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .mini{background:var(--bg-soft);border-radius:12px;padding:14px 14px 8px;}
+  .mini h3{font-family:var(--serif);font-weight:500;font-size:15px;letter-spacing:normal;margin-bottom:2px;}
+  .mini .u{font-size:10.5px;color:var(--faint);letter-spacing:normal;margin-bottom:6px;}
+  .mini .c{height:200px;}
+  .mini .dl-row{display:flex;justify-content:flex-end;margin-top:4px;}
+  .mini .dl{padding:5px 12px;font-size:11.5px;}
+
+  .prov-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  .prov-grid a{
+    background:var(--bg-soft);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;
+    transition:background-color .33s;
+    /* 窄屏两列 1fr 时，网格项默认 min-width:auto 会被 nowrap 文件名撑破轨道、
+       顶出横向滚动；放开下限后 .f 的省略号才能真正截断 */
+    min-width:0;
+  }
+  .prov-grid a:hover{background:#ECEDEF;}
+  .prov-grid .n{font-family:var(--serif);font-weight:500;font-size:15px;letter-spacing:normal;}
+  .prov-grid .f{font-size:10px;color:var(--faint);letter-spacing:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .prov-grid .x{font-size:10px;color:#5C5E62;letter-spacing:normal;margin-top:2px;}
+
+  /* 全国出生人口双源对比 */
+  .dl-pair{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;min-width:0;}
+
+  /* 第 6 节：各省出生人口下降幅度 · 双列排名条形图——
+     34 个省级行政区单列会拉出近 900px 的高图，故按降幅排名拆成左右两列各 17 行（阅读顺序：左列自上而下 → 右列），
+     两列共用同一 x 轴上限（DCMAX，10% 取整），柱长可比；柱形自左缘向右生长，数值仍带负号；
+     全局降幅第一（左列首行）用强调红标出，其余用中性灰，与「各省生育地图」排名条同一语言 */
+  .dc-cap{
+    display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;
+    margin:0 0 10px;font-size:11.5px;color:var(--faint);letter-spacing:normal;
+  }
+  .decline-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}
+  .decline-grid .dc-c{width:100%;min-width:0;}
+
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:30px 32px 44px;}
+  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+
+  .page-grid{
+    max-width:1200px;margin:0 auto;padding:0;
+    display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;align-items:start;
+  }
+  .toc{position:sticky;top:84px;}
+  /* 「目录」小标题：字号/字重/颜色 + 下缘发丝线，与 12.5px 灰条目拉开层级 */
+  .toc-t{
+    font-family:var(--serif);font-weight:500;font-size:16px;color:var(--ink);
+    letter-spacing:normal;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  .toc a{
+    display:block;font-size:12.5px;color:var(--muted);padding:7px 12px;margin-bottom:2px;
+    border-left:2px solid var(--line);letter-spacing:normal;transition:color .33s,border-color .33s,background .33s;
+  }
+  .toc a:hover{color:var(--ink);}
+  .toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--bg-soft);}
+  /* 首项以全角标点「开头：标点悬挂进左侧空档（-1em=全角标点宽度），
+     各条目标题文字自同一起点排布——左缘对齐由布局保证，不依赖首字符字形 */
+  .toc a:first-of-type{text-indent:-1em;}
+  .content{min-width:0;}
+  .content .block{padding-top:52px;}
+  .content .sec-note{padding:0;}
+
+  /* 移动端覆盖必须放在基础规则之后，否则同特异性下被压死（2026-10-10 修复：此前本页 960 断点全部失效） */
+  @media (max-width:960px){
+    .head{padding:26px 20px 0;}
+    .page-grid{grid-template-columns:1fr;padding:0 20px;gap:24px;}
+    /* 小节横向留白只保留 page-grid 的 20px：原先 block 再加 20px 使内容缩到 310，
+       比其他页面（350）窄一圈，屏幕利用率低 */
+    section.block{padding:44px 0 0;}
+    /* 移动端目录：双列平铺列表——首项（本页）与组标题独占整行做主级，其余子项两列对齐排布 */
+    .toc{position:static;display:grid;grid-template-columns:1fr 1fr;column-gap:18px;align-items:start;}
+    .toc-t{grid-column:1/-1;margin-bottom:8px;}
+    .toc a{
+      display:block;min-width:0;font-size:13px;color:var(--muted);
+      padding:7px 0 7px 1em;margin:0;border:none;border-radius:0;
+    }
+    .toc a:first-of-type,.toc a.grp{grid-column:1/-1;font-weight:500;color:var(--ink);}
+    .toc a.grp{margin-top:8px;}
+    .toc a:first-of-type{margin-top:0;}
+    .toc a.on{color:var(--accent);background:none;}
+    /* 小节头部改为纵向堆叠：题目与说明在上，下载按钮随后左对齐，不再悬浮右侧 */
+    .b-head{flex-direction:column;align-items:flex-start;gap:12px;}
+    .b-head .dl-pair,.b-head .dl{justify-content:flex-start;}
+    .mini-grid{grid-template-columns:1fr;}
+    .src-note{grid-template-columns:1fr;gap:16px;}
+    .prov-grid{grid-template-columns:1fr 1fr;}
+    .decline-grid{grid-template-columns:1fr;gap:10px;}
+    footer .foot-inner{padding:0 20px;}
+  }
+</style>
+  <link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#years">各省历年生育地图</a>
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="../forecast/index.html#pop">总人口预测</a>
+          <a href="../forecast/index.html#births">出生人口预测</a>
+          <a href="../forecast/index.html#death">死亡人口预测</a>
+          <a href="../forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="#secNat">全国历年出生人口</a>
+          <a href="#secCensus">七普回溯出生人口</a>
+          <a href="#secDec">各年代年均出生人口</a>
+          <a href="#secFc">未来人口预测</a>
+          <a href="#secProv">各省历年出生数据</a>
+          <a href="#secDecline">各省出生人口下降幅度</a>
+          <a href="#secWorld">各国生育率</a>
+          <a href="#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="head" id="dc-top">
+  <h1>数据中心</h1>
+</header>
+
+<div class="page-grid">
+      <aside class="toc">
+        <div class="toc-t">目录</div>
+        <a href="#dc-top">「数据中心」</a>
+        <a href="#secNat">1. 全国历年出生人口</a>
+        <a href="#secCensus">2. 七普回溯出生人口</a>
+        <a href="#secDec">3. 各年代年均出生人口</a>
+        <a href="#secFc">4. 未来人口预测</a>
+        <a href="#secProv">5. 各省历年出生数据</a>
+        <a href="#secDecline">6. 各省出生人口下降幅度</a>
+        <a href="#secWorld">7. 各国生育率</a>
+        <a href="#secSupport">8. 各国生育补贴支出</a>
+      </aside>
+      <div class="content">
+<section class="block" id="secNat">
+  <div class="b-head">
+    <div>
+      <h2>1. 全国历年出生人口</h2>
+      <div class="d">下图展示 1949 年以来全国历年出生人口变化，收录「国家统计局」与「育娲人口智库」两组数据，供对比参考。本网站采用国家统计局数据。</div>
+    </div>
+    <span class="dl-pair">
+      <a class="dl" href="../data/nbs-national-data.xlsx" download>↓ 下载 xlsx（国家统计局）</a>
+      <a class="dl" href="../data/yuwa-births-backcast.xlsx" download>↓ 下载 xlsx（育娲人口智库）</a>
+    </span>
+  </div>
+  <div class="chart-box"><div id="chartNat"></div></div>
+  <div class="src-note">
+    <div class="src">
+      <div class="src-h"><i style="background:#3E6AE1"></i>国家统计局</div>
+      <div class="src-row"><span class="k">统计口径：</span><span class="v">1981 年及以前为户籍统计数。1982、1990、2000、2010、2020 年为当年人口普查数据推算数，其余年份为年度人口抽样调查推算数据。1949 年数据取自「育娲人口智库」推算数据。</span></div>
+      <div class="src-row"><span class="k">取数方式：</span><span class="v">“总人口”取自原始数据中的“年末总人口”，“出生率”为原始数据中对应数据。“出生人口”由公式计算得出。</span></div>
+      <div class="src-row"><span class="k">计算公式：</span><span class="v">出生人口 = [（当年年末总人口 + 上年年末总人口）÷ 2] × 出生率</span></div>
+      <div class="src-row"><span class="k">数据来源：</span><span class="v">国家统计局官网<a href="https://data.stats.gov.cn/dg/website/page.html#/pc/national/yearData" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">“国家数据”</a>。</span></div>
+    </div>
+    <div class="src">
+      <div class="src-h"><i style="background:#171A20"></i>育娲人口智库</div>
+      <div class="src-row"><span class="k">推算方法：</span><span class="v">用历次普查和调查的分年龄人口，结合死亡率曲线，加权倒推的各年出生人口。</span></div>
+      <div class="src-row"><span class="k">数据来源：</span><span class="v"><a href="https://file.c-ctrip.com/files/6/yuwa/0R72e12000ty0rddz037D.pdf" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">《中国百年历史人口报告》</a></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="secCensus">
+  <div class="b-head">
+    <div>
+      <h2>2. 七普回溯：历年出生人口（2020 年仍在世）</h2>
+      <div class="d">根据第七次全国人口普查的分年龄数据，回溯“当年出生、2020 年仍健在”的历年人口规模，可与上图相互对照。</div>
+    </div>
+    <a class="dl" href="../data/population-census-2020.xlsx" download>↓ 下载 xlsx</a>
+  </div>
+  <div class="chart-box" style="height:300px;"><div id="chartCensus"></div></div>
+  <p class="sec-note">说明：本组数据根据 2020 年“第七次全国人口普查 3-1 全国分年龄人口”推算——例如普查时 30 岁的人口，对应 1990 年出生且 2020 年仍在世的人数。它反映“当年出生且存活至 2020 年”的规模，与当年公布的出生人口（不含此后去世者）存在差异，可作为观察历史出生水平的另一视角。</p>
+</section>
+
+<section class="block" id="secDec">
+  <div class="b-head">
+    <div>
+      <h2>3. 各年代年均出生人口</h2>
+      <div class="d">上世纪 50 年代以来，各年代出生人口的年均水平。</div>
+    </div>
+    <a class="dl" href="../data/avg-births-by-decade.xlsx" download>↓ 下载 xlsx</a>
+  </div>
+  <div class="chart-box" style="height:300px;"><div id="chartDecade"></div></div>
+  <p class="sec-note">注：“上世纪 50 年代” 取 1950~1959 年出生人口年均值，其余年代以此类推；“2025 年” 为当年出生人口。数据来源于“全国历年出生人口「国家统计局」”。</p>
+</section>
+
+<section class="block" id="secFc">
+  <div class="b-head">
+    <div>
+      <h2>4. 未来人口预测</h2>
+      <div class="d">人口预测模型（队列要素法）在高、中、低三种总和生育率情景（1.3 / 1.0 / 0.8）下对 2026~2100 年的人口推演：总人口、出生人口、死亡人口与年减少人数。三情景仅生育率不同，共用同一死亡率假设，因此死亡人口在 2050 年前基本一致。也可在<a href="../forecast/index.html" style="text-decoration:underline;text-underline-offset:3px;">未来人口预测</a>中交互查看。所有数据仅供参考。</div>
+    </div>
+    <a class="dl" href="../data/forecast-all.xlsx" download>↓ 下载完整数据 xlsx</a>
+  </div>
+  <div class="mini-grid">
+    <div class="mini"><h3>总人口</h3><div class="u">万人（2026~2100）</div><div class="c" id="cPop"></div><div class="dl-row"><a class="dl" href="../data/forecast-population.xlsx" download>↓ 下载 xlsx</a></div></div>
+    <div class="mini"><h3>出生人口</h3><div class="u">万人（2026~2100）</div><div class="c" id="cBirths"></div><div class="dl-row"><a class="dl" href="../data/forecast-births.xlsx" download>↓ 下载 xlsx</a></div></div>
+    <div class="mini"><h3>死亡人口</h3><div class="u">万人（2026~2100）</div><div class="c" id="cDeath"></div><div class="dl-row"><a class="dl" href="../data/forecast-deaths.xlsx" download>↓ 下载 xlsx</a></div></div>
+    <div class="mini"><h3>年减少人数</h3><div class="u">万人（2026~2100）</div><div class="c" id="cDec"></div><div class="dl-row"><a class="dl" href="../data/forecast-decrease.xlsx" download>↓ 下载 xlsx</a></div></div>
+  </div>
+  <p class="sec-note">详见<a href="../forecast/index.html#method" style="text-decoration:underline;text-underline-offset:3px;">人口预测模型</a>。基准为 2020 年七普表 3-1 单岁人口，2021—2025 年采用国家统计局实际数据校准；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">UN WPP 2024</a>。</p>
+</section>
+
+<section class="block" id="secProv">
+  <div class="b-head">
+    <div>
+      <h2>5. 各省历年出生数据</h2>
+      <div class="d">34 个省级行政区 1949 年以来的历年出生数据，点击卡片可下载对应的原始 xlsx 文件，也可在<a href="../map/index.html" style="text-decoration:underline;text-underline-offset:3px;">各省生育地图</a>中交互查看。</div>
+    </div>
+    <span></span>
+  </div>
+  <div class="prov-grid" id="provGrid"></div>
+  <p class="sec-note">详细数据来源及说明，见各表格底部注释。</p>
+</section>
+
+<section class="block" id="secDecline">
+  <div class="b-head">
+    <div>
+      <h2>6. 各省出生人口下降幅度</h2>
+      <div class="d">对比各省 2016 年与 2025 年的出生人口，呈现近十年出生人口下降幅度的地区差异，也可在<a href="../map/index.html#decline" style="text-decoration:underline;text-underline-offset:3px;">近十年各省出生人口降幅排序</a>中交互查看。</div>
+    </div>
+    <a class="dl" href="../data/provincial-births-decline-2016-2025.xlsx" download>↓ 下载 xlsx</a>
+  </div>
+  <div class="dc-cap"><span>下降幅度（%），由大到小排列</span><span>悬停查看各省 2016 / 2025 年出生人口</span></div>
+  <div class="decline-grid">
+    <div class="dc-c" id="dcDeclineA"></div>
+    <div class="dc-c" id="dcDeclineB"></div>
+  </div>
+  <p class="sec-note">说明：下降幅度 =（2025 年出生人口 − 2016 年出生人口）÷ 2016 年出生人口。<br>数据来源详见「各省历年生育地图」中各省份数据表下方备注。</p>
+</section>
+
+<section class="block" id="secWorld">
+  <div class="b-head">
+    <div>
+      <h2>7. 各国生育率</h2>
+      <div class="d">1960~2024 年各国（总和）生育率的横向对比与历年变化，也可在<a href="../world/index.html" style="text-decoration:underline;text-underline-offset:3px;">各国生育率</a>中交互查看。</div>
+    </div>
+    <a class="dl" href="../data/wdi-tfr-by-country.xlsx" download>↓ 下载 xlsx</a>
+  </div>
+  <p class="sec-note">数据来源：<a href="https://data.worldbank.org/indicator/SP.DYN.TFRT.IN" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">世界银行 World Development Indicators</a>。</p>
+</section>
+
+<section class="block" id="secSupport">
+  <div class="b-head">
+    <div>
+      <h2>8. 各国生育补贴支出</h2>
+      <div class="d">2010~2023年经济与合作发展组织（OECD）各国家庭公共支出（含现金及实物）占 GDP 比重（单位：%），也可在<a href="../world/index.html#support" style="text-decoration:underline;text-underline-offset:3px;">各国生育补贴支出</a>中交互查看。</div>
+    </div>
+    <a class="dl" href="../data/public-family-spending-by-type-gdp-pct.xlsx" download>↓ 下载 xlsx</a>
+  </div>
+  <p class="sec-note">数据来源：<a href="https://data-explorer.oecd.org/vis?lc=en&amp;df[ds]=DisseminateFinalDMZ&amp;df[id]=DSD_SOCX_AGG%40DF_PUB_FAM&amp;df[ag]=OECD.ELS.SPD&amp;df[vs]=1.0&amp;dq=.A..PT_B1GQ.._T..&amp;pd=2010,&amp;to[TIME_PERIOD]=false&amp;vw=tb" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">OECD Data · Social Expenditure Database（SOCX）</a>，数据经 OECD Data Explorer 导出。</p>
+</section>
+
+      </div>
+    </div>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script src="../map/echarts.min.js"></script>
+<script src="national-data.js?v=2"></script>
+<script src="yuwa-data.js?v=1"></script>
+<script src="census-data.js?v=2"></script>
+<script src="../forecast/forecast-data.js?v=4"></script>
+<script src="../map/prov-data.js"></script>
+<script src="../decline/decline-data.js"></script>
+<script>
+(function(){
+"use strict";
+var FONT = { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E' };
+/* 窄屏下收窄绘图区留白：桌面端按宽画布定死的 left/right 在手机上会吃掉约 1/4 宽度，
+   折线区域被压缩；窄屏改用 containLabel 自适应贴边（y 轴刻度贴画布左缘，宽度随刻度自动适配），
+   bottom 相应减小抵消 x 刻度被计入 grid 的高度 */
+function mqNarrow(){ return window.matchMedia('(max-width:960px)').matches; }
+function natGrid(){ return mqNarrow() ? { left: 2, right: 12, top: 34, bottom: 10, containLabel: true } : { left: 56, right: 20, top: 34, bottom: 30 }; }
+function censusGrid(){ return mqNarrow() ? { left: 2, right: 12, top: 20, bottom: 10, containLabel: true } : { left: 56, right: 20, top: 20, bottom: 30 }; }
+function baseAxis(years, every){
+  return [
+    { type: 'category', data: years, boundaryGap: false,
+      axisLine: { lineStyle: { color: '#EEEEEE' } }, axisTick: { show: false },
+      axisLabel: { fontFamily: FONT.fontFamily, fontSize: 9.5, color: FONT.color, interval: every } },
+    { type: 'value', splitNumber: 4,
+      splitLine: { lineStyle: { color: '#EEEEEE' } },
+      /* 纵轴不显示 0 刻度：0 与横轴基线重合，标出易显拥挤 */
+      axisLabel: { fontFamily: FONT.fontFamily, fontSize: 9.5, color: FONT.color, formatter: function(v){ return v === 0 ? '' : v.toLocaleString('en-US'); } },
+      axisLine: { show: false }, axisTick: { show: false } }
+  ];
+}
+function lineSeries(name, data, color, w){
+  return { name: name, type: 'line', data: data, symbol: 'none', smooth: 0.35,
+    lineStyle: { color: color, width: w }, itemStyle: { color: color } };
+}
+
+/* 全国出生人口（双源对比：统计局蓝实线 + 育娲黑实线） */
+var N = window.NATL_DATA;
+var Y = window.YUWA_DATA;
+var cNat = echarts.init(document.getElementById('chartNat'));
+cNat.setOption({
+  legend: { top: 0, left: 2, itemWidth: 18, itemHeight: 2,
+    textStyle: { color: '#5C5E62', fontSize: 10.5, fontFamily: FONT.fontFamily }, itemGap: 14 },
+  grid: natGrid(),
+  tooltip: { trigger: 'axis', textStyle: { fontSize: 11.5 }, valueFormatter: function(v){ return fmtW(v) + ' 万'; } },
+  xAxis: baseAxis(N.years, Math.ceil(N.years.length / 9))[0],
+  yAxis: baseAxis(N.years, 0)[1],
+  series: [lineSeries('国家统计局', N.births, '#3E6AE1', 1.8),
+    { name: '育娲人口智库', type: 'line', data: Y.births, symbol: 'none', smooth: 0.35,
+      lineStyle: { color: '#171A20', width: 1.6 }, itemStyle: { color: '#171A20' } }]
+});
+
+/* 预测 2×2 */
+var F = window.FORECAST_DATA;
+var SCEN = [
+  { s: '高预测', c: '#8E8E8E', w: 1.3 },
+  { s: '中预测', c: '#3E6AE1', w: 2.2 },
+  { s: '低预测', c: '#E13D3D', w: 1.5 }
+];
+function miniOpt(kind){
+  var series = SCEN.map(function(sc){
+    return lineSeries(sc.s, F.data[sc.s + '_' + kind] || [], sc.c, sc.w);
+  });
+  return {
+    grid: mqNarrow() ? { left: 2, right: 10, top: 26, bottom: 4, containLabel: true } : { left: 52, right: 12, top: 26, bottom: 24 },
+    legend: { top: 0, left: 2, itemWidth: 12, itemHeight: 2, textStyle: { color: '#5C5E62', fontSize: 10.5 }, itemGap: 10 },
+    tooltip: { trigger: 'axis', textStyle: { fontSize: 10.5 }, valueFormatter: function(v){ return fmtW(v) + ' 万'; } },
+    xAxis: baseAxis(F.years, Math.ceil(F.years.length / 6))[0],
+    yAxis: baseAxis(F.years, 0)[1],
+    series: series
+  };
+}
+function fmtW(v){ return Math.round(v).toLocaleString('en-US'); }
+var cCensus = null;
+var ccEl = document.getElementById('chartCensus');
+if (ccEl) {
+  cCensus = echarts.init(ccEl);
+  var C = window.CENSUS_DATA;
+  cCensus.setOption({
+    grid: censusGrid(),
+    tooltip: { trigger: 'axis', textStyle: { fontSize: 11.5 }, valueFormatter: function(v){ return fmtW(v) + ' 万'; } },
+    xAxis: baseAxis(C.years, Math.ceil(C.years.length / 9))[0],
+    yAxis: baseAxis(C.years, 0)[1],
+    series: [{ name: '2020 年仍在世人口', type: 'line', data: C.values, symbol: 'none', smooth: 0.35,
+      lineStyle: { color: '#3E6AE1', width: 1.8 }, itemStyle: { color: '#3E6AE1' } }]
+  });
+}
+/* 各年代年均出生人口 */
+var D = {
+  labels: ['上世纪50年代', '上世纪60年代', '上世纪70年代', '上世纪80年代', '上世纪90年代', '00年代', '10年代', '2025年'],
+  values: [2034, 2417, 2188, 2225, 2097, 1631, 1731, 792]
+};
+var cDec = echarts.init(document.getElementById('chartDecade'));
+/* 窄屏下 8 个「上世纪XX年代」标签在 ~34px 的类目间距里会叠成一团，
+   故窄屏缩短为「50年代」并斜排 30°，绘区底部留白随之加高 */
+var MQ_NARROW = window.matchMedia('(max-width:960px)');
+function decOpt(){
+  var narrow = MQ_NARROW.matches;
+  return {
+  /* 窄屏 containLabel 自适应贴边：y 轴刻度贴画布左缘，斜排 x 刻度计入 grid（bottom 相应减小） */
+  grid: narrow ? { left: 2, right: 12, top: 30, bottom: 12, containLabel: true } : { left: 56, right: 20, top: 30, bottom: 30 },
+  tooltip: { trigger: 'axis', textStyle: { fontSize: 11.5 }, valueFormatter: function(v){ return fmtW(v) + ' 万'; } },
+  xAxis: { type: 'category', data: D.labels, boundaryGap: true,
+    axisLine: { lineStyle: { color: '#EEEEEE' } }, axisTick: { show: false },
+    axisLabel: { fontFamily: FONT.fontFamily, fontSize: 9.5, color: FONT.color, interval: 0,
+      rotate: narrow ? 30 : 0,
+      formatter: function(v){ return narrow ? v.replace('上世纪', '') : v; } } },
+  yAxis: { type: 'value', splitNumber: 4,
+    splitLine: { lineStyle: { color: '#EEEEEE' } },
+    axisLabel: { fontFamily: FONT.fontFamily, fontSize: 9.5, color: FONT.color, formatter: function(v){ return v === 0 ? '' : v.toLocaleString('en-US'); } },
+    axisLine: { show: false }, axisTick: { show: false } },
+  series: [{ name: '年平均出生人口', type: 'bar', data: D.values, barWidth: '52%',
+    itemStyle: { color: '#3E6AE1', borderRadius: [2, 2, 0, 0] },
+    label: { show: true, position: 'top', fontFamily: FONT.fontFamily, fontSize: 9.5, color: '#5C5E62',
+      formatter: function(p){ return p.value.toLocaleString('en-US'); } } }]
+  };
+}
+cDec.setOption(decOpt());
+
+/* 6. 各省出生人口下降幅度：34 省按降幅排名，拆成左右两列各 17 行 */
+var DC = window.DECLINE_DATA;
+var dcRows = Object.keys(DC.series).map(function(n){
+  var s = DC.series[n];
+  return { name: n, pct: s.pct, abs: s.abs, b0: s.b0, b1: s.b1 };
+}).sort(function(a, b){ return a.pct - b.pct; });
+function dcShort(full){ return full.replace(/(特别行政区|维吾尔自治区|回族自治区|壮族自治区|自治区|省|市)$/, ''); }
+function dcFmt(v){ return (Math.round(v * 10) / 10).toLocaleString('en-US'); }
+var DCMAX = Math.ceil(Math.max.apply(null, dcRows.map(function(o){ return Math.abs(o.pct); })) / 10) * 10;
+var dcCharts = [];
+/* 窄屏改用 containLabel 自适应贴边：省名刻度贴画布左缘（最长 3 字，固定 left:52
+   在窄画布上留死空白）；bottom 相应减小抵消 x 刻度被计入 grid 的高度，
+   右侧仍留足条尾「−70.7%」数值标签空间 */
+function dcGrid(){
+  return mqNarrow()
+    ? { left: 2, right: 40, top: 10, bottom: 8, containLabel: true }
+    : { left: 52, right: 56, top: 10, bottom: 24 };
+}
+function dcChart(el, rows){
+  el.style.height = (rows.length * 23 + 34) + 'px';
+  var c = echarts.init(el);
+  /* 类目轴首项在最底部：倒序放入，降幅最大的才排在顶端 */
+  var list = rows.slice().reverse();
+  c.setOption({
+    grid: dcGrid(),
+    tooltip: {
+      trigger: 'item', borderWidth: 0,
+      textStyle: { fontSize: 11.5, fontFamily: 'Noto Sans SC, Arial, sans-serif' },
+      formatter: function(p){
+        var o = list[p.dataIndex];
+        return '<b>' + o.name + '</b>　' + DC.y0 + ' → ' + DC.y1 + '<br>'
+          + '下降幅度：' + dcFmt(o.pct) + '%<br>'
+          + dcFmt(o.b0) + ' 万 → ' + dcFmt(o.b1) + ' 万（' + dcFmt(o.abs) + ' 万）';
+      }
+    },
+    xAxis: {
+      type: 'value', min: 0, max: DCMAX, splitNumber: 4,
+      axisLine: { show: false }, axisTick: { show: false },
+      splitLine: { lineStyle: { color: '#EEEEEE' } },
+      axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 9.5, color: '#8E8E8E',
+        formatter: function(v){ return v === 0 ? '0%' : '−' + v + '%'; } }
+    },
+    yAxis: {
+      type: 'category', data: list.map(function(o){ return dcShort(o.name); }),
+      axisLine: { show: false }, axisTick: { show: false },
+      axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 11, color: '#393C41' }
+    },
+    series: [{
+      type: 'bar', barWidth: 10,
+      data: list.map(function(o){
+        /* 全局降幅第一（左列首行）用强调红标出 */
+        var top = o === dcRows[0];
+        return {
+          value: Math.abs(o.pct),
+          itemStyle: { color: top ? '#E13D3D' : '#D6D8DC', borderRadius: 2 },
+          label: { position: 'right', color: top ? '#E13D3D' : '#8E8E8E' }
+        };
+      }),
+      label: {
+        show: true, fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, fontWeight: 400,
+        formatter: function(p){ return '−' + dcFmt(p.value) + '%'; }
+      }
+    }]
+  });
+  return c;
+}
+(function(){
+  var half = Math.ceil(dcRows.length / 2);
+  [['dcDeclineA', 0, half], ['dcDeclineB', half, dcRows.length]].forEach(function(g){
+    var el = document.getElementById(g[0]);
+    if (!el) return;
+    var rows = dcRows.slice(g[1], g[2]);
+    if (rows.length) dcCharts.push(dcChart(el, rows));
+  });
+})();
+
+var charts = [];
+[['cPop','pop'],['cBirths','births'],['cDeath','death'],['cDec','dec']].forEach(function(pair){
+  var c = echarts.init(document.getElementById(pair[0]));
+  c.setOption(miniOpt(pair[1]));
+  c._kind = pair[1];
+  charts.push(c);
+});
+/* 断点翻转时需重设 grid（resize 只重算尺寸，不会改留白）；同断点内仅 resize */
+var lastNarrow = mqNarrow();
+window.addEventListener('resize', function(){
+  var n = mqNarrow();
+  if (n !== lastNarrow) {
+    lastNarrow = n;
+    cNat.setOption({ grid: natGrid() });
+    if (cCensus) cCensus.setOption({ grid: censusGrid() });
+    charts.forEach(function(c){ if (c._kind) c.setOption(miniOpt(c._kind)); });
+    dcCharts.forEach(function(c){ c.setOption({ grid: dcGrid() }); });
+  }
+  cNat.resize();
+  charts.forEach(function(c){ c.resize(); });
+  if (cCensus) cCensus.resize();
+  if (cDec) { cDec.setOption(decOpt()); cDec.resize(); }
+  dcCharts.forEach(function(c){ c.resize(); });
+});
+
+/* 各省下载卡片（按拼音首字母排序） */
+var P = window.PROV_DATA;
+var grid = document.getElementById('provGrid');
+var html = '';
+Object.keys(P.meta).sort(function(a, b){ return a.localeCompare(b, 'zh-Hans-CN'); }).forEach(function(name){
+  var f = P.meta[name].file;
+  var short = name.replace(/(特别行政区|维吾尔自治区|回族自治区|壮族自治区|自治区|省|市)$/, '');
+  html += '<a href="../data/provinces/' + encodeURIComponent(f) + '" download>'
+    + '<span class="n">' + short + '</span>'
+    + '<span class="f">' + f + '</span>'
+    + '<span class="x">↓ 下载 xlsx</span>'
+    + '</a>';
+});
+grid.innerHTML = html;
+})();
+</script>
+<script>
+(function(){
+  /* 目录高亮：以「视口顶部向下 30%」为判定线，取最后一个越过它的小节——
+     与原 IntersectionObserver 的 15%–30% 观察带等效，但同步算出、无竞态。
+     弃用观察器的原因：文档尾部比视口矮时，末节滚到页底也送不进观察带，
+     末项目录永远点不亮；这里滚到页底时强制点亮最后一项兜底。
+     点击目录项则立即点亮并锁定——目标小节可能根本无法靠滚动到达（页已
+     滚到底），锁定保证「点到哪项亮哪项」；滚动位置一变即解除锁定。 */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var els = Object.keys(map).map(function(id){ return document.getElementById(id); })
+             .filter(function(el){ return !!el; });
+  if (!els.length) return;
+  els.sort(function(a, b){
+    return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+  });
+  var elOf = {};
+  els.forEach(function(el){ elOf[el.id] = el; });
+  function setActive(el){
+    links.forEach(function(a){ a.classList.remove('on'); });
+    var l = map[el.id]; if (l) l.classList.add('on');
+  }
+  var pinned = null, pinnedY = 0;
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      pinned = a.getAttribute('href').slice(1);
+      pinnedY = window.scrollY;
+      if (elOf[pinned]) setActive(elOf[pinned]);
+    });
+  });
+  function update(){
+    /* 点击锁定：位置未动时保持点击所选项 */
+    if (pinned && Math.abs(window.scrollY - pinnedY) < 0.5 && elOf[pinned]) { setActive(elOf[pinned]); return; }
+    pinned = null;
+    var active = els[0];
+    for (var i = 0; i < els.length; i++){
+      if (els[i].getBoundingClientRect().top <= window.innerHeight * 0.30) active = els[i];
+      else break;
+    }
+    /* 页底兜底：末节可能永远够不到判定线，滚到底强制点亮末项 */
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll > 0 && Math.round(window.scrollY) >= maxScroll - 1) active = els[els.length - 1];
+    setActive(active);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+  <script src="../nav.js?v=40"></script>
+</body>
+</html>

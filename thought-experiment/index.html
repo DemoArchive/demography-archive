@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思想实验 - 人口档案馆</title>
+<meta name="description" content="三场关于人口与养老的思想实验：《少子化的囚徒困境》《博士与母亲》与《2060年的五百万》。一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
+<meta property="og:title" content="思想实验 - 人口档案馆">
+<meta property="og:description" content="一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#F4F4F4; --ink:#171A20; --body-c:#393C41;
+    --muted:#5C5E62; --faint:#8E8E8E; --line:#EEEEEE; --accent:#3E6AE1;
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  [id]{scroll-margin-top:78px;}
+
+  /* ---------- HERO ---------- */
+  .hero{max-width:760px;margin:0 auto;padding:96px 28px 16px;text-align:center;}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,4vw,40px);letter-spacing:normal;margin-bottom:24px;}
+  .hero .lede{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(15px,1.8vw,17px);line-height:2;color:var(--body-c);letter-spacing:normal;
+  }
+
+  /* ---------- 布局：侧栏目录 + 正文 ---------- */
+  .page-grid{
+    max-width:1200px;margin:0 auto;padding:48px 32px 0;
+    display:grid;grid-template-columns:232px minmax(0,1fr);gap:52px;align-items:start;
+  }
+  .toc{position:sticky;top:84px;}
+  /* 「目录」小标题：字号/字重/颜色 + 下缘发丝线，与 13px 灰条目拉开层级 */
+  .toc-t{
+    font-family:var(--serif);font-weight:500;font-size:16px;color:var(--ink);
+    letter-spacing:normal;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  .toc a{
+    display:block;font-size:13px;color:var(--muted);padding:7px 12px;margin-bottom:2px;
+    border-left:2px solid var(--line);letter-spacing:normal;line-height:1.7;
+    transition:color .33s,border-color .33s,background .33s;
+  }
+  .toc a:hover{color:var(--ink);}
+  .toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--bg-soft);}
+  /* 组标题以全角标点「《开头：标点悬挂进左侧空档（-1em=全角标点宽度），
+     各条目标题文字自同一起点排布——左缘对齐由布局保证，不依赖首字符字形 */
+  .toc a.grp{font-weight:500;color:var(--ink);margin-top:16px;text-indent:-1em;}
+  .toc a.grp:first-of-type{margin-top:2px;}
+  .toc a.grp.on{color:var(--accent);}
+  .content{min-width:0;max-width:780px;}
+
+  /* ---------- 正文 ---------- */
+  .article p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:20px;}
+  .article p b{color:var(--ink);}
+
+  .exp-head{margin:10px 0 36px;padding-top:36px;border-top:1px solid var(--line);}
+  .exp-title{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(24px,3vw,32px);letter-spacing:normal;line-height:1.4;
+  }
+
+  /* 囚徒困境：收益图 */
+  .figure{margin:26px 0 30px;}
+  .figure img{display:block;width:100%;height:auto;}
+  .figure figcaption{
+    font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
+    margin-top:10px;
+  }
+
+  .sec-t{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(19px,2.3vw,23px);letter-spacing:normal;line-height:1.6;
+    margin:46px 0 20px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-t::before{content:"";width:4px;height:1.05em;background:#171A20;flex:none;border-radius:2px;transition:background .33s;}
+  /* —— 左侧滚动轴（与“永恒的争论”等页一致）：节点随滚动点亮，进度线端点跟随屏幕中线 —— */
+  .content{position:relative;}
+  .tl-track,.tl-fill{position:absolute;left:-25px;width:2px;pointer-events:none;}
+  .tl-track{background:var(--line);}
+  .tl-fill{background:var(--accent);}
+  .exp-title,.sec-t{position:relative;transition:color .33s;}
+  .exp-title::after,.sec-t::after{
+    content:"";position:absolute;left:-24px;top:50%;width:11px;height:11px;border-radius:50%;
+    background:#fff;border:2px solid #D0D1D2;transform:translate(-50%,-50%);
+    transition:box-shadow .33s;z-index:1;
+  }
+  .exp-title.tl-on::after,.sec-t.tl-on::after{background:var(--accent);border-color:var(--accent);}
+  .exp-title.tl-now::after,.sec-t.tl-now::after{box-shadow:0 0 0 4px rgba(62,106,225,.18);}
+  .exp-title.tl-on,.sec-t.tl-on{color:var(--accent);}
+  .sec-t.tl-on::before{background:var(--accent);}
+
+  .article p.before-list{margin-bottom:14px;}
+  ul.mk{list-style:none;margin:4px 0 24px;padding-left:24px;}
+  ul.mk li{
+    position:relative;padding-left:22px;margin-bottom:12px;
+    font-size:15px;line-height:2;color:var(--body-c);
+  }
+  ul.mk li::before{
+    content:"";position:absolute;left:3px;top:1em;
+    width:7px;height:7px;border-radius:50%;background:#5C5E62;
+  }
+  ul.mk li b{color:var(--ink);}
+
+  /* 时间的账本：数字编号三点 */
+  ol.npts{list-style:none;counter-reset:np;margin:6px 0 10px;}
+  ol.npts>li{
+    counter-increment:np;
+    display:grid;grid-template-columns:46px 1fr;gap:8px 14px;
+    margin:34px 0;padding:0;
+  }
+  ol.npts>li::before{
+    content:counter(np) ".";
+    font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.55;
+    color:#171A20;text-align:right;
+    grid-column:1;grid-row:1;
+  }
+  ol.npts h4{
+    font-family:var(--serif);font-weight:500;
+    font-size:15px;line-height:1.75;letter-spacing:normal;color:var(--ink);
+    margin:0;grid-column:2;grid-row:1;
+  }
+  ol.npts p{font-size:15px;line-height:2;color:var(--body-c);margin:0;grid-column:2;grid-row:2;}
+  ol.npts p b{color:var(--ink);}
+
+  /* 结语框：三篇思想实验共用 */
+  .verdict{margin:44px 0 10px;padding:26px 28px;border-left:3px solid #171A20;background:var(--bg-soft);}
+  .verdict p{
+    font-family:var(--serif);font-weight:500;
+    font-size:15px;line-height:2;color:var(--ink);margin:0 0 8px;
+  }
+  .verdict p:last-child{margin-bottom:0;}
+
+  /* 尾声的过渡句 */
+  .challenge{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(17px,2.2vw,21px);line-height:1.8;letter-spacing:normal;
+    color:var(--ink);margin:20px 0 0;
+  }
+
+  /* 注脚 + 页脚 */
+  .smallnote{
+    margin:32px 0 0;padding:24px 0 0;
+    border-top:1px solid var(--line);
+    font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+  .smallnote a{text-decoration:underline;text-underline-offset:3px;}
+  .smallnote h3{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--muted);margin:14px 0 8px;}
+  footer{padding:40px 32px 56px;}
+  .foot-inner{
+    max-width:1160px;margin:0 auto;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--faint);letter-spacing:normal;
+  }
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:960px){
+    .desk-br{display:none;}
+    .hero{padding:60px 22px 8px;}
+    .page-grid{grid-template-columns:1fr;padding:36px 20px 0;gap:30px;}
+    /* 移动端目录：双列平铺列表——组标题独占整行做主级，其下子项两列对齐排布 */
+    .toc{position:static;display:grid;grid-template-columns:1fr 1fr;column-gap:18px;align-items:start;}
+    .toc-t{grid-column:1/-1;margin-bottom:8px;}
+    .toc a{
+      display:block;min-width:0;font-size:13px;color:var(--muted);line-height:1.5;
+      padding:7px 0 7px 1em;margin:0;border:none;border-radius:0;
+    }
+    .toc a:first-of-type,.toc a.grp{grid-column:1/-1;font-weight:500;color:var(--ink);}
+    .toc a.grp{margin-top:8px;}
+    .toc a:first-of-type{margin-top:0;}
+    .toc a.on,.toc a.grp.on{color:var(--accent);background:none;}
+    /* 过长的子项（如「个人的理性选择，社会的错误未来」）独占整行，避免双列下换行挤压 */
+    .toc a.wide{grid-column:1/-1;}
+    .smallnote{padding:24px 0 0;}
+.tl-track,.tl-fill{left:5px;}
+    .exp-title::after,.sec-t::after{left:-16px;}
+    .article,.smallnote{padding-left:22px;padding-right:22px;}
+    footer .foot-inner{padding:0 22px;}
+  }
+</style>
+  <link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#years">各省历年生育地图</a>
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="../forecast/index.html#pop">总人口预测</a>
+          <a href="../forecast/index.html#births">出生人口预测</a>
+          <a href="../forecast/index.html#death">死亡人口预测</a>
+          <a href="../forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="../datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="../datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="../datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="../datacenter/index.html#secFc">未来人口预测</a>
+          <a href="../datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="../datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="../datacenter/index.html#secWorld">各国生育率</a>
+          <a href="../datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>思想实验</h1>
+  <p class="lede">一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量</p>
+</header>
+
+<div class="page-grid">
+  <aside class="toc">
+    <div class="toc-t">目录</div>
+    <a class="grp" href="#exp1">「少子化的囚徒困境」</a>
+    <a class="sub wide" href="#t1">个人的理性选择，社会的错误未来</a>
+    <a class="sub" href="#t2">理性的选择</a>
+    <a class="sub" href="#t3">错误的未来</a>
+    <a class="grp" href="#exp2">「博士与母亲」</a>
+    <a class="sub" href="#t4">故事的起点</a>
+    <a class="sub" href="#t5">彼时的共识</a>
+    <a class="sub" href="#t6">历史的转向</a>
+    <a class="sub" href="#t7">时间的账本</a>
+    <a class="grp" href="#exp3">《2060年的五百万》</a>
+    <a class="sub" href="#t8">500万元的晚年</a>
+    <a class="sub" href="#t9">钱只是养老的凭证</a>
+    <a class="sub" href="#t10">第一关 服务端</a>
+    <a class="sub" href="#t11">第二关 资产端</a>
+    <a class="sub" href="#t12">第三关 兑付端</a>
+    <a class="sub" href="#t13">财富幻觉与人口真相</a>
+  </aside>
+
+  <div class="content">
+    <main class="article">
+
+      <!-- ============ 思想实验一：《少子化的囚徒困境》 ============ -->
+      <div class="exp-head" id="exp1">
+        <h2 class="exp-title">《少子化的囚徒困境》</h2>
+      </div>
+
+      <h3 class="sec-t" id="t1">个人的理性选择，社会的错误未来</h3>
+
+      <p>生育，是个人选择。</p>
+      <p>对一个家庭而言，选择不生育，可以减少养育成本，拥有更多时间和资源投入自身发展。选择生育，意味着家庭需要承担长期的时间、经济与精力投入。</p>
+      <p>但生育的特殊之处在于：家庭承担了养育过程中的大部分成本，而孩子成年后创造的劳动、税收、消费和社会价值，却会超越家庭边界，由整个社会共同享有。</p>
+      <p>于是，生育形成了一种特殊的不对称：</p>
+      <p>生育的成本，主要由家庭承担；人口延续的收益，却由整个社会共享。</p>
+      <p>当这种成本与收益无法匹配时，生育选择可能逐渐演变为一种类似“囚徒困境”的局面。</p>
+
+      <h3 class="sec-t" id="t2">理性的选择</h3>
+      <p>假设有两个家庭 A 和 B，他们都面临两个选择：生育，或者不生育。</p>
+      <p>下图展示了双方不同选择组合下的结果。</p>
+      <figure class="figure">
+        <img src="../images/prisoners-dilemma.png" alt="生育博弈收益图：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy">
+        <figcaption>模型假设：数字代表双方相对收益。双方生育获得（4，4）；一方不生育可获得最大个人收益（8），另一方承担成本（-8）；双方不生育则共同承担低生育带来的长期损失（-4，-4）。</figcaption>
+      </figure>
+      <p class="before-list">从博弈结果来看：</p>
+      <p class="before-list">当 A 选择生育时：</p>
+      <ul class="mk">
+        <li>B 选择生育，收益为 4；</li>
+        <li>B 选择不生育，收益为 8。</li>
+      </ul>
+      <p class="before-list">原因在于：</p>
+      <ul class="mk">
+        <li>如果 B 不生育，他可以避免承担养育成本，同时仍然能够享受到 A 的孩子未来创造的部分社会收益。</li>
+        <li>因此，对于 B 这个理性的个体而言，不生育似乎是更优选择。</li>
+      </ul>
+      <p class="before-list">当 A 选择不生育时：</p>
+      <ul class="mk">
+        <li>B 选择生育，收益为 -8；</li>
+        <li>B 选择不生育，收益为 -4。</li>
+      </ul>
+      <p>即使整个社会已经进入低生育状态，B 仍然会发现：相比承担养育成本，不生育带来的损失更小。</p>
+      <p>因此，无论 A 如何选择，B 都倾向于选择不生育。</p>
+      <p>A 面临同样的激励。</p>
+      <p>最终，双方都会走向：（-4，-4）。</p>
+      <p>也就是：双方都选择不生育，形成纳什均衡。</p>
+
+      <h3 class="sec-t" id="t3">错误的未来</h3>
+      <p>然而，问题在于：</p>
+      <p>在这个模型中，双方“不生育”的结果，并不是最优结果。</p>
+      <p>如果双方都选择生育：（4，4）</p>
+      <p>那么两个家庭都能获得更高收益，同时整个社会也能够从人口延续中获得更大的长期利益。</p>
+      <p>但现实中的困境在于：</p>
+      <p>对于单个家庭而言，不生育可能是一个理性的选择；</p>
+      <p>可是，当越来越多家庭同时作出同样的选择时，整个社会可能走向另一个方向：</p>
+      <ul class="mk">
+        <li>未来劳动者不断减少；</li>
+        <li>消费市场持续收缩；</li>
+        <li>养老与社会保障压力增加；</li>
+        <li>代际接续能力逐渐下降。</li>
+      </ul>
+      <p>最终：</p>
+      <div class="verdict">
+        <p>每个家庭都在追求自己的最优解，却可能共同走向一个更差的未来。</p>
+        <p>这正是少子化可能形成的“囚徒困境”。</p>
+      </div>
+
+      <!-- ============ 思想实验二：《博士与母亲》 ============ -->
+      <div class="exp-head" id="exp2">
+        <h2 class="exp-title">《博士与母亲》</h2>
+      </div>
+
+      <h3 class="sec-t" id="t4">故事的起点</h3>
+      <p class="before-list">S国，两个同为35岁的年轻人：</p>
+      <ul class="mk">
+        <li>青年 A：名校博士，尖端工程师，享有体面薪酬与社会声望。专注学业与事业，主张“少生优生”，计划至多要 1 个孩子。</li>
+        <li>青年 B：普通技校毕业，早早步入婚姻，35岁时已是 5 个孩子的母亲。</li>
+      </ul>
+
+      <h3 class="sec-t" id="t5">彼时的共识</h3>
+      <p class="before-list">在当时的社会共识中：</p>
+      <ul class="mk">
+        <li>A 是社会的顶梁柱：代表先进生产力，为国家缴纳丰厚税收，推动技术进步，实现了完美的个人价值；</li>
+        <li>B 是被惋惜的掉队者：过早放弃自我提升，陷入家务与育儿的琐碎泥潭，被视为不值得效仿的例子。</li>
+      </ul>
+
+      <h3 class="sec-t" id="t6">历史的转向</h3>
+      <p class="before-list">三十年后，S 国每年出生人口减少了60%，劳动力出现真空，评价体系整体逆转：</p>
+      <ul class="mk">
+        <li>A的处境：国家调整税制，多子女家庭减免税负，A 这样的少子女家庭，相对要多交税。在公共住房、大宗消费品配给中，少子家庭也排在后面，生活成本明显上升。</li>
+        <li>B的处境：此时已是 8 个孩子的母亲，被授予“英雄母亲”勋章，享受国家津贴、全额免税以及大户型住房优先配给权。</li>
+      </ul>
+
+      <h3 class="sec-t" id="t7">时间的账本</h3>
+      <p>三十年里，两个人做的事几乎没变。A 一直在从事高端工作，B 一直在抚养孩子。但社会已然改变。</p>
+      <ol class="npts">
+        <li>
+          <h4>即期产出 vs. 远期底座</h4>
+          <p>A 生产的是“当下的技术与税收”，而 B 生产的是“未来运转的基石”。A 的科研工作成果固然卓越，但若是三十年后没有足够的新生劳动力去维护电网、操作产线、运转医院，没有足够的新生消费者去激活内需、消化产能、承接资产，A 所积累的全部财富与技术，都将在物理层面迅速沦为废墟。</p>
+        </li>
+        <li>
+          <h4>代际之间的跨期结算</h4>
+          <p>A 缴的税，支撑着 B 的孩子上学。B 的孩子，三十年后会成为医生、护工和纳税人，支撑 A 的晚年。两人互相依赖，只是账期不同：A 的付出在今天，B 的付出在三十年后。</p>
+        </li>
+        <li>
+          <h4>社会评价的盲区</h4>
+          <p>当一个社会把赞美、资源和晋升通道都给了“即期创造价值”的人，却把养育下一代看成纯粹的家庭私事，它实际上是在鼓励所有人把成本推给未来。</p>
+        </li>
+      </ol>
+      <div class="verdict">
+        <p>对整个社会来说，A 与 B 都不可或缺</p>
+        <p>但没有 B 承担的“人口再生产”，A 创造的辉煌甚至连一个世代都无法维系</p>
+      </div>
+
+      <!-- ============ 思想实验三：《2060年的五百万》 ============ -->
+      <div class="exp-head" id="exp3">
+        <h2 class="exp-title">《2060年的五百万》</h2>
+      </div>
+
+      <h3 class="sec-t" id="t8">500万元的晚年</h3>
+      <p>小明勤奋工作，认真储蓄，一生都在为自己的晚年做准备。</p>
+      <p>他选择不生育子女，或者只生育很少的子女。</p>
+      <p>年轻时，小明相信一个再简单不过的道理：财富是未来的保障。</p>
+      <p>于是，他省下每一笔钱，规划每一步未来，购买保险，缴纳养老保障。</p>
+      <p>75岁这一天，小明拥有500万元现金，以及一套已经还清贷款的住房。他终于可以停下来了。不用再为工作奔波，不用再为房贷焦虑。</p>
+      <p>他想象中的晚年，是安稳而体面的：清晨去公园散步；生病时能够得到治疗；行动不便时，可以请护理人员照顾；家里的水管、灯泡出了问题，也有人可以上门维修。</p>
+      <p>他以为，自己已经为晚年准备好了足够的财富。</p>
+      <p>但他没有想到：2060年，养老的逻辑，已经改变。</p>
+      <p>届时，由于社会长期处于较低的生育水平，65岁及以上老年人口占总人口比重将超过四成。需要照料的人越来越多，而能够提供照料的人却越来越少。</p>
+      <p>当照料一位老人的成本不断提高，小明攒下的500万元，还能够支撑他的晚年生活吗？</p>
+      <p>要回答这个问题，首先要弄清楚：小明积累了一辈子的500万元，到底是什么？</p>
+
+      <h3 class="sec-t" id="t9">钱不是养老本身，只是养老的凭证</h3>
+      <p>钱不能替小明看病，不能替他送药、做饭、修理房屋，也不能替他完成各种生活服务。</p>
+      <p>他真正需要的，是医生、护士、护理员、厨师、维修工、快递员，以及无数仍然在工作的劳动者。</p>
+      <p>钱，本质上只是一种凭证。</p>
+      <p>它代表小明过去创造的价值，也代表他未来可以向社会交换商品和服务的权利。</p>
+      <p>但凭证本身并不产生价值。</p>
+      <p>它能够兑换多少东西，最终取决于另一端：未来还有多少人在生产，还有多少人在提供服务。</p>
+      <p>因此，养老真正的约束，从来不只是账户上的数字。而是：当小明老去的时候，社会上还有多少年轻人在创造财富。</p>
+
+      <h3 class="sec-t" id="t10">第一关：服务端——越来越多的老人，争夺越来越少的劳动者</h3>
+      <p>75岁以后，小明需要的并不是某一种商品。</p>
+      <p>他需要的是一整套庞大的服务体系：医疗、护理、陪伴、送餐、维修、交通，以及日常生活中的各种帮助。</p>
+      <p>而这些行业有一个共同特点：高度依赖人。</p>
+      <p>当老人越来越多，年轻人越来越少，越来越多像小明一样的老人，会拿着自己的“财富凭证”，去购买越来越稀缺的劳动服务。</p>
+      <p>结果必然是：服务越来越贵。</p>
+      <p>小明账户上的500万元，仍然是500万元。</p>
+      <p>但它能够购买的护理时间、医疗服务和生活照料，将会大幅减少。</p>
+
+      <h3 class="sec-t" id="t11">第二关：资产端——越来越多的人想出售，越来越少的人愿意接手</h3>
+      <p>小明想到：如果现金不够，还有房子。</p>
+      <p>可是，房子的价值，最终也取决于未来有没有足够多的人愿意购买。</p>
+      <p>2060年，庞大的老年群体可能同时面对同一个选择：出售资产，换取资金。</p>
+      <p>然而，另一端的年轻购买者，却远少于今天。</p>
+      <p>当出售的人越来越多，而接手的人越来越少，资产价格必然下跌。</p>
+      <p>房产不会因为过去的繁荣而永远保值，其价值最终仍取决于未来的人口结构。</p>
+
+      <h3 class="sec-t" id="t12">第三关：兑付端——所有承诺，都需要未来的年轻一代兑现</h3>
+      <p>小明还有最后一道保障：养老金、保险、基金，以及各种长期金融安排。</p>
+      <p>这些都是写在合同上的承诺，看起来十分可靠。</p>
+      <p>但任何承诺，最终都需要兑付。</p>
+      <p>而兑付它们的基础，仍然是未来社会的劳动、收入和产出。</p>
+      <p>但是，当社会中缴费的人减少、领取的人增加，生产的人减少、被供养的人增加时，小明账户上的数字或许并未发生变化。</p>
+      <p>但数字背后的购买力和兑现能力，已经改变。</p>
+
+      <h3 class="sec-t" id="t13">财富幻觉与人口真相</h3>
+      <p>小明想知道：</p>
+      <p>2060年的500万元，到底还值多少钱？</p>
+      <p>但更深层的问题是：</p>
+      <p>2060年的世界，还有没有足够多的年轻人，去生产这500万元原本能够购买的东西？</p>
+
+      <p>对于小明这类无子女或子女较少的群体而言，这一问题尤为突出。家庭可提供的养老支持不断弱化，其对社会化养老的依赖程度随之上升。</p>
+      <p>但在长期低生育率的社会环境下，需要照护的人群持续增长，能够提供照护服务的人力却不断缩减。</p>
+      <p class="challenge">这就是低生育带来的长期挑战。</p>
+
+      <p>小明最终明白：真正稀缺的从来不是账面上的财富。因为货币可以增加，资产可以重新定价，数字也可以留在账户里。</p>
+
+      <div class="verdict">
+        <p>真正稀缺的，是人。</p>
+        <p>更准确地说，是年轻人。</p>
+      </div>
+
+    </main>
+
+    <div class="smallnote">
+      说明：本页收录三篇思想实验——《少子化的囚徒困境》《博士与母亲》与《2060年的五百万》。文中的人物、数值与年份均为假设性推演设定，用于呈现人口结构与养老保障之间的机制关系，而非对具体年份的预测，也不构成任何理财或养老建议。本站立场详见<a href="../other/index.html#about">关于本站</a>。
+      <h3>本文发布时间</h3>
+      <p>2026年10月11日</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var els = Object.keys(map).map(function(id){ return document.getElementById(id); })
+    .filter(Boolean)
+    .sort(function(a, b){
+      return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+    });
+  /* 判定线须高于点击分组标题后的落点（约78px+标题高度），且低于首个小节标题的位置 */
+  var LINE = 120;
+  function update(){
+    var current = null;
+    for (var i = 0; i < els.length; i++){
+      if (els[i].getBoundingClientRect().top <= LINE) current = els[i];
+      else break;
+    }
+    links.forEach(function(a){ a.classList.remove('on'); });
+    if (current) map[current.id].classList.add('on');
+  }
+  var ticking = false;
+  function request(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; update(); });
+  }
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request, { passive: true });
+  window.addEventListener('hashchange', function(){ setTimeout(update, 80); });
+  update();
+})();
+</script>
+<script>
+/* 滚动轴：节点随滚动点亮（判定线与左侧目录一致：标题顶达 120px 即进入该节，目录亮哪节轴亮哪节）；
+   进度线端点跟随同一条判定线（与点亮同源：线触及圆点的瞬间即点亮，绝不压在未点亮圆点上），
+   圆心在判定线下方时以最后点亮圆心兜底，下一未点亮圆心封顶 */
+(function(){
+  var content = document.querySelector('.content');
+  var items = Array.prototype.slice.call(document.querySelectorAll('.article .exp-title, .article .sec-t'));
+  if (!content || !items.length) return;
+  var track = document.createElement('i');
+  track.className = 'tl-track';
+  var fill = document.createElement('i');
+  fill.className = 'tl-fill';
+  content.appendChild(track);
+  content.appendChild(fill);
+  function dotY(el){ return el.offsetHeight / 2; }
+  /* 与目录高亮同线同元素（目录脚本同为 LINE=120）：实验大标题按所在 .exp-head 计，小节标题按自身计 */
+  var LINE = 120;
+  var triggers = items.map(function(el){ return el.closest('.exp-head') || el; });
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var cTop = content.getBoundingClientRect().top;
+    var vTops = items.map(function(el){ return el.getBoundingClientRect().top + dotY(el); });
+    var lastIdx = -1;
+    items.forEach(function(el, i){
+      var lit = triggers[i].getBoundingClientRect().top <= LINE;
+      el.classList.toggle('tl-on', lit);
+      if (lit) lastIdx = i;
+    });
+    items.forEach(function(el, i){ el.classList.toggle('tl-now', i === lastIdx); });
+    var tops = vTops.map(function(t){ return t - cTop; });
+    var cap = lastIdx + 1 < tops.length ? tops[lastIdx + 1] : tops[tops.length - 1];
+    /* 端点=判定线在内容坐标中的位置（与点亮同源，线到点即亮）；
+       实验大标题按 .exp-head 顶部点亮、圆心尚在判定线下方时用最后点亮圆心兜底，保证线盖住所有已点亮圆点 */
+    var floor = lastIdx >= 0 ? tops[lastIdx] : tops[0];
+    var end = Math.min(Math.max(LINE - cTop, floor), cap);
+    track.style.top = tops[0] + 'px';
+    track.style.height = Math.max(0, tops[tops.length - 1] - tops[0]) + 'px';
+    fill.style.top = tops[0] + 'px';
+    fill.style.height = Math.max(0, end - tops[0]) + 'px';
+  }
+  function onScroll(){
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+  <script src="../nav.js?v=39"></script>
+</body>
+</html>

@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人口档案馆</title>
+<meta name="description" content="1963 年，每分钟出生 56 人；2025 年，每分钟出生 15 人。寂静的产房。中国出生人口观察：数据、危害、争论与思想实验。">
+<meta property="og:title" content="人口档案馆">
+<meta property="og:description" content="1963 年每分钟出生 56 人，2025 年每分钟出生 15 人。未来，已从产房的寂静中悄然启程……">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F4F4F4;
+    --ink:#171A20;
+    --body-c:#393C41;
+    --muted:#5C5E62;
+    --faint:#8E8E8E;
+    --line:#EEEEEE;
+    --accent:#3E6AE1;
+    --accent-wash:rgba(62,106,225,.07);
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  #clock,#story{scroll-margin-top:40px;}
+
+  /* ---------- 导航 ---------- */
+  [id]{scroll-margin-top:78px;}
+
+  /* ---------- HERO（一整页连续排版的起头） ---------- */
+  .hero{
+    text-align:center;padding:34px 28px 0;
+  }
+  .hero h1{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(28px,4vw,40px);
+    line-height:1.2;letter-spacing:normal;
+    text-wrap:balance;
+    margin-bottom:14px;
+  }
+  .statement-inline{max-width:760px;margin:0 auto;}
+  .statement-inline p{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(14px,1.6vw,17px);
+    line-height:1.85;letter-spacing:normal;color:var(--ink);
+  }
+  .statement-inline .dim{color:var(--muted);font-size:clamp(14px,1.4vw,17px);}
+
+  /* ---------- 出生摆钟 ---------- */
+  .clocks{max-width:1200px;margin:0 auto;padding:22px 32px 44px;}
+  .clock-hint{
+    text-align:center;
+    font-size:12.5px;color:var(--muted);letter-spacing:normal;
+    margin-bottom:16px;
+  }
+  .clock-hint b{font-weight:500;}
+  .clock-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  .clock-card{
+    background:var(--bg-soft);
+    border:1px solid rgba(23,26,32,.05);
+    border-radius:12px;
+    padding:22px 22px 16px;
+    display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+  }
+  .clock-card.hot{
+    --accent:#E13D3D;
+    border-color:rgba(225,61,61,.3);
+    box-shadow:0 8px 24px rgba(225,61,61,.09);
+  }
+  .c-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;margin-bottom:10px;}
+  .c-year{
+    font-family:var(--serif);font-weight:700;
+    font-size:17px;letter-spacing:normal;
+  }
+  .c-year small{font-size:.55em;font-weight:inherit;color:var(--muted);margin-left:4px;}
+  .clock-card.hot .c-year{color:var(--accent);}
+  .c-tag{
+    font-size:17px;font-weight:700;color:#000;letter-spacing:normal;white-space:nowrap;
+  }
+  .clock-card.hot .c-tag{
+    color:var(--accent);
+  }
+  .c-dial{position:relative;width:min(200px,64vw);margin:0 auto 8px;padding-bottom:113px;}
+  .c-face{position:relative;z-index:0;}
+  .c-face svg{display:block;width:100%;height:auto;}
+  .c-plate{filter:drop-shadow(0 2px 5px rgba(23,26,32,.1));}
+  .c-center{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  }
+  .c-num{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(34px,3.8vw,46px);line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .clock-card.bump .c-num{animation:numPop .38s ease;}
+  @keyframes numPop{0%{transform:scale(1);}35%{transform:scale(1.08);}100%{transform:scale(1);}}
+  .clock-card.hot .c-num{color:var(--accent);}
+  .c-unit{font-size:11px;color:var(--muted);letter-spacing:normal;}
+  /* 钟摆：支点藏在钟面圆心后，按真实出生间隔往返（一次往返 = 出生 1 人） */
+  .p-arm{
+    position:absolute;left:calc(50% - 1.5px);top:50%;
+    width:3px;height:98%;border-radius:1.5px;
+    transform-origin:50% 0;
+    background:linear-gradient(to bottom,#3A3D44,#171A20 78%);
+    animation:swing var(--rev) ease-in-out infinite;
+    z-index:-1;
+  }
+  .p-arm::after{
+    content:"";position:absolute;left:50%;bottom:-13px;
+    width:26px;height:26px;margin-left:-13px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#565B66 0,#2B2E35 46%,#101216 100%);
+    box-shadow:0 3px 7px rgba(23,26,32,.22);
+  }
+  .clock-card.hot .p-arm{
+    background:linear-gradient(to bottom,#E86C6C,#E13D3D 78%);
+  }
+  .clock-card.hot .p-arm::after{
+    background:radial-gradient(circle at 36% 30%,#EE8F8F 0,#E54E4E 46%,#B72D2D 100%);
+    box-shadow:0 3px 7px rgba(225,61,61,.28);
+  }
+  /* 钟摆掠影：4 层逐渐变淡、滞后加深的拖影，叠成连续划过的残影 */
+  .p-trail{
+    position:absolute;left:calc(50% - 1.5px);top:50%;
+    width:3px;height:98%;border-radius:1.5px;
+    transform-origin:50% 0;
+    background:linear-gradient(to bottom,#3A3D44,#171A20 78%);
+    animation:swing var(--rev) ease-in-out infinite;
+    z-index:-1;
+  }
+  .p-trail.t1{opacity:.42;filter:blur(1px);animation-delay:calc(.015s - var(--rev));}
+  .p-trail.t2{opacity:.26;filter:blur(1.25px);animation-delay:calc(.03s - var(--rev));}
+  .p-trail.t3{opacity:.14;filter:blur(1.5px);animation-delay:calc(.045s - var(--rev));}
+  .p-trail.t4{opacity:.07;filter:blur(1.8px);animation-delay:calc(.06s - var(--rev));}
+  .p-trail::after{
+    content:"";position:absolute;left:50%;bottom:-13px;
+    width:26px;height:26px;margin-left:-13px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#565B66 0,#2B2E35 46%,#101216 100%);
+  }
+  .clock-card.hot .p-trail{
+    background:linear-gradient(to bottom,#E86C6C,#E13D3D 78%);
+  }
+  .clock-card.hot .p-trail::after{
+    background:radial-gradient(circle at 36% 30%,#EE8F8F 0,#E54E4E 46%,#B72D2D 100%);
+  }
+  @keyframes swing{0%{transform:rotate(-10deg);}50%{transform:rotate(10deg);}100%{transform:rotate(-10deg);}}
+  @media (prefers-reduced-motion: reduce){.p-arm{animation:none;}.p-trail{display:none;}.clock-card.bump .c-num{animation:none;}.c-dot{animation:none;}}
+  .c-speed{
+    margin-top:2px;text-align:center;
+    font-size:11px;color:var(--faint);letter-spacing:normal;
+  }
+  .c-annual{font-size:13px;color:var(--muted);letter-spacing:normal;margin-top:10px;}
+  .c-annual b{font-family:var(--serif);font-weight:500;font-size:15px;color:var(--ink);margin-left:6px;letter-spacing:normal;}
+  .clock-card.hot .c-annual b{color:var(--accent);}
+  .c-pace{font-size:12px;color:var(--faint);letter-spacing:normal;margin-top:5px;}
+  .c-bar{height:8px;background:#FFFFFF;margin-top:12px;position:relative;overflow:hidden;border-radius:4px;}
+  .c-bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#5A5E66,#171A20);border-radius:4px;}
+  .clock-card.hot .c-bar i{background:linear-gradient(90deg,#EC7B7B,#E13D3D);}
+  .c-ratio{font-size:12px;color:var(--muted);letter-spacing:normal;margin-top:7px;}
+  .clock-card.hot .c-ratio{color:var(--accent);}
+  .c-live{
+    margin-top:12px;padding-top:10px;border-top:1px solid rgba(23,26,32,.08);
+    font-size:12px;color:var(--muted);letter-spacing:normal;
+    font-variant-numeric:tabular-nums;
+    display:flex;align-items:baseline;
+  }
+  .c-dot{
+    width:6px;height:6px;border-radius:50%;background:var(--ink);
+    margin-right:7px;position:relative;top:-1px;flex:none;
+    animation:dotPulse 2.4s ease-in-out infinite;
+  }
+  .clock-card.hot .c-dot{background:var(--accent);}
+  @keyframes dotPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+  .c-live b{
+    font-family:var(--serif);font-weight:500;font-size:15px;color:var(--ink);margin:0 2px;
+  }
+  .c-note{
+    margin:8px 0 0;
+    font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+  .c-note a{color:var(--faint);text-decoration:underline;text-underline-offset:3px;}
+  .c-note a:hover{color:var(--accent);}
+
+  /* ---------- 页脚 ---------- */
+  footer{padding:44px 32px 56px;}
+  .foot-inner{
+    max-width:1200px;margin:0 auto;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:12px;color:var(--faint);letter-spacing:normal;
+  }
+
+  /* ---------- 正在减少的中国（滚动叙事） ---------- */
+  .story-sec{padding:80px 28px 0;}
+  .story-head{max-width:760px;margin:0 auto;text-align:center;}
+  .story-head h2{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(25px,3vw,36px);letter-spacing:normal;margin-bottom:20px;
+  }
+  .story-head .s-stand{font-size:clamp(15px,1.6vw,18px);line-height:2;color:var(--body-c);}
+
+  .story{
+    display:grid;
+    grid-template-columns:1fr minmax(360px,42%);
+    max-width:1200px;margin:0 auto;
+  }
+  .stage-col{grid-column:1;grid-row:1;position:relative;}
+  .steps{grid-column:2;grid-row:1;padding:0 32px 0 36px;position:relative;}
+  .step{
+    min-height:60vh;
+    display:flex;align-items:center;
+    position:relative;z-index:1; /* 保持节点圆点绘制在时间轴线条之上 */
+  }
+  /* 淡化只作用于文字内容，不含轴节点圆点——否则半透明圆点会让线条透过来 */
+  .step-inner > *{opacity:.24;transition:opacity .55s ease;}
+  .step.on .step-inner > *{opacity:1;}
+  .step-inner{max-width:460px;padding:28px 24px 28px 8px;}
+  .step .s-kicker{
+    font-family:var(--serif);font-weight:500;letter-spacing:normal;
+    font-size:clamp(24px,2.4vw,30px);line-height:1.4;
+    color:var(--ink);margin:0 0 10px;text-wrap:balance;
+  }
+  .step h2{
+    font-weight:500;font-size:19px;line-height:1.7;
+    color:var(--muted);margin-bottom:22px;
+    text-wrap:balance;
+  }
+  .step p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:14px;}
+  .step p b{color:var(--ink);font-weight:500;}
+  .stat{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);}
+  .stat .num{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(30px,3.2vw,40px);line-height:1;letter-spacing:normal;
+  }
+  .stat .num small{font-size:.42em;font-weight:500;margin-left:6px;color:var(--muted);}
+  .stat .cap{margin-top:10px;font-size:13px;color:var(--muted);letter-spacing:normal;}
+  .step .stat + .stat{margin-top:14px;}
+  .stat-more{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(24px,2.6vw,32px);line-height:1;
+    color:var(--ink);letter-spacing:normal;
+  }
+  .stat.red .num{color:#E13D3D;}
+  .stat.red .num small{color:#E13D3D;opacity:.7;}
+  .step .finale{
+    margin-top:28px;
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(17px,2vw,20px);line-height:2;color:var(--ink);
+  }
+
+  /* —— 时间滚动轴（与「各方观点」页同款） —— */
+  .step-inner{position:relative;}
+  .step-inner::after{
+    content:"";position:absolute;left:-25px;top:var(--dot-y,58px);width:11px;height:11px;border-radius:50%;
+    background:#fff;border:2px solid #D0D1D2;transform:translate(-50%,-50%);
+    transition:box-shadow .33s;
+    z-index:1;
+  }
+  .step-inner.tl-on::after{background:var(--accent);border-color:var(--accent);}
+  .step-inner.tl-now::after{box-shadow:0 0 0 4px rgba(62,106,225,.18);}
+  /* 圆点对应的那一行（s-kicker）：滚动到该节点后变蓝并一直保持；同时保持不透明，避免被步骤淡出效果盖住 */
+  .step-inner .s-kicker{transition:opacity .55s ease,color .33s;}
+  .step-inner.tl-on .s-kicker{color:var(--accent);opacity:1;}
+  .tl-track,.tl-fill{position:absolute;left:10px;width:2px;pointer-events:none;}
+  .tl-track{background:var(--line);}
+  .tl-fill{background:var(--accent);}
+
+  .stage{
+    position:sticky;top:0;
+    height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px 12px 20px 32px;
+  }
+  .chart-wrap{position:relative;width:100%;max-width:760px;}
+  .chart-wrap svg{width:100%;height:auto;display:block;}
+  .readout{position:absolute;top:2px;left:6px;pointer-events:none;}
+  .readout .r-year{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(30px,3.4vw,40px);line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:normal;
+  }
+  .readout .r-val{margin-top:8px;font-size:13.5px;color:var(--muted);letter-spacing:normal;font-variant-numeric:tabular-nums;}
+  .readout .r-val b{color:var(--ink);font-weight:500;font-size:15px;}
+  .readout.peak .r-val b{color:#E13D3D;}
+  .chart-unit{position:absolute;top:6px;right:4px;font-size:12px;color:var(--faint);letter-spacing:normal;}
+  /* 图注左缘对齐绘图区起点（viewBox x=58 → 58/760） */
+  .chart-src{position:absolute;bottom:-6px;left:7.632%;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+  .chart-src a{text-decoration:underline;text-underline-offset:3px;}
+  .story svg text{font-family:var(--sans);}
+  .ax{stroke:var(--line);stroke-width:1;}
+  .ax-label{fill:var(--faint);font-size:12.5px;letter-spacing:normal;font-variant-numeric:tabular-nums;}
+  .x-label{fill:var(--faint);font-size:12.5px;font-variant-numeric:tabular-nums;}
+  .grid{stroke:var(--line);stroke-width:1;opacity:.75;}
+  .main-line{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .main-area{fill:rgba(23,26,32,.05);}
+  .red-line{fill:none;stroke:#E13D3D;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;}
+  .red-area{fill:rgba(225,61,61,.07);}
+  .anno{opacity:0;transition:opacity .7s ease .15s;}
+  .anno.on{opacity:1;}
+  /* 已划过场景的标注：保留在图上但淡化，让当前节点的标注保持清晰 */
+  .anno.on.past{opacity:.3;}
+  .anno .a-line{stroke:var(--faint);stroke-width:1;}
+  .anno .a-dot{fill:#FFFFFF;stroke:var(--ink);stroke-width:1.6;}
+  .anno .a-txt{
+    fill:var(--ink);font-family:var(--serif);font-weight:500;
+    font-size:16.5px;letter-spacing:normal;
+  }
+  .anno .a-sub{
+    fill:var(--body-c);font-weight:500;font-size:12.5px;letter-spacing:normal;
+  }
+  .anno.red .a-dot{stroke:#E13D3D;}
+  .anno.red .a-txt{fill:#E13D3D;}
+  .anno.red .a-sub{fill:#E13D3D;opacity:.75;}
+  .event{opacity:0;transition:opacity .7s ease .1s;}
+  .event.on{opacity:1;}
+  .event .e-line{stroke:var(--faint);stroke-width:1;stroke-dasharray:2 4;}
+  .event .e-txt{fill:var(--muted);font-size:11.5px;letter-spacing:normal;}
+  .band{fill:rgba(23,26,32,.05);opacity:0;transition:opacity .7s ease;}
+  .band.on{opacity:1;}
+  /* 行进圆点：外圈呼吸脉冲，与静态标注点区分 */
+  #headHalo{animation:headPulse 1.9s cubic-bezier(.2,.6,.4,1) infinite;transform-box:fill-box;transform-origin:center;}
+  @keyframes headPulse{0%{transform:scale(1);opacity:.5;}75%{transform:scale(2.5);opacity:0;}100%{transform:scale(2.5);opacity:0;}}
+  @media (prefers-reduced-motion:reduce){#headHalo{animation:none;opacity:0;}}
+
+  /* ---------- 探索卡片（首页卡片区） ----------
+     依 DESIGN.md：Light Ash 浅灰卡面 / 无边框无投影 / 12px 圆角 / Electric Blue 仅用于主 CTA
+     / 字重只用 400-500 / 过渡统一 0.33s / 悬停仅变色，无位移缩放
+     卡内四段节奏统一：标题 → 两行导语（预留 40px 等高）→ 图形区（占满余量、居中）→ CTA 贴底，
+     使 7 个矩形块内部间距分布均匀、基线一致 */
+  .tiles{padding:112px 32px;}
+  .tiles-wrap{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+  .tile{
+    --tile-bg:#F4F4F4;
+    position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:var(--tile-bg);border:0;border-radius:12px;overflow:hidden;color:var(--ink);
+    transition:background-color .33s cubic-bezier(.5,0,0,.75),opacity .33s ease;
+  }
+  .tile:hover{--tile-bg:#ECECEC;}
+  .tile:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .tile .t-title{font-family:var(--serif);font-weight:500;letter-spacing:normal;color:var(--ink);}
+
+  /* 2×3 网格卡片：导语统一恰好两行（40px 预留）、图形区吃满剩余高度，CTA 与图形区间距 34px */
+  .tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .tile-grid .tile{height:520px;padding:40px 40px 44px;}
+  .tile-grid .t-title{font-size:22px;line-height:1.35;}
+  .tile-grid .t-sub{margin-top:16px;font-size:14px;line-height:20px;color:var(--body-c);max-width:30em;text-wrap:pretty;min-height:40px;}
+  .tile-grid .t-visual{
+    flex:1 1 auto;min-height:0;width:100%;margin:32px 0 34px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tile-grid .t-visual img:not(.ava){
+    max-width:100%;max-height:244px;width:auto;height:auto;display:block;
+  }
+
+  /* 完整内容 —— 主 CTA：4px 直角、40px 高、200px 宽、透明描边为聚焦环预留空间 */
+  .t-btn{
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+    min-width:200px;
+    height:40px;padding:0 28px;margin-top:24px;
+    border:3px solid transparent;border-radius:4px;
+    box-shadow:rgba(0,0,0,0) 0 0 0 2px inset;
+    background:var(--accent);color:#FFFFFF;
+    font-size:14px;font-weight:500;letter-spacing:normal;line-height:16.8px;white-space:nowrap;
+    transition:background-color .33s cubic-bezier(.5,0,0,.75);
+  }
+  .t-btn:hover{background:#2F55C0;}
+  .tile-grid .t-btn{margin-top:0;}
+
+  /* 长矩形 · 正在来临的危险 —— 三栏展台：左「标题 / 导语」、中「全国出生折线」、右「各省降幅前 9」，
+     右侧两图共用图注底线并沉底，CTA 沉底且底边与图注底边对齐；
+     左「标题 / 导语」一组偏上排布（距卡顶 26px，与 CTA 之间留白呼吸）；卡内上下留白对等（64px）；
+     折线用 Carbon Dark 单色（与上方故事折线同一语言），2025 终点值沿用全站「危险」红色（#E13D3D）；
+     条形数据取自「近十年各省出生人口降幅排序」前 9 位（2016→2025，按降幅排序）；
+     依 DESIGN.md：无边框无投影 / 字重 400-500 / 过渡 0.33s */
+  .tile-lead{padding:64px 72px;}
+  .tile-lead .lead-grid{
+    width:100%;
+    display:grid;grid-template-columns:minmax(240px,13fr) 24fr;
+    grid-template-rows:1fr auto;gap:0 48px;
+    grid-template-areas:"copy charts" "cta charts";
+    align-items:end;
+  }
+  .tile-lead .lead-copy{grid-area:copy;text-align:center;align-self:start;padding-top:26px;}
+  .tile-lead .lead-charts{grid-area:charts;display:flex;gap:32px;align-items:flex-end;min-width:0;}
+  .tile-lead .lead-chart{min-width:0;display:flex;flex-direction:column;justify-content:flex-end;}
+  .tile-lead .lead-line{flex:10 1 0;}
+  .tile-lead .lead-bars{flex:7 1 0;}
+  .tile-lead .lead-cta{grid-area:cta;justify-self:center;}
+  .tile-lead .t-title{font-size:34px;line-height:1.3;color:var(--ink);}
+  .tile-lead .t-sub{margin:22px auto 0;font-size:15px;line-height:1.9;color:var(--body-c);max-width:24em;text-wrap:pretty;}
+  .tile-lead .t-btn{margin-top:0;}
+  .tile-lead .t-curve{width:100%;}
+  .tile-lead .t-curve svg{width:100%;height:auto;display:block;}
+  .tile-lead .t-cap{margin-top:20px;font-size:12px;letter-spacing:normal;color:var(--muted);text-align:center;}
+  .tile-lead .c-grid{stroke:var(--line);stroke-width:1;}
+  .tile-lead .c-base{stroke:#D0D1D2;stroke-width:1;}
+  .tile-lead .c-area{fill:rgba(23,26,32,.05);}
+  .tile-lead .c-line{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .tile-lead .c-halo{fill:rgba(23,26,32,.08);}
+  .tile-lead .c-dot{fill:var(--ink);}
+  .tile-lead .c-val{font-family:var(--serif);font-weight:500;font-size:26px;letter-spacing:normal;fill:var(--ink);font-variant-numeric:tabular-nums;}
+  .tile-lead .c-val.red{fill:#E13D3D;}
+  .tile-lead .c-unit{font-size:16px;letter-spacing:normal;}
+  .tile-lead .c-yr{font-size:18px;letter-spacing:normal;fill:var(--faint);font-variant-numeric:tabular-nums;}
+  .tile-lead .b-axis{stroke:#D0D1D2;stroke-width:1;}
+  .tile-lead .b-name{font-size:11.5px;letter-spacing:normal;fill:var(--body-c);}
+  .tile-lead .b-bar{fill:#CDD0D4;}
+  .tile-lead .b-val{font-size:10.5px;letter-spacing:normal;fill:var(--muted);font-variant-numeric:tabular-nums;}
+
+  /* 窄桌面（≤1200）：两图上下堆叠，卡片转单列居中 */
+  @media (max-width:1200px){
+    .tile-lead .lead-grid{
+      grid-template-columns:1fr;grid-template-rows:auto;gap:0;
+      grid-template-areas:"copy" "charts" "cta";
+    }
+    .tile-lead .lead-copy{text-align:center;padding-top:0;}
+    .tile-lead .lead-charts{flex-direction:column;align-items:center;gap:18px;}
+    .tile-lead .lead-line{width:100%;max-width:500px;}
+    .tile-lead .lead-bars{width:100%;max-width:350px;}
+    .tile-lead .t-cap{margin-top:10px;text-align:center;}
+    .tile-lead .lead-cta{justify-self:center;margin-top:26px;}
+  }
+
+  /* 永恒的争论 · 六场辩论：目录式两列三行（每格 = 辩题 + 一句常见主张）——
+     无卡片、无外框、无投影，1px Cloud Gray 行线在 Light Ash 卡底上切出三行（DESIGN.md：留白与分区代替边框）；
+     层级只有两级：辩题 Carbon Dark 500 / 17px（明显小于卡片标题 22px，避免同级抢读），其下主张 Tertiary Pewter 400 / 12px 单行不折，
+     主张取自 debates 页各节「观点」原文片段，仅作预览、不加标点外的修饰；
+     列间给 16px 呼吸位，避免两列引语相撞；行高可用，六格等宽等高铺满图形区；
+     条目本身无悬停态（卡片整体悬停才变色，避免块内出现二级交互） */
+  .t-visual.t-db{align-items:stretch;}
+  .t-debates{
+    list-style:none;width:100%;margin:0;padding:0;
+    display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);
+    column-gap:16px;
+  }
+  .t-debates li{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    padding:8px 10px;
+    text-align:center;
+  }
+  .t-debates li:nth-child(n+3){border-top:1px solid var(--line);}
+  .t-debates .db-t{
+    font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.3;
+    letter-spacing:normal;color:var(--ink);
+  }
+  .t-debates .db-q{
+    font-size:12px;line-height:1.5;letter-spacing:normal;color:var(--muted);
+    white-space:nowrap;
+  }
+  /* 窄桌面：卡内净宽收窄，两级文字同步降档，保证每句主张仍是单行 */
+  @media (max-width:1240px){
+    .t-debates .db-t{font-size:16px;}
+    .t-debates .db-q{font-size:11px;}
+  }
+  @media (max-width:1080px){
+    .t-debates .db-t{font-size:15px;}
+    .t-debates .db-q{font-size:10.5px;}
+  }
+
+  /* 未来人口预测 · 四联折线矩阵（2×2）——
+     提取自「未来人口预测」页的四张指标折线图（总人口 / 出生人口 / 死亡人口 / 年减少人数 · 2026~2100），
+     以 1px 发丝内分隔线在 Light Ash 卡底划分四格（与「永恒的争论」目录矩阵同一语言），
+     每格上图下注（指标 · 单位），矩阵下方一行三色情景图例（高预测灰 / 中预测 Electric Blue / 低预测危险红）；
+     白底图以 multiply 融入卡面（同「思想实验」树图，悬停卡面变色时同步融入）；
+     依 DESIGN.md：无描边无投影 / 字重 400-500 / 过渡仅变色 */
+  .t-visual.t-fc{flex-direction:column;justify-content:center;gap:10px;margin:18px 0 22px;}
+  .t-fc .fc-grid{
+    width:100%;display:grid;grid-template-columns:1fr 1fr;
+  }
+  .t-fc .fc-grid figure{
+    margin:0;min-width:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    padding:8px 12px 9px;
+  }
+  .t-fc .fc-grid figure:nth-child(2n){border-left:1px solid var(--line);}
+  .t-fc .fc-grid figure:nth-child(n+3){border-top:1px solid var(--line);}
+  .t-visual.t-fc .fc-grid img{
+    max-width:100%;max-height:88px;width:auto;height:auto;display:block;
+    mix-blend-mode:multiply;
+  }
+  .t-fc .fc-grid figcaption{
+    font-size:11px;line-height:1;letter-spacing:normal;color:var(--muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .t-fc .fc-legend{display:flex;justify-content:center;align-items:center;gap:16px;}
+  .t-fc .fc-legend span{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11px;line-height:1;letter-spacing:normal;color:var(--muted);
+  }
+  .t-fc .fc-legend .sw{width:12px;height:2px;border-radius:1px;background:#8E8E8E;flex:none;}
+  .t-fc .fc-legend .mid .sw{background:#3E6AE1;}
+  .t-fc .fc-legend .low .sw{background:#E13D3D;}
+
+  /* ≤1200：窄卡四格随宽收缩，图高上限同步下调，格位边距收窄让位给折线 */
+  @media (max-width:1200px){
+    .t-visual.t-fc .fc-grid img{max-height:78px;}
+    .t-fc .fc-grid figure{padding:7px 10px 8px;}
+  }
+
+  /* 各方观点 · 六人头像一字排开（后一张压前一张，描边随卡面变色）；
+     可视区内上下留白与人名间距三段均分（space-evenly），人名单行居中列于头像之下 */
+  .t-visual.t-avatars{flex-direction:column;justify-content:space-evenly;}
+  .t-avatars .ava-row{display:flex;align-items:center;justify-content:center;}
+  .t-avatars img.ava{
+    --ava:clamp(58px, calc(10.2vw - 32px), 100px);
+    position:relative;flex:none;width:var(--ava);height:var(--ava);border-radius:50%;object-fit:cover;
+    border:3px solid var(--tile-bg);background:var(--tile-bg);
+    transition:border-color .33s cubic-bezier(.5,0,0,.75);
+  }
+  .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.22);}
+  .t-avatars img.ava:nth-child(1){z-index:6;}
+  .t-avatars img.ava:nth-child(2){z-index:5;}
+  .t-avatars img.ava:nth-child(3){z-index:4;}
+  .t-avatars img.ava:nth-child(4){z-index:3;}
+  .t-avatars img.ava:nth-child(5){z-index:2;}
+  .t-avatars img.ava:nth-child(6){z-index:1;}
+  .t-avatars .ava-names{
+    font-size:13px;line-height:1.5;letter-spacing:normal;color:var(--muted);
+    text-align:center;text-wrap:balance;
+  }
+  .t-avatars .ava-names span{white-space:nowrap;}
+
+  /* 思想实验 · 书目 + 博弈树展台：左列三本实验书目 = 目录式三行（与「永恒的争论」同一视觉语言：
+     无编号、无卡片，行间 1px Cloud Gray 发丝线，书名居中）；
+     右侧博弈树直贴卡面（白底图以 multiply 融入 Light Ash 卡面，悬停变色时同步融入），图注标明出处。
+     **左右位置**：博弈树在左、三行书名在右（用 row-reverse 交换视觉列序，DOM 顺序不变，
+     故移动端仍按 DOM 堆叠为「书名在上、树图在下」）；
+     **上下界对齐机制**：树列内容 = 博弈树图 + 图下方的等高占位（--cap-h，图注已删但占位保留，
+     删图注时树图位置才不会下移），书名列内容 = 三行书名 + 同高镜像留白（.t-exp 的 padding-bottom），
+     两列内容等高后各自在视觉区内垂直居中；行高按 --row-h =（树图高 − 文字行高）÷ 2 取值，
+     使首行书名的**文字顶边** = 博弈树顶边、末行书名的**文字底边** = 博弈树底边（中间行自然居中）；
+     改 --tree-w 时 --row-h 必须同步按该式重算（树图 1060×531 ≈ 2:1）。
+     依 DESIGN.md：无描边无投影 / 字重 400-500 */
+  .t-visual.t-expv{gap:28px;align-items:stretch;flex-direction:row-reverse;}
+  .t-expv{--row-h:60px;--cap-h:23px;--tree-w:288px;}
+  .t-exp{
+    list-style:none;margin:0;padding:0 0 var(--cap-h);
+    flex:1 1 auto;min-width:0;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .t-exp li{
+    flex:none;height:var(--row-h);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.4;
+    letter-spacing:normal;color:var(--ink);
+  }
+  .t-exp li + li{border-top:1px solid var(--line);}
+  .t-expv .exp-tree{
+    flex:none;width:var(--tree-w);
+    /* 图注已删：树图下方改用与书名列镜像留白等高的空白占位，树图位置与上下界对齐保持原样 */
+    padding-bottom:var(--cap-h);
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .t-expv .exp-tree img{
+    width:100%;height:auto;display:block;
+    mix-blend-mode:multiply;
+  }
+
+  /* 窄桌面（≤1240）：卡内净宽收窄，树宽 240 → 图高 120，行高 (120-21)/2≈49，书名降 15px */
+  @media (max-width:1240px){
+    .t-visual.t-expv{gap:20px;}
+    .t-expv{--row-h:49px;--tree-w:240px;}
+    .t-exp li{font-size:15px;}
+  }
+  /* 更窄桌面（≤1080）：树宽 190 → 图高 95，行高 (95-20)/2≈38，书名 14px，保证三行不折行 */
+  @media (max-width:1080px){
+    .t-expv{--row-h:38px;--tree-w:190px;}
+    .t-exp li{font-size:14px;}
+  }
+
+  /* 卡片入场：滚动到视口内逐块淡入（.js-reveal 由脚本添加，无 JS / 减少动态时不隐藏） */
+  .tiles.js-reveal .tile{opacity:0;}
+  .tiles.js-reveal .tile.shown{opacity:1;}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:960px){
+    .hero{padding:40px 22px 0;}
+    .clocks{padding:16px 18px 34px;}
+    .clock-hint{margin-bottom:18px;}
+    .clock-grid{grid-template-columns:1fr;gap:14px;}
+    .clock-card{padding:24px 22px 20px;}
+    .c-note{padding:0 4px;}
+    .story-sec{padding:56px 20px 0;}
+    .story{display:block;position:relative;}
+    .stage-col{position:absolute;top:0;left:0;right:0;height:100%;pointer-events:none;z-index:5;}
+    /* 图表区整体不透明：叙述文字滚动到图表下方后被白底遮挡，避免与标注/图注糊在一起；
+       底部另加一道短渐变，让文字在上行到图表前自然淡出 */
+    .stage{
+      top:57px;height:auto;padding:10px 18px 6px;
+      background:#FFFFFF;
+    }
+    .stage::after{
+      content:"";position:absolute;left:0;right:0;top:100%;height:64px;pointer-events:none;
+      background:linear-gradient(#FFFFFF,rgba(255,255,255,0));
+    }
+    .chart-wrap{max-width:none;}
+    .readout{position:static;margin-bottom:2px;}
+    .readout .r-year{font-size:34px;}
+    .readout .r-val{margin-top:4px;font-size:12px;}
+    .readout .r-val b{font-size:14px;}
+    .chart-unit{top:10px;}
+    .chart-src{position:static;text-align:left;padding:2px 0 0 7.632%;}
+    .steps{padding:46vh 24px 0 45px;}
+    /* 移动端：每节改为「正文自身高度 + 固定段后留白」，节与节之间的空白在各机型上一致
+       （原先固定 72vh 会让小屏挤、大屏空） */
+    .step{min-height:0;align-items:flex-end;padding-bottom:72px;}
+    .step-inner{max-width:none;padding:24px 0 0;}
+    .step-inner::after{top:var(--dot-y,41px);}
+    .tl-track,.tl-fill{left:19px;}
+    .anno .a-txt{font-size:25px;}
+    .anno .a-sub{font-size:19px;}
+    .x-label,.ax-label{font-size:19px;}
+    /* 事件标签字数多、又在淡化色上，移动端按 SVG 缩放后过小，故比刻度文字再大一档 */
+    .e-txt{font-size:26px;}
+    .tiles{padding:64px 20px 72px;}
+    .tile-grid{grid-template-columns:1fr;gap:16px;}
+    .tile-grid .tile{height:auto;min-height:420px;padding:32px 26px 34px;}
+    .tile-grid .t-title{font-size:21px;}
+    .tile-grid .t-visual{margin:26px 0 28px;}
+    .tile-lead{padding:44px 24px 48px;}
+    .tile-lead .t-title{font-size:24px;}
+    .tile-lead .t-sub{margin-top:16px;}
+    .tile-lead .lead-charts{margin-top:36px;}
+    .tile-lead .t-cap{margin-top:14px;text-align:center;}
+    .tile-lead .lead-cta{justify-self:center;margin-top:36px;}
+    .t-btn{height:38px;padding:0 24px;}
+    .t-debates .db-t{font-size:17px;}
+    /* 移动端格位仅 ~149px 宽，主张允许折行（列表自己也随行高撑开，不会被 1fr 裁掉） */
+    .t-debates{column-gap:10px;}
+    .t-debates .db-q{font-size:10.5px;line-height:1.4;white-space:normal;}
+    .t-avatars img.ava{--ava:58px;}
+    .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.29);}
+    .t-avatars .ava-names{font-size:12px;}
+    /* 堆叠排版：书名三行在上、博弈树在下，无需与树图上下界对齐（故清掉镜像留白与固定行高） */
+    .t-exp{flex:none;padding-bottom:0;}
+    .t-exp li{height:auto;font-size:17px;padding:14px 0;}
+    .t-visual.t-expv{flex-direction:column;gap:22px;}
+    .t-expv .exp-tree{width:100%;flex:none;padding-bottom:0;}
+    .t-visual.t-fc{margin:20px 0 24px;gap:10px;}
+    .t-visual.t-fc .fc-grid img{max-height:110px;}
+    .t-fc .fc-grid figure{padding:8px 10px 9px;}
+    .t-fc .fc-legend{gap:14px;}
+  }
+</style>
+  <link rel="stylesheet" href="nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="harms/index.html#s1">幼儿园</a>
+          <a href="harms/index.html#s2">中学</a>
+          <a href="harms/index.html#s3">高等教育</a>
+          <a href="harms/index.html#s4">日常消费品</a>
+          <a href="harms/index.html#s5">公务员、事业编</a>
+          <a href="harms/index.html#s6">房地产及上下游</a>
+          <a href="harms/index.html#s7">互联网巨头</a>
+          <a href="harms/index.html#s8">电力和医院</a>
+          <a href="harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="map/index.html#years">各省历年生育地图</a>
+          <a href="map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="forecast/index.html#pop">总人口预测</a>
+          <a href="forecast/index.html#births">出生人口预测</a>
+          <a href="forecast/index.html#death">死亡人口预测</a>
+          <a href="forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="world/index.html#tfr">各国生育率</a>
+          <a href="world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="debates/index.html#d1">人口过多论</a>
+          <a href="debates/index.html#d2">收缩红利论</a>
+          <a href="debates/index.html#d3">机器替代论</a>
+          <a href="debates/index.html#d4">内卷降低论</a>
+          <a href="debates/index.html#d5">少生优生论</a>
+          <a href="debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="datacenter/index.html#secFc">未来人口预测</a>
+          <a href="datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="datacenter/index.html#secWorld">各国生育率</a>
+          <a href="datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="other/index.html#g-pop">总人口</a>
+          <a href="other/index.html#g-births">出生人口</a>
+          <a href="other/index.html#g-cbr">出生率</a>
+          <a href="other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="other/index.html#g-replace">世代更替水平</a>
+          <a href="other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="other/index.html#about">关于本站</a>
+          <a href="other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ================= NAV ================= -->
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <h1>寂静的产房</h1>
+  <div class="statement-inline">
+    <p class="dim">当社会还在争论当下的内卷与房价时，未来已在产房的寂静中悄然启程</p>
+  </div>
+</header>
+
+<!-- ================= 三个出生摆钟 ================= -->
+<section class="clocks" id="clock">
+  <div class="clock-hint">三个摆钟的钟摆按<b>真实的出生间隔</b>摆动 —— 摆动的快慢，就是差距本身</div>
+  <div class="clock-grid">
+
+    <article class="clock-card" data-rate="0.94346" style="--rev:1.06s">
+      <div class="c-head">
+        <div class="c-year">1963<small>年</small></div>
+        <span class="c-tag">历史峰值</span>
+      </div>
+      <div class="c-dial">
+        <div class="c-face">
+          <svg viewBox="0 0 260 260" role="img" aria-label="1963年：摆钟，钟面60格亮起56格，平均每分钟出生56人，钟摆约每1.06秒往返一次"></svg>
+          <div class="p-arm"></div>
+          <div class="p-trail t1"></div>
+          <div class="p-trail t2"></div>
+          <div class="p-trail t3"></div>
+          <div class="p-trail t4"></div>
+          <div class="c-center">
+            <div class="c-num">56</div>
+            <div class="c-unit">人 / 分钟</div>
+          </div>
+        </div>
+      </div>
+      <div class="c-speed">钟摆每往返一次 = 出生 1 人</div>
+      <div class="c-annual">全年出生<b>约 2975 万</b></div>
+      <div class="c-pace">约每 1.1 秒出生 1 人</div>
+      <div class="c-bar"><i style="width:100%"></i></div>
+      <div class="c-ratio">基准 100%</div>
+      <div class="c-live"><span class="c-dot"></span>打开本页至今：<b>0</b> 人</div>
+    </article>
+
+    <article class="clock-card" data-rate="0.59713" style="--rev:1.67s">
+      <div class="c-head">
+        <div class="c-year">2016<small>年</small></div>
+        <span class="c-tag">全面二孩</span>
+      </div>
+      <div class="c-dial">
+        <div class="c-face">
+          <svg viewBox="0 0 260 260" role="img" aria-label="2016年：摆钟，钟面60格亮起36格，平均每分钟出生36人，钟摆约每1.67秒往返一次"></svg>
+          <div class="p-arm"></div>
+          <div class="p-trail t1"></div>
+          <div class="p-trail t2"></div>
+          <div class="p-trail t3"></div>
+          <div class="p-trail t4"></div>
+          <div class="c-center">
+            <div class="c-num">36</div>
+            <div class="c-unit">人 / 分钟</div>
+          </div>
+        </div>
+      </div>
+      <div class="c-speed">钟摆每往返一次 = 出生 1 人</div>
+      <div class="c-annual">全年出生<b>1883 万</b></div>
+      <div class="c-pace">约每 1.7 秒出生 1 人</div>
+      <div class="c-bar"><i style="width:63.3%"></i></div>
+      <div class="c-ratio">是 1963 年的 63%</div>
+      <div class="c-live"><span class="c-dot"></span>打开本页至今：<b>0</b> 人</div>
+    </article>
+
+    <article class="clock-card hot" data-rate="0.25114" style="--rev:3.98s">
+      <div class="c-head">
+        <div class="c-year">2025<small>年</small></div>
+        <span class="c-tag">历史新低</span>
+      </div>
+      <div class="c-dial">
+        <div class="c-face">
+          <svg viewBox="0 0 260 260" role="img" aria-label="2025年：摆钟，钟面60格亮起15格，平均每分钟出生15人，钟摆约每3.98秒往返一次"></svg>
+          <div class="p-arm"></div>
+          <div class="p-trail t1"></div>
+          <div class="p-trail t2"></div>
+          <div class="p-trail t3"></div>
+          <div class="p-trail t4"></div>
+          <div class="c-center">
+            <div class="c-num">15</div>
+            <div class="c-unit">人 / 分钟</div>
+          </div>
+        </div>
+      </div>
+      <div class="c-speed">钟摆每往返一次 = 出生 1 人</div>
+      <div class="c-annual">全年出生<b>792 万</b></div>
+      <div class="c-pace">约每 4.0 秒出生 1 人</div>
+      <div class="c-bar"><i style="width:26.6%"></i></div>
+      <div class="c-ratio">是 1963 年的 27%</div>
+      <div class="c-live"><span class="c-dot"></span>打开本页至今：<b>0</b> 人</div>
+    </article>
+
+  </div>
+  <p class="c-note">
+    全年出生数据来自「国家统计局官网“国家数据”」；“打开本页至今”为平均值估算，不代表真实数据。
+  </p>
+</section>
+
+<!-- ================= 正在减少的中国（滚动叙事） ================= -->
+<section class="story-sec" id="story">
+  <div class="story-head">
+    <h2>正在减少的中国</h2>
+    <p class="s-stand">人口是时间的慢变量，七十余年的出生人口曲线，既是历史数据，也是未来底稿</p>
+  </div>
+</section>
+
+<main class="story">
+  <div class="steps">
+
+    <section class="step" data-step="0">
+      <div class="step-inner">
+        <div class="s-kicker">1949~1958　第一波婴儿潮</div>
+        <h2>建国之初，每年约两千万人出生</h2>
+        <p>新中国成立后，社会趋于安定，医疗卫生条件逐步改善，出生人口稳定在高位。<b>1954 年达到 2260 万</b>，那是共和国第一波婴儿潮的顶点。</p>
+        <div class="stat">
+          <div class="num">2260<small>万</small></div>
+          <div class="cap">1954 年，第一波婴儿潮峰值</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="1">
+      <div class="step-inner">
+        <div class="s-kicker">1959~1961　困难时期</div>
+        <h2>跌入谷底</h2>
+        <p>1959~1961 年，出生人口骤降，<b>1961 年只有 1197 万</b>，不足三年前的一半。</p>
+        <div class="stat">
+          <div class="num">1197<small>万</small></div>
+          <div class="cap">1961 年，谷底；两年后反弹至近 3000 万</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="2">
+      <div class="step-inner">
+        <div class="s-kicker">1962~1970　补偿性婴儿潮</div>
+        <h2>七十余年来的最高点</h2>
+        <p>困难一过，被压抑的生育意愿集中释放。<b>1963 年出生 2975 万人</b>，至今仍是历史峰值，此后的整个六十年代，每年出生人口都超过 2400 万。</p>
+        <div class="stat">
+          <div class="num">2975<small>万</small></div>
+          <div class="cap">1963 年，历史最高点</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="3">
+      <div class="step-inner">
+        <div class="s-kicker">1971~1979　生育转向</div>
+        <h2>十年间，少了三分之一</h2>
+        <p>“晚、稀、少”的婚育倡导推行，叠加生育意愿本身的变化，出生人口从约 2600 万降到 1700 万左右。</p>
+        <div class="stat">
+          <div class="num">−33<small>%左右</small></div>
+          <div class="cap">七十年代十年间的降幅</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="4">
+      <div class="step-inner">
+        <div class="s-kicker">1980~1990　回声婴儿潮</div>
+        <h2>严格约束的年代，出生不降反升</h2>
+        <p>1980 年，一对夫妇只生一个孩子成为普遍的生育规范。但六十年代婴儿潮出生的一代人此时集中进入婚育年龄，出生人口反而持续走高，<b>1987 年达到 2529 万</b>——第二波婴儿潮的顶峰。</p>
+        <div class="stat">
+          <div class="num">2529<small>万</small></div>
+          <div class="cap">1987 年，回声婴儿潮峰值</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="5">
+      <div class="step-inner">
+        <div class="s-kicker">1991~2015　漫长的平稳期</div>
+        <h2>一条持续二十余年的平台</h2>
+        <p>经历此前的起伏后，中国出生人口逐渐进入相对平稳的阶段。进入本世纪，年出生人口长期维持在 1600 万上下。二十余年间，几代人接连出生。漫长的平稳，让人们误以为这一切会一直延续。</p>
+        <div class="stat">
+          <div class="num">≈1687<small>万</small></div>
+          <div class="cap">2000~2015 年，年均出生人口</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="6">
+      <div class="step-inner">
+        <div class="s-kicker">2016　全面二孩</div>
+        <h2>最后的反弹</h2>
+        <p>全面二孩落地，出生人口回升到 <b>1883 万</b>。当时不少人相信，拐点来了。回头看，这不过是堆积效应的最后释放——<b>此后，这条曲线再也没能回到 1800 万上方</b>。</p>
+        <div class="stat">
+          <div class="num">1883<small>万</small></div>
+          <div class="cap">2016 年，全面二孩效应的顶点</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="7">
+      <div class="step-inner">
+        <div class="s-kicker">2017~2025　下坠</div>
+        <h2>九年，跌去 1091 万</h2>
+        <p>2017 年起，出生人口连年下降：2022 年跌破 1000 万；只有 2024 年因龙年效应短暂回升至 954 万，<b>2025 年再创新低——792 万</b>。不足 2016 年的一半，不到 1963 年峰值的三分之一。</p>
+        <div class="stat red">
+          <div class="num">792<small>万</small></div>
+          <div class="cap">2025 年，历史新低</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="8">
+      <div class="step-inner">
+        <div class="s-kicker">现在</div>
+        <h2>下坠的，不只是出生人口</h2>
+        <p>2025 年，全国<b>总人口连续第四年负增长</b>。幼儿园在关闭，产科在收缩——曲线还没有见底，后果已经开始到来。</p>
+        <div class="stat red">
+          <div class="num">−339<small>万人</small></div>
+          <div class="cap">2025 年，全国总人口减少数量</div>
+        </div>
+        <div class="stat red">
+          <div class="num">−2.14<small>万所</small></div>
+          <div class="cap">2025 年一年，幼儿园关停数量</div>
+        </div>
+        <p class="finale"><b>未来，已从产房的寂静中悄然启程</b><span class="stat-more">……</span></p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="stage-col">
+    <div class="stage">
+      <div class="chart-wrap">
+        <div class="readout" aria-hidden="true">
+          <div class="r-year" id="rYear">1950</div>
+          <div class="r-val" id="rVal">出生 <b>—</b> 万人</div>
+        </div>
+        <div class="chart-unit">单位：万人</div>
+        <svg id="chart" viewBox="0 0 760 600" role="img"
+             aria-label="1950 年至 2025 年中国历年出生人口曲线图，1963 年达峰值 2975 万，2025 年降至 792 万">
+          <defs>
+            <clipPath id="clipMain"><rect id="clipMainRect" x="0" y="0" width="0" height="600"/></clipPath>
+            <clipPath id="clipRed"><rect id="clipRedRect" x="0" y="0" width="0" height="600"/></clipPath>
+          </defs>
+          <g id="gGrid"></g>
+          <rect id="famineBand" class="band" x="0" y="0" width="0" height="0"/>
+          <path id="mainArea" class="main-area" clip-path="url(#clipMain)"/>
+          <path id="mainLine" class="main-line" clip-path="url(#clipMain)"/>
+          <path id="redArea" class="red-area" clip-path="url(#clipRed)"/>
+          <path id="redLine" class="red-line" clip-path="url(#clipRed)"/>
+          <g id="gEvents"></g>
+          <g id="gAnno"></g>
+          <g id="gAxes"></g>
+          <g id="headG" opacity="0">
+            <circle id="headHalo" r="4.6" fill="none" stroke="#171A20" stroke-width="1.3"/>
+            <circle id="headDot" r="4.6" fill="#171A20" stroke="#171A20" stroke-width="2.4"/>
+          </g>
+        </svg>
+        <div class="chart-src">数据来源于“全国历年出生人口「国家统计局」”，详情见<a href="datacenter/index.html">《数据中心》</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ================= 探索卡片区 ================= -->
+<section class="tiles">
+  <div class="tiles-wrap">
+
+    <!-- 长矩形 · 正在来临的危险：左文案、中全国折线、右各省降幅前 9 条形（同底线沉底） -->
+    <a class="tile tile-wide tile-lead" href="harms/index.html">
+      <div class="lead-grid">
+        <div class="lead-copy">
+          <h2 class="t-title">正在来临的危险</h2>
+          <p class="t-sub">人口的变化，会在多年以后，显露出真正的力量</p>
+        </div>
+        <div class="lead-charts">
+          <div class="lead-chart lead-line">
+            <div class="t-curve" aria-hidden="true">
+              <svg viewBox="0 0 720 360">
+                <path class="c-grid" d="M16,63.9 H704 M16,155.3 H704 M16,246.6 H704"/>
+                <path class="c-base" d="M16,338 H704"/>
+                <path class="c-area" d="M16,45 L92.44,71.9 L168.89,127.2 L245.33,140.4 L321.78,200.5 L398.22,232.5 L474.67,256.7 L551.11,269 L627.56,257.2 L704,294.2 L704,338 L16,338 Z"/>
+                <path class="c-line" d="M16,45 L92.44,71.9 L168.89,127.2 L245.33,140.4 L321.78,200.5 L398.22,232.5 L474.67,256.7 L551.11,269 L627.56,257.2 L704,294.2"/>
+                <circle class="c-halo" cx="704" cy="294.2" r="9"/>
+                <circle class="c-dot" cx="704" cy="294.2" r="4.5"/>
+                <text class="c-val" x="16" y="30" text-anchor="start">1883<tspan class="c-unit">万人</tspan></text>
+                <text class="c-val red" x="704" y="252" text-anchor="end">792<tspan class="c-unit">万人</tspan></text>
+                <text class="c-yr" x="16" y="357" text-anchor="start">2016</text>
+                <text class="c-yr" x="704" y="357" text-anchor="end">2025</text>
+              </svg>
+            </div>
+            <p class="t-cap">近十年全国出生人口（万人）</p>
+          </div>
+          <div class="lead-chart lead-bars">
+            <div class="t-curve" aria-hidden="true">
+              <svg viewBox="0 0 280 200">
+                <line class="b-axis" x1="46" y1="4" x2="46" y2="188"/>
+                <text class="b-name" x="40" y="16" text-anchor="end">山东</text>
+                <rect class="b-bar" x="46" y="7.5" width="186" height="9" rx="2"/>
+                <text class="b-val" x="238" y="15.8" text-anchor="start">-70.7%</text>
+                <text class="b-name" x="40" y="37" text-anchor="end">湖南</text>
+                <rect class="b-bar" x="46" y="28.5" width="173.4" height="9" rx="2"/>
+                <text class="b-val" x="225.4" y="36.8" text-anchor="start">-65.9%</text>
+                <text class="b-name" x="40" y="58" text-anchor="end">湖北</text>
+                <rect class="b-bar" x="46" y="49.5" width="170.7" height="9" rx="2"/>
+                <text class="b-val" x="222.7" y="57.8" text-anchor="start">-64.9%</text>
+                <text class="b-name" x="40" y="79" text-anchor="end">吉林</text>
+                <rect class="b-bar" x="46" y="70.5" width="166.3" height="9" rx="2"/>
+                <text class="b-val" x="218.3" y="78.8" text-anchor="start">-63.2%</text>
+                <text class="b-name" x="40" y="100" text-anchor="end">安徽</text>
+                <rect class="b-bar" x="46" y="91.5" width="164.2" height="9" rx="2"/>
+                <text class="b-val" x="216.2" y="99.8" text-anchor="start">-62.4%</text>
+                <text class="b-name" x="40" y="121" text-anchor="end">福建</text>
+                <rect class="b-bar" x="46" y="112.5" width="161" height="9" rx="2"/>
+                <text class="b-val" x="213" y="120.8" text-anchor="start">-61.2%</text>
+                <text class="b-name" x="40" y="142" text-anchor="end">黑龙江</text>
+                <rect class="b-bar" x="46" y="133.5" width="161" height="9" rx="2"/>
+                <text class="b-val" x="213" y="141.8" text-anchor="start">-61.2%</text>
+                <text class="b-name" x="40" y="163" text-anchor="end">重庆</text>
+                <rect class="b-bar" x="46" y="154.5" width="160.7" height="9" rx="2"/>
+                <text class="b-val" x="212.7" y="162.8" text-anchor="start">-61.1%</text>
+                <text class="b-name" x="40" y="184" text-anchor="end">河北</text>
+                <rect class="b-bar" x="46" y="175.5" width="159.4" height="9" rx="2"/>
+                <text class="b-val" x="211.4" y="183.8" text-anchor="start">-60.6%</text>
+              </svg>
+            </div>
+            <p class="t-cap">各省出生人口十年降幅（%） TOP9</p>
+          </div>
+        </div>
+        <span class="t-btn lead-cta">完整内容</span>
+      </div>
+    </a>
+
+    <!-- 2×3 网格 -->
+    <div class="tile-grid">
+
+      <a class="tile" href="map/index.html">
+        <h3 class="t-title">各省生育地图</h3>
+        <p class="t-sub">近十年各省出生人口降幅排序<br>各省历年生育地图</p>
+        <div class="t-visual">
+          <img src="images/home/preview-china-map.webp" alt="中国各省出生人口地图" width="914" height="613" loading="lazy">
+        </div>
+        <span class="t-btn">完整内容</span>
+      </a>
+
+      <a class="tile" href="forecast/index.html">
+        <h3 class="t-title">未来人口预测</h3>
+        <p class="t-sub">2026~2100 年：总人口、出生人口、死亡人口、年减少人数<br>包含高、中、低三种预测情景</p>
+        <div class="t-visual t-fc">
+          <!-- 四联折线矩阵：提取自「未来人口预测」页四张指标折线图（总人口 / 出生人口 / 死亡人口 / 年减少人数 · 2026~2100 · 高中低三情景） -->
+          <div class="fc-grid" aria-hidden="true">
+            <figure>
+              <img src="images/home/fc-mini-pop.png?v=4" alt="" width="720" height="308" loading="lazy">
+              <figcaption>总人口（亿）</figcaption>
+            </figure>
+            <figure>
+              <img src="images/home/fc-mini-births.png?v=4" alt="" width="720" height="308" loading="lazy">
+              <figcaption>出生人口（万）</figcaption>
+            </figure>
+            <figure>
+              <img src="images/home/fc-mini-death.png?v=4" alt="" width="720" height="308" loading="lazy">
+              <figcaption>死亡人口（万）</figcaption>
+            </figure>
+            <figure>
+              <img src="images/home/fc-mini-dec.png?v=4" alt="" width="720" height="308" loading="lazy">
+              <figcaption>年减少人数（万）</figcaption>
+            </figure>
+          </div>
+          <div class="fc-legend" aria-hidden="true">
+            <span><i class="sw"></i>高预测</span>
+            <span class="mid"><i class="sw"></i>中预测</span>
+            <span class="low"><i class="sw"></i>低预测</span>
+          </div>
+        </div>
+        <span class="t-btn">完整内容</span>
+      </a>
+
+      <a class="tile" href="world/index.html">
+        <h3 class="t-title">各国生育率与生育支持</h3>
+        <p class="t-sub">世界主要国家<br>生育率及生育补贴支出</p>
+        <div class="t-visual">
+          <img src="images/home/preview-world-map.webp" alt="世界各国（总和）生育率地图，2024 年" width="1370" height="724" loading="lazy">
+        </div>
+        <span class="t-btn">完整内容</span>
+      </a>
+
+      <a class="tile" href="debates/index.html">
+        <h3 class="t-title">永恒的争论</h3>
+        <p class="t-sub">偏见不会改变客观规律<br>但认清事实，能让我们免于为幻觉买单</p>
+        <div class="t-visual t-db">
+          <ul class="t-debates">
+            <li><span class="db-t">人口过多论</span><span class="db-q">「中国人太多了」</span></li>
+            <li><span class="db-t">收缩红利论</span><span class="db-q">「出生人口减少是好事」</span></li>
+            <li><span class="db-t">机器替代论</span><span class="db-q">「AI会替代大部分工作」</span></li>
+            <li><span class="db-t">内卷降低论</span><span class="db-q">「大家少生点，竞争就不卷了」</span></li>
+            <li><span class="db-t">少生优生论</span><span class="db-q">「少生优生，全面提高人口素质」</span></li>
+            <li><span class="db-t">补贴无用论</span><span class="db-q">「别的国家花了那么多钱也没用」</span></li>
+          </ul>
+        </div>
+        <span class="t-btn">完整内容</span>
+      </a>
+
+      <a class="tile" href="viewpoints/index.html">
+        <h3 class="t-title">各方观点</h3>
+        <p class="t-sub">从政要、企业家到人口学者<br>查阅他们关于人口的公开表述</p>
+        <div class="t-visual t-avatars">
+          <div class="ava-row">
+            <img class="ava" src="viewpoints/avatars/putin.jpg" alt="普京" width="240" height="240" loading="lazy">
+            <img class="ava" src="viewpoints/avatars/lee-kuan-yew.jpg" alt="李光耀" width="240" height="240" loading="lazy">
+            <img class="ava" src="viewpoints/avatars/musk.jpg" alt="马斯克" width="240" height="240" loading="lazy">
+            <img class="ava" src="viewpoints/avatars/lee-hsien-loong.jpg" alt="李显龙" width="240" height="240" loading="lazy">
+            <img class="ava" src="viewpoints/avatars/liang-jianzhang.jpg" alt="梁建章" width="240" height="240" loading="lazy">
+            <img class="ava" src="viewpoints/avatars/huang-wenzheng.png" alt="黄文政" width="240" height="240" loading="lazy">
+          </div>
+          <p class="ava-names"><span>普京</span>、<span>李光耀</span>、<span>马斯克</span>、<span>李显龙</span>、<span>梁建章</span>、<span>黄文政</span></p>
+        </div>
+        <span class="t-btn">完整内容</span>
+      </a>
+
+      <a class="tile" href="thought-experiment/index.html">
+        <h3 class="t-title">思想实验</h3>
+        <p class="t-sub">一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量</p>
+        <div class="t-visual t-expv">
+          <ol class="t-exp">
+            <li>《少子化的囚徒困境》</li>
+            <li>《博士与母亲》</li>
+            <li>《2060年的五百万》</li>
+          </ol>
+          <!-- 博弈树展台：提取自《少子化的囚徒困境》页内生育博弈收益图（家庭 A/B 四种选择组合） -->
+          <figure class="exp-tree">
+            <img src="images/prisoners-dilemma.png" alt="生育博弈树：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy">
+          </figure>
+        </div>
+        <span class="t-btn">完整内容</span>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ==================== 钟面绘制 ==================== */
+/* 白色钟面 + 60 格刻度环：亮起的格数 = 该年平均每分钟出生人数，仅 0/3/6/9 点为主刻度 */
+var NS = 'http://www.w3.org/2000/svg';
+var C = 130, R2 = 120;
+function makeDial(svg, lit, color){
+  var disc = document.createElementNS(NS, 'circle');
+  disc.setAttribute('cx', C);
+  disc.setAttribute('cy', C);
+  disc.setAttribute('r', '127');
+  disc.setAttribute('fill', '#FFFFFF');
+  disc.setAttribute('stroke', '#E8E9EB');
+  disc.setAttribute('stroke-width', '1');
+  disc.setAttribute('class', 'c-plate');
+  svg.appendChild(disc);
+  for (var i = 0; i < 60; i++) {
+    var a = (i * 6 - 90) * Math.PI / 180;
+    var major = (i % 15 === 0);
+    var R1 = major ? 84 : 88;
+    var line = document.createElementNS(NS, 'line');
+    line.setAttribute('x1', (C + R1 * Math.cos(a)).toFixed(2));
+    line.setAttribute('y1', (C + R1 * Math.sin(a)).toFixed(2));
+    line.setAttribute('x2', (C + R2 * Math.cos(a)).toFixed(2));
+    line.setAttribute('y2', (C + R2 * Math.sin(a)).toFixed(2));
+    line.setAttribute('stroke', i < lit ? color : '#D9DBDE');
+    line.setAttribute('stroke-width', major ? '6.2' : '4.6');
+    line.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(line);
+  }
+}
+var INK = '#171A20', ACCENT = '#E13D3D';
+var cards = Array.prototype.slice.call(document.querySelectorAll('.clock-card'));
+cards.forEach(function(card){
+  var num = card.querySelector('.c-num').textContent;
+  makeDial(card.querySelector('.c-dial svg'), parseInt(num, 10), card.classList.contains('hot') ? ACCENT : INK);
+});
+
+/* ==================== 实时计数 + 出生闪烁 ==================== */
+/* 打开本页至今，按各年速率折算的"应有出生数" */
+var t0 = performance.timeOrigin || Date.now();
+var reduceMotionClock = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var lives = cards.map(function(card){
+  return {
+    card: card,
+    el: card.querySelector('.c-live b'),
+    rate: parseFloat(card.getAttribute('data-rate')),
+    prev: -1
+  };
+});
+function tick(){
+  var elapsed = (Date.now() - t0) / 1000;
+  lives.forEach(function(l){
+    var n = Math.floor(elapsed * l.rate);
+    if (n === l.prev) return;
+    l.el.textContent = String(n);
+    /* 每"出生 1 人"，中心数字轻轻搏动一次 */
+    if (l.prev >= 0 && !reduceMotionClock) {
+      l.card.classList.remove('bump');
+      void l.card.offsetWidth;
+      l.card.classList.add('bump');
+    }
+    l.prev = n;
+  });
+}
+tick();
+setInterval(tick, 200);
+})();
+</script>
+
+<script>
+/* ==================== 正在减少的中国 · 滚动叙事 ==================== */
+(function(){
+"use strict";
+
+/* 数据：单位万人，出生人口 = 两年年末总人口均值 × 出生率。来源与公式见《数据中心》。 */
+var DATA = [
+  [1949,2086.0],[1950,2023.2],[1951,2107.3],[1952,2105.0],[1953,2151.1],
+  [1954,2260.4],[1955,1984.2],[1956,1982.5],[1957,2169.1],[1958,1908.8],
+  [1959,1650.4],[1960,1391.5],[1961,1197.2],[1962,2478.0],[1963,2975.0],
+  [1964,2747.3],[1965,2717.7],[1966,2589.3],[1967,2574.5],[1968,2768.9],
+  [1969,2726.4],[1970,2748.7],[1971,2585.6],[1972,2579.2],[1973,2475.6],
+  [1974,2246.4],[1975,2119.6],[1976,1862.3],[1977,1795.4],[1978,1745.0],
+  [1979,1726.8],[1980,1786.8],[1981,2078.2],[1982,2247.2],[1983,2066.1],
+  [1984,2063.3],[1985,2211.4],[1986,2392.8],[1987,2529.1],[1988,2464.3],
+  [1989,2414.0],[1990,2390.7],[1991,2264.7],[1992,2124.9],[1993,2131.8],
+  [1994,2109.5],[1995,2062.7],[1996,2067.4],[1997,2038.2],[1998,1942.4],
+  [1999,1834.0],[2000,1771.5],[2001,1701.7],[2002,1646.6],[2003,1598.9],
+  [2004,1592.9],[2005,1616.6],[2006,1585.0],[2007,1594.6],[2008,1608.1],
+  [2009,1590.9],[2010,1591.9],[2011,1784.9],[2012,1973.1],[2013,1776.3],
+  [2014,1897.3],[2015,1654.5],[2016,1883.2],[2017,1764.8],[2018,1523.4],
+  [2019,1465.5],[2020,1202.3],[2021,1062.1],[2022,956.0],[2023,901.4],
+  [2024,953.9],[2025,791.9]
+];
+var YEAR0 = 1949, YEAR1 = 2025;
+
+var SCENES = [
+  {reveal:1958, annos:['a1954'], events:[],              band:false},
+  {reveal:1962, annos:['a1961'], events:[],              band:true },
+  {reveal:1970, annos:['a1963'], events:[],              band:false},
+  {reveal:1979, annos:['a1979'], events:[],              band:false},
+  {reveal:1990, annos:['a1987'], events:['e1980'],       band:false},
+  {reveal:2015, annos:['a1600'], events:[],              band:false},
+  {reveal:2016, annos:['a2016'], events:['e2016'],       band:false},
+  {reveal:2025, annos:['a2025'], events:['e2016'],       band:false},
+  {reveal:2025, annos:['a2025'],events:['e2016'],band:false}
+];
+
+var SVG_W=760, SVG_H=600, M={l:58,r:66,t:36,b:52};
+var X0=M.l, X1=SVG_W-M.r, Y0=SVG_H-M.b, Y1=M.t;
+var VMAX=3000;
+function xs(y){ return X0 + (y-YEAR0)/(YEAR1-YEAR0)*(X1-X0); }
+function ys(v){ return Y0 - (v/VMAX)*(Y0-Y1); }
+function valueAt(yr){
+  var i=Math.max(0,Math.min(DATA.length-2,Math.floor(yr-YEAR0)));
+  var a=DATA[i],b=DATA[i+1],t=Math.min(1,Math.max(0,yr-a[0]));
+  return a[1]+(b[1]-a[1])*t;
+}
+var svgNS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){
+  var e=document.createElementNS(svgNS,tag);
+  for(var k in attrs) e.setAttribute(k,attrs[k]);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+
+function monotonePath(pts){
+  var n=pts.length; if(n<2) return '';
+  var dx=[],m=[],t=[];
+  for(var i=0;i<n-1;i++){dx[i]=pts[i+1].x-pts[i].x;m[i]=(pts[i+1].y-pts[i].y)/dx[i];}
+  t[0]=m[0];t[n-1]=m[n-2];
+  for(i=1;i<n-1;i++){t[i]=(m[i-1]*m[i]<=0)?0:(m[i-1]+m[i])/2;}
+  for(i=0;i<n-1;i++){
+    if(m[i]===0){t[i]=0;t[i+1]=0;continue;}
+    var a=t[i]/m[i],b=t[i+1]/m[i],s=a*a+b*b;
+    if(s>9){var tau=3/Math.sqrt(s);t[i]=tau*a*m[i];t[i+1]=tau*b*m[i];}
+  }
+  var d='M'+pts[0].x.toFixed(2)+','+pts[0].y.toFixed(2);
+  for(i=0;i<n-1;i++){
+    var x0=pts[i].x,y0=pts[i].y,x1=pts[i+1].x,y1=pts[i+1].y,h=dx[i];
+    d+='C'+(x0+h/3).toFixed(2)+','+(y0+t[i]*h/3).toFixed(2)+
+       ' '+(x1-h/3).toFixed(2)+','+(y1-t[i+1]*h/3).toFixed(2)+
+       ' '+x1.toFixed(2)+','+y1.toFixed(2);
+  }
+  return d;
+}
+function toPts(list){ return list.map(function(d){return {x:xs(d[0]),y:ys(d[1])};}); }
+
+var gGrid=document.getElementById('gGrid');
+var gAxes=document.getElementById('gAxes');
+var gEvents=document.getElementById('gEvents');
+var gAnno=document.getElementById('gAnno');
+
+[0,1000,2000,3000].forEach(function(v){
+  el('line',{x1:X0,x2:X1,y1:ys(v),y2:ys(v),class:'grid'},gGrid);
+  /* v=0 不显示刻度文字：该位置与横轴"2025 年"相邻，易被误读 */
+  if(v===0) return;
+  el('text',{x:X1+10,y:ys(v)+4,'text-anchor':'start',class:'ax-label'},
+     gAxes).textContent=(v/1000)+',000';
+});
+var xTicks = window.matchMedia('(max-width:960px)').matches
+  ? [1950,1970,1990,2010,2025]
+  : [1949,1960,1970,1980,1990,2000,2010,2020,2025];
+var lastXLab=null;
+xTicks.forEach(function(yr){
+  el('line',{x1:xs(yr),x2:xs(yr),y1:Y0,y2:Y0+6,class:'ax'},gAxes);
+  var t=el('text',{x:xs(yr),y:Y0+26,'text-anchor':'middle',class:'x-label'},
+     gAxes);
+  t.textContent=String(yr);
+  if(yr===xTicks[xTicks.length-1])lastXLab=t;
+});
+/* 单位「年」按末位刻度文字实测宽度动态摆放：移动端 .x-label 放大到 19px 后，
+   固定偏移会让居中的"2025"右半压住「年」 */
+var yrUnit=el('text',{y:Y0+26,'text-anchor':'start',class:'x-label'},gAxes);
+yrUnit.textContent='年';
+function placeYearUnit(){
+  var w=0;
+  try{w=lastXLab.getComputedTextLength();}catch(e){}
+  yrUnit.setAttribute('x',X1+w/2+8);
+}
+placeYearUnit();
+
+var ptsAll=toPts(DATA);
+var dAll=monotonePath(ptsAll);
+var dAreaAll=dAll+'L'+X1.toFixed(2)+','+Y0+'L'+X0.toFixed(2)+','+Y0+'Z';
+document.getElementById('mainLine').setAttribute('d',dAll);
+document.getElementById('mainArea').setAttribute('d',dAreaAll);
+
+var redIdx0=DATA.findIndex(function(d){return d[0]===2016;});
+var ptsRed=ptsAll.slice(redIdx0);
+var dRed=monotonePath(ptsRed);
+var dRedArea=dRed+'L'+X1.toFixed(2)+','+Y0+'L'+xs(2016).toFixed(2)+','+Y0+'Z';
+document.getElementById('redLine').setAttribute('d',dRed);
+document.getElementById('redArea').setAttribute('d',dRedArea);
+
+var band=document.getElementById('famineBand');
+band.setAttribute('x',xs(1958.6));
+band.setAttribute('width',xs(1961.9)-xs(1958.6));
+band.setAttribute('y',Y1);band.setAttribute('height',Y0-Y1);
+
+function mkAnno(id,year,val,txt,sub,opts){
+  opts=opts||{};
+  var g=el('g',{class:'anno'+(opts.red?' red':''),id:id},gAnno);
+  var x=xs(year),y=ys(val);
+  var dx=opts.dx||0, dy=opts.dy||-14, anchor=opts.anchor||'middle';
+  el('circle',{cx:x,cy:y,r:3.2,class:'a-dot'},g);
+  var lbl=el('g',{class:'a-lbl'},g);           /* 文本组：防遮挡时整体平移/换侧 */
+  var t1=el('text',{x:x+dx,y:y+dy,'text-anchor':anchor,class:'a-txt'},lbl);t1.textContent=txt;
+  var t2=el('text',{x:x+dx,y:y+dy+17,'text-anchor':anchor,class:'a-sub'},lbl);t2.textContent=sub;
+  g._meta={x:x,y:y,dx:dx,dy:dy,anchor:anchor,lbl:lbl,t1:t1,t2:t2,year:year};
+  return g;
+}
+mkAnno('a1954',1954,2260.4,'2260万','第一波婴儿潮',{dy:-26,dx:6});
+mkAnno('a1961',1961,1197.2,'1197万','困难时期',{dy:34});
+mkAnno('a1963',1963,2975.0,'2975万','历史最高',{dy:-4,dx:16,anchor:'start'});
+mkAnno('a1979',1979,1726.8,'约1700万','七十年代末',{dy:36,dx:4});
+mkAnno('a1987',1987,2529.1,'2529万','回声婴儿潮',{dy:-32,dx:-6});
+mkAnno('a1600',2009,1590.9,'≈1600万','漫长的平稳期',{dy:34});
+mkAnno('a2016',2016,1883,'1883万','最后的高峰',{dy:-56,dx:-6,anchor:'end'});
+mkAnno('a2025',2025,792,'792万','历史新低',{red:true,dy:42,dx:-6,anchor:'end'});
+
+function mkEvent(id,yr,txt){
+  var g=el('g',{class:'event',id:id},gEvents);
+  el('line',{x1:xs(yr),x2:xs(yr),y1:Y1-6,y2:Y0,class:'e-line'},g);
+  var t=el('text',{x:xs(yr)-7,y:Y1+4,'text-anchor':'end',class:'e-txt'},g);
+  t.textContent=txt;
+  g._meta={x:xs(yr),y:Y1+4,t:t};
+  return g;
+}
+mkEvent('e1980',1980,'1980 独生子女年代');
+mkEvent('e2016',2016,'2016 全面二孩');
+
+var steps=Array.prototype.slice.call(document.querySelectorAll('.step'));
+var clipMain=document.getElementById('clipMainRect');
+var clipRed=document.getElementById('clipRedRect');
+var headG=document.getElementById('headG');
+var headDot=document.getElementById('headDot');
+var headHalo=document.getElementById('headHalo');
+var rYear=document.getElementById('rYear');
+var rVal=document.getElementById('rVal');
+var readout=document.querySelector('.readout');
+
+var current={reveal:YEAR0, scene:-1};
+var animFrom=YEAR0, animTo=YEAR0, animStart=0, animating=false;
+var DUR=1150;
+var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function ease(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+
+function render(reveal){
+  clipMain.setAttribute('x',X0.toFixed(1));
+  var wMain=Math.max(2,xs(Math.min(reveal,YEAR1))-X0+2);
+  clipMain.setAttribute('width',wMain.toFixed(1));
+  var wRed=Math.max(0,xs(reveal)-xs(2016));
+  clipRed.setAttribute('width',wRed.toFixed(1));
+  clipRed.setAttribute('x',xs(2016).toFixed(1));
+  var v=valueAt(reveal);
+  var isRed=reveal>=2016;
+  var hx=xs(Math.min(reveal,YEAR1)).toFixed(1), hy=ys(v).toFixed(1);
+  headDot.setAttribute('cx',hx);
+  headDot.setAttribute('cy',hy);
+  headHalo.setAttribute('cx',hx);
+  headHalo.setAttribute('cy',hy);
+  headG.setAttribute('opacity',1);
+  headDot.setAttribute('fill',isRed?'#E13D3D':'#171A20');   /* 实心行进点：填充与描边同色 */
+  headDot.setAttribute('stroke',isRed?'#E13D3D':'#171A20');
+  headHalo.setAttribute('stroke',isRed?'#E13D3D':'#171A20');
+  rYear.textContent=String(Math.round(reveal));
+  rVal.innerHTML='出生 <b>'+Math.round(v)+'</b> 万人';
+  readout.classList.toggle('peak',isRed);
+}
+var ANNO_ALL=['a1954','a1961','a1963','a1979','a1987','a1600','a2016','a2025'];
+/* 标记与事件线按场景累积：沿时间轴下滑时，之前出现过的标记保留（回到上方各节则只显示该节点为止的状态） */
+var cumAnnos=SCENES.map(function(_,i){
+  var set={};
+  for(var k=0;k<=i;k++) SCENES[k].annos.forEach(function(id){ set[id]=1; });
+  return set;
+});
+var cumEvents=SCENES.map(function(_,i){
+  var set={};
+  for(var k=0;k<=i;k++) SCENES[k].events.forEach(function(id){ set[id]=1; });
+  return set;
+});
+/* 移动端小图放不下全部历史标注：只保留「当前节 + 上一节」，更早的隐藏
+   （桌面端沿用全部累积规则） */
+function visibleAnnos(idx){
+  if(!ANNO_MQ.matches) return cumAnnos[idx];
+  var set={};
+  for(var k=Math.max(0,idx-1);k<=idx;k++) SCENES[k].annos.forEach(function(id){ set[id]=1; });
+  return set;
+}
+
+/* ---------- 标记防遮挡（全量布局一次消解） ----------
+   标记随场景累积、基础位置固定：只要在「全部标记齐备」的最终布局上消解冲突，
+   任何中间累积子集自然无冲突。可动元素 = 各标记（换侧 × 横向微调 × 纵向平移）
+   与事件线标签（线左/线右 × 纵向平移）；固定障碍 = 读数浮层、y/x 轴刻度文字、
+   单位/来源覆层、事件竖线、曲线采样点、他人圆点。代价 = 文本互压面积 + 压障碍
+   + 越出画布 + 位移，贪心择优。
+   字号随 ≤960px 断点加大、webfont 就绪前后宽度不同，故断点切换/字体就绪后重算。 */
+var ANNO_MQ=window.matchMedia('(max-width:960px)');
+/* 副标题相对主标题的行距：≤960px 时标注字号放大（25/19px），固定 17 会让两行贴死 */
+function subGap(){return ANNO_MQ.matches?28:17;}
+function applySubGap(){
+  ANNO_ALL.forEach(function(id){
+    var m=document.getElementById(id)._meta;
+    m.t2.setAttribute('y',m.y+m.dy+subGap());
+  });
+}
+applySubGap();
+var SVG_EL=document.getElementById('chart');
+function layoutAnnos(){
+  var sr=SVG_EL.getBoundingClientRect();
+  var k=sr.width/760;
+  var EVX=[],FIXED=[];
+  function bb(t){var b=t.getBBox();return {x1:b.x,x2:b.x+b.width,y1:b.y,y2:b.y+b.height};}
+  function htmlBox(el,pad,extraR){
+    var r=el.getBoundingClientRect();
+    return {x1:(r.left-sr.left)/k-pad,x2:(r.right-sr.left)/k+pad+(extraR||0),
+            y1:(r.top-sr.top)/k-pad,y2:(r.bottom-sr.top)/k+pad};
+  }
+  document.querySelectorAll('#gAxes text').forEach(function(t){FIXED.push(bb(t));});
+  var ro=document.querySelector('.readout');
+  if(ro)FIXED.push(htmlBox(ro,6,30));        /* 右侧留量：出生数值位数随场景变化 */
+  ['.chart-unit','.chart-src'].forEach(function(sel){
+    var n=document.querySelector(sel);
+    if(n)FIXED.push(htmlBox(n,4));
+  });
+  /* 障碍点：曲线（折线加密采样）+ 各标记圆点（自身圆点不计） */
+  function samplePts(list){
+    var out=[];
+    for(var i=0;i<list.length-1;i++)
+      for(var kk=0;kk<4;kk++)out.push({x:list[i].x+(list[i+1].x-list[i].x)*kk/4,y:list[i].y+(list[i+1].y-list[i].y)*kk/4});
+    out.push({x:list[list.length-1].x,y:list[list.length-1].y});
+    return out;
+  }
+  var PEN=samplePts(ptsAll).concat(samplePts(ptsRed));
+  var A=ANNO_ALL.map(function(id){
+    var m=document.getElementById(id)._meta;
+    PEN.push({x:m.x,y:m.y,o:id});
+    return {id:id,m:m,base:{},flip:0,dxn:0,shift:0};
+  });
+  var E=['e1980','e2016'].map(function(id){
+    return {m:document.getElementById(id)._meta,base:{},side:0,shift:0};
+  });
+  function mirror(a){return a==='start'?'end':(a==='end'?'start':'middle');}
+  function applyState(a){
+    var dx=(a.flip?-a.m.dx:a.m.dx)+a.dxn;
+    var anc=a.flip?mirror(a.m.anchor):a.m.anchor;
+    a.m.t1.setAttribute('x',a.m.x+dx);a.m.t1.setAttribute('text-anchor',anc);
+    a.m.t2.setAttribute('x',a.m.x+dx);a.m.t2.setAttribute('text-anchor',anc);
+    a.m.lbl.setAttribute('transform',a.shift?('translate(0,'+a.shift+')'):'');
+  }
+  function applyEv(e){
+    e.m.t.setAttribute('x',e.m.x+(e.side?7:-7));
+    e.m.t.setAttribute('text-anchor',e.side?'start':'end');
+    e.m.t.setAttribute('y',e.m.y+e.shift);
+  }
+  function measure(a,flip){                 /* 测量某换侧状态的基础盒（位移另行叠加） */
+    a.flip=flip;a.dxn=0;a.shift=0;applyState(a);
+    var b1=a.m.t1.getBBox(),b2=a.m.t2.getBBox();
+    a.base[flip]={x1:Math.min(b1.x,b2.x),x2:Math.max(b1.x+b1.width,b2.x+b2.width),
+                  y1:Math.min(b1.y,b2.y),y2:Math.max(b1.y+b1.height,b2.y+b2.height)};
+  }
+  A.forEach(function(a){measure(a,0);measure(a,1);});
+  function measureEv(e,side){
+    e.side=side;e.shift=0;applyEv(e);
+    var b=e.m.t.getBBox();
+    e.base[side]={x1:b.x,x2:b.x+b.width,y1:b.y,y2:b.y+b.height};
+  }
+  E.forEach(function(e){measureEv(e,0);measureEv(e,1);});
+  ['e1980','e2016'].forEach(function(id){
+    EVX.push(document.querySelector('#'+id+' line').x1.baseVal.value);
+  });
+  function annoBox(a,st){
+    var b=a.base[st.flip];
+    return {x1:b.x1+st.dxn,x2:b.x2+st.dxn,y1:b.y1+st.shift,y2:b.y2+st.shift};
+  }
+  function evBox(e,st){
+    var b=e.base[st.side];
+    return {x1:b.x1,x2:b.x2,y1:b.y1+st.shift,y2:b.y2+st.shift};
+  }
+  function interArea(p,q){
+    var w=Math.min(p.x2,q.x2)-Math.max(p.x1,q.x1),h=Math.min(p.y2,q.y2)-Math.max(p.y1,q.y1);
+    return (w>0&&h>0)?w*h:0;
+  }
+  /* 单个可动盒的代价：与其余各盒互压 + 压固定障碍/竖线/曲线圆点 + 越界 + 位移 */
+  function terms(i,box,sti){
+    var s=0,j,p;
+    for(j=0;j<A.length;j++){if(j===i)continue;s+=interArea(box,annoBox(A[j],st[j]));}
+    for(j=0;j<E.length;j++){if(j===i-A.length)continue;s+=interArea(box,evBox(E[j],se[j]));}
+    for(j=0;j<FIXED.length;j++)s+=interArea(box,FIXED[j]);
+    for(j=0;j<EVX.length;j++)if(box.x1<EVX[j]&&box.x2>EVX[j])s+=120;
+    for(j=0;j<PEN.length;j++){p=PEN[j];
+      if(i<A.length&&p.o===A[i].id)continue;
+      if(p.x>box.x1&&p.x<box.x2&&p.y>box.y1&&p.y<box.y2)s+=60;
+    }
+    /* 越界代价：超出画布的文本会被 SVG 视口直接裁掉（等于不可见），比压到
+       事件竖线/曲线上严重得多，斜率必须远高于互压与越线，逼求解器把
+       「翻出画布」留作真正无路可走时的最后手段（移动端大字号下曾出现
+       标注为避开 2016 竖线被翻到画布外裁剪的问题） */
+    if(box.x1<4)s+=(4-box.x1)*60;if(box.x2>756)s+=(box.x2-756)*60;
+    if(box.y1<2)s+=(2-box.y1)*60;if(box.y2>598)s+=(box.y2-598)*60;
+    if(i<A.length){
+      s+=3*(Math.abs(sti.shift)+Math.abs(sti.dxn))/8;
+      if(sti.flip)s+=20;
+    }else{
+      s+=3*Math.abs(sti.shift)/8;
+      if(sti.side)s+=12;
+    }
+    return s;
+  }
+  var st=A.map(function(){return {flip:0,dxn:0,shift:0};});
+  var se=E.map(function(){return {side:0,shift:0};});
+  var boxesCache=A.map(function(a,i){return annoBox(a,st[i]);})
+    .concat(E.map(function(e,j){return evBox(e,se[j]);}));
+  var termsCache=boxesCache.map(function(b,i){
+    return terms(i,b,i<A.length?st[i]:se[i-A.length]);
+  });
+  var DX=[],SH=[],ESH=[];
+  /* 移动端（≤960px）标注字号放大、绘图区相对变挤，横向/纵向可搜范围放宽
+     （±72/±108）；桌面端标签窄、维持原范围以保布局速度 */
+  var WIDE=ANNO_MQ.matches;
+  for(var v=-(WIDE?72:48);v<=(WIDE?72:48);v+=8)DX.push(v);
+  for(v=-(WIDE?108:72);v<=(WIDE?108:72);v+=12)SH.push(v);
+  for(v=-24;v<=24;v+=8)ESH.push(v);
+  for(var it=0;it<150;it++){
+    var bestD=0,bm=null,i,j2;
+    for(i=0;i<A.length;i++){
+      var save=st[i],old=termsCache[i];
+      for(var f=0;f<2;f++)for(j2=0;j2<DX.length;j2++)for(var k2=0;k2<SH.length;k2++){
+        var cand={flip:f,dxn:DX[j2],shift:SH[k2]};
+        if(cand.flip===save.flip&&cand.dxn===save.dxn&&cand.shift===save.shift)continue;
+        st[i]=cand;
+        var d=old-terms(i,annoBox(A[i],cand),cand);
+        if(d>bestD){bestD=d;bm={a:1,i:i,c:cand};}
+      }
+      st[i]=save;
+    }
+    for(i=0;i<E.length;i++){
+      var saveE=se[i],oldE=termsCache[A.length+i];
+      for(var s2=0;s2<2;s2++)for(var k3=0;k3<ESH.length;k3++){
+        var candE={side:s2,shift:ESH[k3]};
+        if(candE.side===saveE.side&&candE.shift===saveE.shift)continue;
+        se[i]=candE;
+        var dE=oldE-terms(A.length+i,evBox(E[i],candE),candE);
+        if(dE>bestD){bestD=dE;bm={a:0,i:i,c:candE};}
+      }
+      se[i]=saveE;
+    }
+    if(!bm)break;
+    if(bm.a){st[bm.i]=bm.c;boxesCache[bm.i]=annoBox(A[bm.i],bm.c);}
+    else{se[bm.i]=bm.c;boxesCache[A.length+bm.i]=evBox(E[bm.i],bm.c);}
+    for(i=0;i<termsCache.length;i++)termsCache[i]=terms(i,boxesCache[i],i<A.length?st[i]:se[i-A.length]);
+  }
+  A.forEach(function(a,i){a.flip=st[i].flip;a.dxn=st[i].dxn;a.shift=st[i].shift;applyState(a);});
+  E.forEach(function(e,i){e.side=se[i].side;e.shift=se[i].shift;applyEv(e);});
+}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){layoutAnnos();placeYearUnit();});
+setTimeout(function(){layoutAnnos();},1600);
+function annoMQHook(){
+  applySubGap();
+  layoutAnnos();
+  placeYearUnit();   /* 跨断点 .x-label 字号变化，重摆单位「年」 */
+  if(current.scene>=0) applyScene(current.scene);   /* 跨断点时重算移动端/桌面端的可见集合 */
+}
+if(ANNO_MQ.addEventListener)ANNO_MQ.addEventListener('change',annoMQHook);
+else if(ANNO_MQ.addListener)ANNO_MQ.addListener(annoMQHook);
+/* 标记等曲线揭示到位再点亮：场景切换时，尚未显示过的标记进入 pending 队列，
+   补间进行中由 tick 在 reveal 越过标记年份时逐个点亮（回滑撤下的标记立即熄灭） */
+var pendingAnnos=[];
+function setAnnoOn(id,on){var g=document.getElementById(id);if(g)g.classList.toggle('on',on);}
+/* 标注按场景累积保留，但不属于当前场景的旧标注落到淡化层（见 CSS .anno.on.past） */
+function setAnnoPast(id,past){var g=document.getElementById(id);if(g)g.classList.toggle('past',past);}
+function flushPending(reveal){
+  while(pendingAnnos.length&&pendingAnnos[0].year<=reveal)setAnnoOn(pendingAnnos.shift().id,true);
+}
+function applyScene(idx){
+  var s=SCENES[idx];
+  pendingAnnos=[];
+  var cur={}; s.annos.forEach(function(id){ cur[id]=1; });
+  var vis=visibleAnnos(idx);
+  ANNO_ALL.forEach(function(id){
+    var g=document.getElementById(id);
+    var should=!!vis[id],isOn=g.classList.contains('on');
+    /* 当前场景新增的标注全亮，之前场景的标注淡化保留；撤下的标注即刻熄灭 */
+    setAnnoPast(id,should&&!cur[id]);
+    if(should&&!isOn){
+      if(reduceMotion)setAnnoOn(id,true);
+      else pendingAnnos.push({id:id,year:g._meta.year});
+    }else if(!should&&isOn){
+      setAnnoOn(id,false);
+    }
+  });
+  pendingAnnos.sort(function(a,b){return a.year-b.year;});
+  flushPending(current.reveal);
+  ['e1980','e2016'].forEach(function(id){
+    document.getElementById(id).classList.toggle('on',!!cumEvents[idx][id]);
+  });
+  band.classList.toggle('on',s.band);
+  startTween(s.reveal);
+}
+function startTween(target){
+  if(reduceMotion){ current.reveal=target; render(target); return; }
+  animFrom=current.reveal; animTo=target;
+  animStart=performance.now(); animating=true;
+  requestAnimationFrame(tick);
+}
+function tick(now){
+  var t=Math.min(1,(now-animStart)/DUR);
+  current.reveal=animFrom+(animTo-animFrom)*ease(t);
+  render(current.reveal);
+  flushPending(current.reveal);
+  if(t<1) requestAnimationFrame(tick); else animating=false;
+}
+
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(en.isIntersecting){
+      var idx=+en.target.getAttribute('data-step');
+      steps.forEach(function(s,i){ s.classList.toggle('on',i===idx); });
+      if(idx!==current.scene){ current.scene=idx; applyScene(idx); }
+    }
+  });
+},{rootMargin:'-42% 0px -42% 0px',threshold:0});
+steps.forEach(function(s){ io.observe(s); });
+
+render(YEAR0);
+layoutAnnos();       /* 读数浮层已写入初始年份，障碍盒测量才准确 */
+})();
+</script>
+
+<script>
+/* 时间滚动轴：节点随滚动点亮；进度线端点连续跟随屏幕中线（夹在最后点亮节点与下一节点之间），永不穿过圆点 */
+(function(){
+"use strict";
+var steps=Array.prototype.slice.call(document.querySelectorAll('.steps .step'));
+if(!steps.length) return;
+var box=document.querySelector('.steps');
+var track=document.createElement('i');track.className='tl-track';box.appendChild(track);
+var fill=document.createElement('i');fill.className='tl-fill';box.appendChild(fill);
+var inners=steps.map(function(s){return s.querySelector('.step-inner');});
+var kicks=inners.map(function(inner){return inner.querySelector('.s-kicker');});
+  /* 点亮判定线：桌面=视口正中线；移动端=吸顶图表下缘以下可见区的 45% 处——
+     否则圆点对应行变蓝时正好滑进图表白底之下，蓝色永远看不见 */
+  var mqM=window.matchMedia('(max-width:960px)');
+  function litLine(){
+    if(!mqM.matches) return window.innerHeight*0.5;
+    var stage=document.querySelector('.stage');
+    var sb=stage?stage.getBoundingClientRect().bottom:0;
+    return sb+(window.innerHeight-sb)*0.5;
+  }
+  function update(){
+  ticking=false;
+  var bt=box.getBoundingClientRect().top;
+  var ys=kicks.map(function(k){
+    var r=k.getBoundingClientRect();
+    return r.top+r.height/2;
+  });
+  track.style.top=(ys[0]-bt)+'px';
+  track.style.height=(ys[ys.length-1]-ys[0])+'px';
+  var mid=litLine(),last=-1;
+  steps.forEach(function(s,i){
+    var lit=ys[i]<mid;
+    inners[i].classList.toggle('tl-on',lit);
+    if(lit)last=i;
+  });
+  inners.forEach(function(inner,i){
+    inner.classList.toggle('tl-now',i===last);
+    /* 圆点纵向位置跟随该步 kicker 行的实际中心，字号变化时始终对齐 */
+    inner.style.setProperty('--dot-y',(ys[i]-inner.getBoundingClientRect().top)+'px');
+  });
+  var tip=Math.min(Math.max(mid,ys[0]),ys[ys.length-1]);
+  fill.style.top=(ys[0]-bt)+'px';
+  fill.style.height=Math.max(0,tip-ys[0])+'px';
+}
+var ticking=false;
+function onScroll(){
+  if(!ticking){ticking=true;requestAnimationFrame(update);}
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',onScroll);
+window.addEventListener('load',onScroll);
+update();
+})();
+</script>
+
+<script>
+/* 导航随滚动高亮：首页 / 正在减少的中国 */
+(function(){
+"use strict";
+var linkHome = document.querySelector('.nav-links a[href="index.html"]');
+var linkStory = document.querySelector('.nav-links a[href="index.html#story"]');
+var storySec = document.getElementById('story');
+var locked = false, lockTimer = null;
+function setActive(key){
+  [[linkHome,'home'],[linkStory,'story']].forEach(function(pair){
+    if (pair[0]) pair[0].classList.toggle('here', key === pair[1]);
+  });
+}
+function unlock(){
+  locked = false;
+  if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; }
+  onScroll();
+}
+/* 点击导航锚点后锁定跟随，避免平滑滚动途中高亮来回闪烁 */
+function lockFor(){
+  locked = true;
+  if (lockTimer) clearTimeout(lockTimer);
+  lockTimer = setTimeout(unlock, 4000);
+}
+function onScroll(){
+  if (locked) return;
+  var vh = window.innerHeight, sy = window.scrollY;
+  if (storySec && sy + vh * 0.45 >= storySec.offsetTop) setActive('story');
+  else setActive('home');
+}
+[[linkHome,'home'],[linkStory,'story']].forEach(function(pair){
+  if (pair[0]) pair[0].addEventListener('click', function(){
+    lockFor();
+    setActive(pair[1]);
+  });
+});
+window.addEventListener('scrollend', function(){ if (locked) unlock(); });
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll);
+onScroll();
+})();
+</script>
+  <script src="nav.js?v=40"></script>
+  <script>
+  /* 卡片入场：滚动到视口内逐块淡入上浮（仅在本页开启 js-reveal 时生效；无 JS / 减少动态时不隐藏） */
+  (function(){
+  "use strict";
+  var sec=document.querySelector('.tiles');
+  if(!sec||!('IntersectionObserver' in window))return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var tiles=Array.prototype.slice.call(sec.querySelectorAll('.tile'));
+  if(!tiles.length)return;
+  sec.classList.add('js-reveal');
+  var io=new IntersectionObserver(function(entries){
+    var batch=entries.filter(function(e){return e.isIntersecting;});
+    if(!batch.length)return;
+    batch.forEach(function(en,i){
+      var t=en.target;
+      t.style.transitionDelay=Math.min(i,6)*80+'ms';
+      t.classList.add('shown');
+      setTimeout(function(){t.style.transitionDelay='';},Math.min(i,6)*80+800);
+      io.unobserve(t);
+    });
+  },{threshold:.15});
+  tiles.forEach(function(t){io.observe(t);});
+  })();
+  </script>
+</body>
+</html>

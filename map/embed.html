@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>各省生育地图</title>
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="map.css?v=27">
+<style>
+  html{overflow-y:hidden;}
+  body{padding-top:14px;}
+  .board{margin-top:12px;height:calc(100vh - 40px);}
+</style>
+</head>
+<body>
+
+<main class="board">
+  <div class="map-area">
+    <div class="legend-card lg-top">
+      <div class="lg-title" id="lgTitle">出生人口</div>
+      <div class="lg-bar" id="lgBar"></div>
+      <div class="lg-ends"><span id="lgMin">—</span><span id="lgMax">—</span></div>
+    </div>
+    <div class="mapsel">
+      <select id="provSelect" aria-label="选择省份或全国"></select>
+    </div>
+    <div id="map"></div>
+    <div class="mini-tl">
+      <div class="mtl-row">
+        <button class="play" id="playBtn" aria-label="播放逐年变化"><span class="ico-play">▶</span><span class="ico-pause" style="display:none">❚❚</span></button>
+        <span class="mtl-year" id="mtlYear">2025</span>
+        <span class="mtl-range" id="tlRange">1978~2025</span>
+      </div>
+      <div class="mtl-track">
+        <input type="range" id="yearSlider" min="1978" max="2025" step="1" value="2025" aria-label="选择年份">
+        <div class="mtl-ticks" id="mtlTicks" aria-label="整十年份快捷定位"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="side">
+    <div class="side-scroll">
+      <div class="side-default" id="sideDefault">
+        <div class="nat-head">
+          <div class="nat-title" id="natTitle">2025 年全国</div>
+          <span class="src-hint nat-hint" tabindex="0" aria-label="数据口径说明"><i class="info">ⓘ</i><span class="tip">全国出生人口数据采用国家统一发布数据，并非由各省级数据汇总相加所得</span></span>
+        </div>
+        <div class="nat-row">
+          <div class="pv"><div class="k">出生人口</div><div class="v" id="natB">—<small>万</small></div></div>
+          <div class="pv"><div class="k">出生率</div><div class="v" id="natR">—<small>‰</small></div></div>
+        </div>
+        <div class="rank-cap"><span class="cap-main">按出生人口排序</span><span class="cap-hint">点击条目进入详情</span></div>
+        <div class="rank-scroll"><div class="rank-bar" id="rankBar" role="img" aria-label="各省份排名条形图"></div></div>
+      </div>
+
+      <div class="prov" id="provPane">
+        <div class="prov-head">
+          <div class="top">
+            <button class="close" id="pClose" aria-label="关闭">✕</button>
+          </div>
+          <div class="p-name-row">
+            <span class="p-name" id="pName">—</span>
+            <span class="src-hint" tabindex="0">数据来源<i class="info">ⓘ</i><span class="tip">详细数据来源见数据表最下方</span></span>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="on" data-tab="trend">历年变化</button>
+          <button data-tab="table">数据表</button>
+        </div>
+        <div class="tab-body">
+          <div class="tab-pane on" id="paneTrend">
+            <div class="pc-block">
+              <div class="pc-cap">出生人口变化（万人）</div>
+              <div id="panelBirths"></div>
+            </div>
+            <div class="pc-block">
+              <div class="pc-cap">出生率变化（‰）</div>
+              <div id="panelRate"></div>
+            </div>
+          </div>
+          <div class="tab-pane" id="paneTable">
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>年份</th><th>出生人口（万人）</th><th>出生率（‰）</th><th>总人口（万人）</th></tr></thead>
+                <tbody id="pTbody"></tbody>
+              </table>
+              <div class="tbl-notes" id="pNotes"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script src="echarts.min.js"></script>
+<script src="china-geo.js"></script>
+<script src="prov-data.js"></script>
+<script src="../datacenter/national-data.js"></script>
+<script src="app.js?v=30"></script>
+</body>
+</html>

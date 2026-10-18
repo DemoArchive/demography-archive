@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>永恒的争论 - 人口档案馆</title>
+<meta name="description" content="关于人口，我们总能听见一些熟悉的声音。在事实与理性前，这些问题早已拥有清晰的答案。">
+<meta property="og:title" content="永恒的争论 - 人口档案馆">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#F4F4F4; --ink:#171A20; --body-c:#393C41;
+    --muted:#5C5E62; --faint:#8E8E8E; --line:#EEEEEE; --accent:#3E6AE1;
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  [id]{scroll-margin-top:78px;}
+
+  /* —— 开场：标题 + 舆论声音（页面正中） —— */
+  .hero{max-width:760px;margin:0 auto;padding:88px 28px 0;text-align:center;}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,4vw,40px);letter-spacing:normal;}
+  .voices{max-width:760px;margin:42px auto 0;padding:0 28px;text-align:center;}
+  .voices p{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(15px,1.8vw,18px);line-height:2;color:var(--body-c);
+    margin-bottom:12px;letter-spacing:normal;
+  }
+
+  /* —— 双栏骨架：目录 + 正文（与“正在来临的危险”一致） —— */
+  .page-grid{
+    max-width:1200px;margin:60px auto 0;padding:0 32px;
+    display:grid;grid-template-columns:220px minmax(0,1fr);gap:52px;align-items:start;
+  }
+  .toc{position:sticky;top:84px;}
+  /* 「目录」小标题：字号/字重/颜色 + 下缘发丝线，与 13px 灰条目拉开层级 */
+  .toc-t{
+    font-family:var(--serif);font-weight:500;font-size:16px;color:var(--ink);
+    letter-spacing:normal;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  /* 条目为单行文本，块级排布即可（行内 <i> 与正文天然基线对齐）；
+     块级才能让首项的 text-indent 悬挂生效（flex 容器会忽略 text-indent） */
+  .toc a{
+    display:block;font-size:13px;color:var(--muted);
+    padding:8px 12px;margin-bottom:2px;border-left:2px solid var(--line);
+    letter-spacing:normal;transition:color .33s,border-color .33s,background .33s;
+  }
+  .toc a i{font-style:normal;font-family:var(--sans);font-size:11px;color:#8E8E8E;margin-right:9px;letter-spacing:normal;}
+  .toc a:hover{color:var(--ink);}
+  .toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--bg-soft);}
+  /* 首项以全角标点「开头：标点悬挂进左侧空档（-1em=全角标点宽度），
+     各条目标题文字自同一起点排布——左缘对齐由布局保证，不依赖首字符字形 */
+  .toc a:first-of-type{text-indent:-1em;}
+  .content{min-width:0;max-width:840px;}
+
+  /* —— 开篇引言 —— */
+  .article{padding:0 0 8px;}
+  .article p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:18px;}
+  .article p b{color:var(--ink);}
+
+  .divider{
+    margin:60px 0 30px;text-align:left;
+    font-family:var(--serif);font-weight:500;font-size:23px;letter-spacing:normal;color:var(--muted);
+  }
+
+  /* —— 争论卡片 —— */
+  .debate{
+    border-top:1px solid var(--line);
+    padding:34px 0 30px;margin-top:34px;
+  }
+  .d-head{margin-bottom:22px;}
+  .debate h2{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(23px,2.8vw,29px);letter-spacing:normal;line-height:1.35;
+  }
+
+  .tag{
+    display:inline-flex;align-items:center;
+    padding:4px 12px;border:1px solid #D0D1D2;border-radius:4px;
+    font-size:11px;font-weight:500;letter-spacing:normal;color:#5C5E62;
+  }
+  .tag-claim{margin:0 0 12px;}
+  .tag-reply{margin:26px 0 14px;}
+
+  .claim{
+    background:var(--bg-soft);border-left:3px solid #171A20;
+    border-radius:0 4px 4px 0;padding:16px 24px;
+  }
+  .claim p{font-family:var(--serif);font-weight:500;font-size:15px;line-height:2;color:var(--ink);}
+  .claim p + p{margin-top:6px;}
+  .claim .evidence{
+    margin-top:12px;padding-top:12px;border-top:1px dashed #D0D1D2;
+    font-weight:400;font-size:14px;line-height:2;color:var(--body-c);
+  }
+
+  .reply-p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:14px;}
+  .reply-p b{color:var(--ink);}
+  .reply-list{list-style:none;}
+  .reply-list li{position:relative;padding:7px 0 7px 24px;font-size:15px;line-height:2;color:var(--body-c);}
+  .reply-list li::before{content:"";position:absolute;left:3px;top:19px;width:6px;height:6px;background:#D0D1D2;}
+  .reply-list li b{color:var(--ink);}
+
+  .arg + .arg{margin-top:22px;padding-top:20px;border-top:1px dashed var(--line);}
+  .arg-t{
+    position:relative;padding-left:18px;margin-bottom:8px;
+    font-size:15px;font-weight:500;color:var(--ink);line-height:1.9;
+  }
+  .arg-t::before{content:"";position:absolute;left:0;top:14px;width:8px;height:8px;background:#5C5E62;}
+  .arg p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:8px;}
+  .arg p b{color:var(--ink);}
+  .arg ul{list-style:none;margin-top:4px;}
+  .arg li{position:relative;padding:6px 0 6px 24px;font-size:15px;line-height:2;color:var(--body-c);}
+  .arg li::before{content:"";position:absolute;left:3px;top:18px;width:6px;height:6px;background:#D0D1D2;}
+  .arg li b{color:var(--ink);}
+
+  .smallnote{
+    margin:0;padding:24px 0 0;border-top:1px solid var(--line);
+    font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+  .debate:last-of-type{padding-bottom:18px;}
+  .smallnote h3{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--muted);margin:14px 0 8px;}
+  .smallnote h3:first-child{margin-top:0;}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding:30px 32px 44px;}
+  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+
+  @media (max-width:960px){
+    .hero{padding:56px 20px 0;}
+    .voices{margin-top:30px;padding:0 20px;}
+    .page-grid{grid-template-columns:1fr;padding:0 20px;margin-top:44px;gap:24px;}
+    /* 移动端目录：双列平铺列表——首项（本页）与组标题独占整行做主级，其余子项两列对齐排布 */
+    .toc{position:static;display:grid;grid-template-columns:1fr 1fr;column-gap:18px;align-items:start;}
+    .toc-t{grid-column:1/-1;margin-bottom:8px;}
+    .toc a{
+      display:block;min-width:0;font-size:13px;color:var(--muted);
+      padding:7px 0 7px 1em;margin:0;border:none;border-radius:0;
+    }
+    .toc a i{margin-right:6px;}
+    .toc a:first-of-type,.toc a.grp{grid-column:1/-1;font-weight:500;color:var(--ink);}
+    .toc a.grp{margin-top:8px;}
+    .toc a:first-of-type{margin-top:0;}
+    .toc a.on{color:var(--accent);background:none;}
+    .debate{padding:24px 0;}
+    .claim{padding:14px 18px;}
+    .divider{margin:48px 0 24px;}
+    footer .foot-inner{padding:0 20px;}
+  }
+
+  /* —— 左侧滚动轴（与“各方观点”一致）：节点随滚动点亮，进度线端点跟随屏幕中线 —— */
+  .content{position:relative;}
+  .tl-track,.tl-fill{position:absolute;left:-25px;width:2px;pointer-events:none;}
+  .tl-track{background:var(--line);}
+  .tl-fill{background:var(--accent);}
+  .debate{position:relative;--dot:54px;}
+  .debate::after{
+    content:"";position:absolute;left:-24px;top:var(--dot,54px);width:11px;height:11px;border-radius:50%;
+    background:#fff;border:2px solid #D0D1D2;transform:translate(-50%,-50%);
+    transition:box-shadow .33s;z-index:1;
+  }
+  .debate.tl-on::after{background:var(--accent);border-color:var(--accent);}
+  .debate.tl-now::after{box-shadow:0 0 0 4px rgba(62,106,225,.18);}
+  .debate h2{transition:color .33s;}
+  .debate.tl-on h2{color:var(--accent);}
+  @media (max-width:960px){
+    .tl-track,.tl-fill{left:5px;}
+    .debate::after{left:6px;}
+    .debate{--dot:40px;padding-left:22px;}
+  }
+</style>
+  <link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#years">各省历年生育地图</a>
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="../forecast/index.html#pop">总人口预测</a>
+          <a href="../forecast/index.html#births">出生人口预测</a>
+          <a href="../forecast/index.html#death">死亡人口预测</a>
+          <a href="../forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="../datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="../datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="../datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="../datacenter/index.html#secFc">未来人口预测</a>
+          <a href="../datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="../datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="../datacenter/index.html#secWorld">各国生育率</a>
+          <a href="../datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>永恒的争论</h1>
+</header>
+
+<section class="voices">
+  <p>“人太多了，少一点有什么不好？”</p>
+  <p>“孩子少了，学校和就业压力不是都小了吗？”</p>
+  <p>“以后机器人什么都能干，还需要那么多人吗？”</p>
+</section>
+
+<div class="page-grid">
+      <aside class="toc">
+        <div class="toc-t">目录</div>
+        <a href="#art-top">「人口辩论场」</a>
+        <a href="#d1"><i>1.</i>人口过多论</a>
+        <a href="#d2"><i>2.</i>收缩红利论</a>
+        <a href="#d3"><i>3.</i>机器替代论</a>
+        <a href="#d4"><i>4.</i>内卷降低论</a>
+        <a href="#d5"><i>5.</i>少生优生论</a>
+        <a href="#d6"><i>6.</i>补贴无用论</a>
+      </aside>
+      <div class="content">
+<div class="divider" id="art-top">「人口辩论场」</div>
+
+<main class="article">
+  <p>关于人口，我们总能听见一些熟悉的声音。在事实与理性前，这些问题早已拥有清晰的答案。然而在舆论场上，基于直觉的误解，却让它们沦为无休止的“永恒争论”。偏见不会改变客观规律，但认清事实，能让我们免于为幻觉买单。</p>
+</main>
+
+<section class="debate" id="d1">
+  <div class="d-head">
+    <h2>1. 人口过多论</h2>
+  </div>
+  <div class="tag tag-claim">观点</div>
+  <div class="claim">
+    <p>「中国人太多了，几亿人就够了」</p>
+    <p>「美国只有 3.4 亿人口，为什么仍是世界强国？俄罗斯幅员辽阔，人口也不过 1.4 亿」</p>
+  </div>
+  <div class="tag tag-reply">回应</div>
+  <ul class="reply-list">
+    <li>事实上，美国建国之初人口仅约 300 万，此后增长超过 100 倍。美国并不是“人少也能成功”的例子，而是人口增长推动国家崛起的典型例子。</li>
+    <li>俄罗斯的经济总量大致与广东一省相当，它自己正为人口萎缩和劳动力短缺发愁。</li>
+    <li>没有人要求中国永远保持 14 亿人口。真正的问题在于，人口如何变化。如果长期维持 1.0 左右的低生育水平（每对夫妻平均生育约 1 个孩子），人口下降将伴随极度老龄化的人口结构。而一个深度老龄化的国家，不会有任何活力和竞争力。</li>
+  </ul>
+</section>
+
+<section class="debate" id="d2">
+  <div class="d-head">
+    <h2>2. 收缩红利论</h2>
+  </div>
+  <div class="tag tag-claim">观点</div>
+  <div class="claim">
+    <p>「出生人口减少是好事。以前上幼儿园要摇号，现在都降价求生源；日本少子化几十年，现在大学生毕业就业率接近100%」</p>
+  </div>
+  <div class="tag tag-reply">回应</div>
+  <p class="reply-p">幼儿园不摇号的背面，是产科关闭、托幼大面积倒闭、幼师转岗失业。三年后它将摧毁小学，十年后蔓延至高校，二十年后变成全社会消费品市场的断崖萎缩。</p>
+  <ul class="reply-list">
+    <li>日本毕业生好找工作，是因为缺人。但日本缺得起，是因为它体量相对小，龙头企业早就把市场放在全球：本土人口缩了，海外还在赚钱。但是中国体量太大，外需装不下。绝大多数企业，尤其是占就业大头的服务业和中小企业，客户就在国内。</li>
+    <li>所以日本的企业是缺员工，中国的企业先缺客户。客户少了，生意就没了。幼儿园是第一个例子，母婴、早教、儿童用品……紧随其后。</li>
+    <li>日本也付出了代价：日本已经经历了三个“失落的10年”，在落笔的此刻，正在经历第四个，更为重要的是，未来完全看不到复苏的希望。</li>
+  </ul>
+</section>
+
+<section class="debate" id="d3">
+  <div class="d-head">
+    <h2>3. 机器替代论</h2>
+  </div>
+  <div class="tag tag-claim">观点</div>
+  <div class="claim">
+    <p>「未来AI和人形机器人会替代大部分工作，根本不需要那么多人干活」</p>
+  </div>
+  <div class="tag tag-reply">回应</div>
+  <ul class="reply-list">
+    <li>经济循环的终点是人：市场经济的底层飞轮是“有效需求”。机器人不需要买房、点外卖、交学费或购买新能源车。失去广阔的人口基座，AI生产出的巨量过剩物资将无处售卖，技术本身的商业化闭环也将瓦解</li>
+    <li>生育是二十年后才见效的事，不能押注一项还没到来的技术。</li>
+    <li>即便未来人工智能和机器人技术给人类社会带来极端风险，人口规模仍然是应对未知挑战的重要基础。更多的人口，意味着更大的创新能力、更强的恢复能力，也意味着面对危机时更多的选择。</li>
+  </ul>
+</section>
+
+<section class="debate" id="d4">
+  <div class="d-head">
+    <h2>4. 内卷降低论</h2>
+  </div>
+  <div class="tag tag-claim">观点</div>
+  <div class="claim">
+    <p>「大家少生点，竞争就不卷了，供求关系变了，房价自然会跌下来，日子也会好过很多」</p>
+  </div>
+  <div class="tag tag-reply">回应</div>
+  <p class="reply-p">少子化换不来轻松，只会带来“存量资源的极限绞杀”与“核心都市资产的黑洞效应”。</p>
+  <div class="args">
+    <div class="arg">
+      <div class="arg-t">韩国的前车之鉴：生育率探底，内卷登顶</div>
+      <p>韩国生育率长期处于全球最低水平（2023 年总和生育率仅 0.72），却依然被认为是全球竞争压力最大的社会之一。夜晚的补习街灯火通明，顶尖教育资源竞争激烈，进入大企业和优质岗位的竞争并未因人口减少而缓解。内卷的根源，并不在于人口数量本身，而在于优质机会（顶尖教育、体面岗位）的相对稀缺，以及社会资源分配机制。当人口基数收缩时，市场规模缩小，产业机会减少，新增岗位承载能力下降，竞争并不会自然消失，反而可能转向对有限机会的更激烈争夺。</p>
+    </div>
+    <div class="arg">
+      <div class="arg-t">“黑洞效应”：全国人口越跌，核心大城市反而越贵</div>
+      <p>人口退潮并不是“等比例减少”，而是从边缘开始收缩，向中心持续聚集。当三四线城市和县城因人口流失面临学校撤并、产科关停、产业空心化时，年轻人为了获得更多就业机会和更完善的公共服务，只能进一步向超级都市集中。</p>
+      <ul>
+        <li>东京范式：日本总人口已连续十余年负增长，全国闲置“鬼屋”超900万套，地方小城资产归零；但东京都核心圈人口持续净流入，东京都23区新建公寓均价近年接连刷新历史最高纪录。</li>
+        <li>首尔范式：韩国面临极低生育率，但全国过半人口极度集中于首都圈，首尔核心区房价长期居高不下，普通青年买房负担依然沉重。</li>
+        <li>双重收割的陷阱：故乡的不动产，因人口流失而逐渐失去接盘者；而年轻人口为了寻找机会不断涌入的大城市，却因聚集效应承受更高的房价与生活成本。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="debate" id="d5">
+  <div class="d-head">
+    <h2>5. 少生优生论</h2>
+  </div>
+  <div class="tag tag-claim">观点</div>
+  <div class="claim">
+    <p>「现代社会拼的不是人口数量，而是人口质量。少生优生，全面提高人口素质，一个顶尖科学家顶一万个普通人」</p>
+  </div>
+  <div class="tag tag-reply">回应</div>
+  <div class="args">
+    <div class="arg">
+      <div class="arg-t">天才产生于概率分布</div>
+      <p>顶级创新者、战略科学家和各领域专才，在人口学上是基数之上的正态分布概率。1000万年出生基数中涌现的顶尖头脑，在数学上必然数倍于100万基数。</p>
+    </div>
+    <div class="arg">
+      <div class="arg-t">社会运转依赖分工</div>
+      <p>文明的日常运转不仅依靠实验室里的顶尖科学家，同样依赖数以千万计的电网工、护理员、物流工与基层维保人员。质量与数量从来不是二选一。</p>
+    </div>
+  </div>
+</section>
+
+<section class="debate" id="d6">
+  <div class="d-head">
+    <h2>6. 补贴无用论</h2>
+  </div>
+  <div class="tag tag-claim">观点</div>
+  <div class="claim">
+    <p>「别的国家花了那么多钱也没用，不如不做。」</p>
+    <div class="evidence">例如根据经合组织（OECD）的数据，波兰2021年面向家庭和儿童提供的公共支出占GDP的比例高达3.3%（如果对3.3%没概念，可以简单换算到中国，相当于中国一年为补贴生育花费约3.8万亿元），但是如此慷慨的补贴政策，波兰2021年的生育率只有1.33，并且近年持续走低，在2025年降低至1.068。</div>
+  </div>
+  <div class="tag tag-reply">回应</div>
+  <p class="reply-p">这可能是争议最大的一条。</p>
+  <p class="reply-p">首先必须承认，迄今为止，没有国家靠生育补贴政策使出生人口回到2.1的更替水平。除了上文中的匈牙利，还有法国。法国2022年家庭福利公共支出约占GDP的2.6%，但当年生育率为1.78，距离更替水平仍有明显差距。而且，尽管法国的生育补贴历来慷慨，但是法国的生育率也从2010年的2.03逐渐滑落至2025年的1.56。亚洲的新加坡、日本等国家，生育补贴的效果更不明显（新加坡和日本2025年生育率分别为0.87 和 1.14）。</p>
+  <p class="reply-p">但是，没有灵药，并不意味着什么都不做。“有政策还在下降”不等于“政策无用”。没有政策时，曲线只会更低。</p>
+  <p class="reply-p">更重要的是，人口政策的目标并不一定、也不可能使生育率一步回到 2.1 的更替水平。即使只是将当前 1.0 的水平提升到 1.4，中国每年也将增加约 300 万新生儿。十年累积下来，相当于多出一个澳大利亚的人口规模。这将是巨大的进步（虽然这还远远不够）。</p>
+</section>
+
+<div class="smallnote">
+  <h3>本文发布时间</h3>
+  <p>2026年10月11日</p>
+</div>
+
+</div>
+      </div>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* 目录高亮：以「视口顶部向下 30%」为判定线，取最后一个越过它的小节——
+     与原 IntersectionObserver 的 15%–30% 观察带等效，但同步算出、无竞态。
+     弃用观察器的原因：文档尾部比视口矮时，末节滚到页底也送不进观察带，
+     末项目录永远点不亮；这里滚到页底时强制点亮最后一项兜底。
+     点击目录项则立即点亮并锁定——目标小节可能根本无法靠滚动到达（页已
+     滚到底），锁定保证「点到哪项亮哪项」；滚动位置一变即解除锁定。 */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var els = Object.keys(map).map(function(id){ return document.getElementById(id); })
+             .filter(function(el){ return !!el; });
+  if (!els.length) return;
+  els.sort(function(a, b){
+    return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+  });
+  var elOf = {};
+  els.forEach(function(el){ elOf[el.id] = el; });
+  function setActive(el){
+    links.forEach(function(a){ a.classList.remove('on'); });
+    var l = map[el.id]; if (l) l.classList.add('on');
+  }
+  var pinned = null, pinnedY = 0;
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      pinned = a.getAttribute('href').slice(1);
+      pinnedY = window.scrollY;
+      if (elOf[pinned]) setActive(elOf[pinned]);
+    });
+  });
+  function update(){
+    /* 点击锁定：位置未动时保持点击所选项 */
+    if (pinned && Math.abs(window.scrollY - pinnedY) < 0.5 && elOf[pinned]) { setActive(elOf[pinned]); return; }
+    pinned = null;
+    var active = els[0];
+    for (var i = 0; i < els.length; i++){
+      if (els[i].getBoundingClientRect().top <= window.innerHeight * 0.30) active = els[i];
+      else break;
+    }
+    /* 页底兜底：末节可能永远够不到判定线，滚到底强制点亮末项 */
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll > 0 && Math.round(window.scrollY) >= maxScroll - 1) active = els[els.length - 1];
+    setActive(active);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+<script>
+/* 滚动轴：节点随滚动点亮（判定线与左侧目录一致：标题顶达视口 30% 高即进入该节，目录亮哪节轴亮哪节）；
+   进度线端点跟随同一条判定线（与点亮同源：线触及圆点的瞬间即点亮，绝不压在未点亮圆点上），
+   圆心在判定线下方时以最后点亮圆心兜底，下一未点亮圆心封顶 */
+(function(){
+  var content = document.querySelector('.content');
+  var items = Array.prototype.slice.call(document.querySelectorAll('.debate'));
+  if (!content || !items.length) return;
+  var track = document.createElement('i');
+  track.className = 'tl-track';
+  var fill = document.createElement('i');
+  fill.className = 'tl-fill';
+  content.appendChild(track);
+  content.appendChild(fill);
+  function dotY(el){
+    var v = parseFloat(getComputedStyle(el).getPropertyValue('--dot'));
+    return isNaN(v) ? 14 : v;
+  }
+  /* 判定线与目录高亮脚本一致（同为视口高的 30%，且用同一批标题元素） */
+  var LINE = 0.30;
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var cTop = content.getBoundingClientRect().top;
+    var vTops = items.map(function(el){ return el.getBoundingClientRect().top + dotY(el); });
+    /* 页底兜底与目录脚本一致：末节滚到底也够不到判定线时强制点亮末项 */
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    var atBottom = maxScroll > 0 && Math.round(window.scrollY) >= maxScroll - 1;
+    var lastIdx = -1;
+    items.forEach(function(el, i){
+      var lit = atBottom && i === items.length - 1 || el.getBoundingClientRect().top <= window.innerHeight * LINE;
+      el.classList.toggle('tl-on', lit);
+      if (lit) lastIdx = i;
+    });
+    items.forEach(function(el, i){ el.classList.toggle('tl-now', i === lastIdx); });
+    var tops = vTops.map(function(t){ return t - cTop; });
+    var cap = lastIdx + 1 < tops.length ? tops[lastIdx + 1] : tops[tops.length - 1];
+    /* 端点=判定线位置（与点亮同源，线到点即亮）；圆心尚在判定线下方时用最后点亮圆心兜底 */
+    var floor = lastIdx >= 0 ? tops[lastIdx] : tops[0];
+    var end = Math.min(Math.max(window.innerHeight * LINE - cTop, floor), cap);
+    track.style.top = tops[0] + 'px';
+    track.style.height = Math.max(0, tops[tops.length - 1] - tops[0]) + 'px';
+    fill.style.top = tops[0] + 'px';
+    fill.style.height = Math.max(0, end - tops[0]) + 'px';
+  }
+  function onScroll(){
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+  <script src="../nav.js?v=39"></script>
+</body>
+</html>

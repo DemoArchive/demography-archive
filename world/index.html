@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>各国生育率与生育支持 - 人口档案馆</title>
+<meta name="description" content="世界各国生育率地图（1960~2024 年历年变化与数据表），以及 OECD 口径下各国生育补贴支出（家庭福利公共支出占 GDP 的百分比）排名与历年走势。数据来自世界银行 World Development Indicators 与 OECD Data。">
+<meta property="og:title" content="各国生育率与生育支持 - 人口档案馆">
+<meta property="og:description" content="世界各国生育率地图与各国生育补贴支出排名：世界银行 WDI、OECD SOCX。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<link rel="stylesheet" href="world.css?v=11">
+<link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#years">各省历年生育地图</a>
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="../forecast/index.html#pop">总人口预测</a>
+          <a href="../forecast/index.html#births">出生人口预测</a>
+          <a href="../forecast/index.html#death">死亡人口预测</a>
+          <a href="../forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="../datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="../datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="../datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="../datacenter/index.html#secFc">未来人口预测</a>
+          <a href="../datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="../datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="../datacenter/index.html#secWorld">各国生育率</a>
+          <a href="../datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= 一、各国生育率 ================= -->
+<section class="sec" id="tfr">
+  <div class="sec-head"><h2>各国生育率</h2></div>
+
+  <div class="lead">
+    <p class="dim">全球 215 个国家和地区 1960~2024 年生育率（TFR）变动情况</p>
+  </div>
+
+  <div class="board">
+    <div class="map-area">
+      <div class="legend-card lg-top">
+        <div class="lg-title">生育率（TFR）</div>
+        <div class="lg-bar" id="lgBar"><i class="lg-tick" id="lgTick"></i></div>
+        <div class="lg-ends"><span id="lgMin">—</span><span class="lg-repl">更替水平 2.1</span><span id="lgMax">—</span></div>
+      </div>
+      <div class="mapsel">
+        <select id="countrySelect" aria-label="选择国家或世界"></select>
+      </div>
+      <div id="map"></div>
+      <div class="mini-tl">
+        <div class="mtl-row">
+          <button class="play" id="playBtn" aria-label="播放逐年变化"><span class="ico-play">▶</span><span class="ico-pause" style="display:none">❚❚</span></button>
+          <span class="mtl-year" id="mtlYear">2024</span>
+          <span class="mtl-range" id="tlRange">1960~2024</span>
+        </div>
+        <div class="mtl-track">
+          <input type="range" id="yearSlider" min="1960" max="2024" step="1" value="2024" aria-label="选择年份">
+          <div class="mtl-ticks" id="mtlTicks" aria-label="整十年份快捷定位"></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="side-scroll">
+        <div class="side-default" id="sideDefault">
+          <div class="nat-k" id="ovKicker">世界平均生育率（2024）</div>
+          <div class="nat-title"><span id="wVal">—</span></div>
+          <div class="nat-delta" id="wDelta"></div>
+          <div class="ov-grid">
+            <div class="ov"><div class="k">当年最高</div><div class="v" id="ovMax">—</div><div class="s" id="ovMaxN"></div></div>
+            <div class="ov"><div class="k">当年最低</div><div class="v" id="ovMin">—</div><div class="s" id="ovMinN"></div></div>
+            <div class="ov"><div class="k">低于人口更替水平</div><div class="v" id="ovBelow">—</div><div class="s" id="ovBelowN"></div></div>
+          </div>
+          <div class="rank-cap">按当年生育率排序，点击条目查看详情</div>
+          <div class="rank-scroll"><div class="rank-bar" id="rankBar" role="img" aria-label="各国生育率排名条形图"></div></div>
+        </div>
+
+        <div class="prov" id="countryPane">
+          <div class="prov-head">
+            <div class="top">
+              <button class="close" id="cClose" aria-label="返回世界视角">✕</button>
+            </div>
+            <div class="p-name" id="cName">—</div>
+            <div class="p-en" id="cEn">—</div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat blue"><div class="k" id="cValK">生育率（2024）</div><div class="v" id="cVal">—</div><div class="x" id="cDelta"></div></div>
+            <div class="stat"><div class="k">世界均值</div><div class="v" id="cWorld">—</div><div class="x" id="cRank">—</div></div>
+          </div>
+
+          <div class="tabs">
+            <button class="on" data-tab="trend">历年变化</button>
+            <button data-tab="table">数据表</button>
+          </div>
+          <div class="tab-body">
+            <div class="tab-pane on" id="paneTrend">
+              <div id="trendChart"></div>
+            </div>
+            <div class="tab-pane" id="paneTable">
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>年份</th><th>生育率</th><th>与世界差</th></tr></thead>
+                  <tbody id="cTbody"></tbody>
+                </table>
+                <div class="tbl-notes" id="cNotes"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="map-note">
+    生育率：指<span class="term-hint" tabindex="0" aria-describedby="tfr-def">总和生育率 (TFR)<span class="tip" id="tfr-def" role="tooltip">指一个国家或地区的妇女在育龄期间平均生育的子女数。</span></span>，更替水平为 2.1；<br>
+    数据来源：世界银行《World Development Indicators》。<br>
+    中国国界采用<a href="https://geo.datav.aliyun.com/areas_v3/bound/100000.json" target="_blank" rel="noopener">阿里云 DataV.GeoAtlas</a>数据绘制，其余底图为 Natural Earth（ECharts 简化版）。
+  </div>
+</section>
+
+<!-- ================= 二、各国生育补贴支出 ================= -->
+<section class="sec" id="support">
+  <div class="sec-head"><h2>各国生育补贴支出</h2></div>
+
+  <div class="lead">
+    <p class="dim">经济与合作发展组织（OECD）各国「家庭公共支出」，反映各国政府在家庭支持方面的公共投入，以支出占 GDP 比重衡量。</p>
+  </div>
+
+  <div class="board">
+    <div class="bar-area">
+      <div class="bar-head">
+        <div class="tabs" id="sp-yearTabs" role="tablist" aria-label="选择排名年份"></div>
+        <span class="bar-cap" id="sp-barCap">—</span>
+      </div>
+      <div id="sp-barChart" role="img" aria-label="各国生育补贴支出排名条形图（黑色细条为生育率）"></div>
+      <div class="bar-tip">横条：家庭公共支出占 GDP 的百分比（上轴），黑色细条：生育率（下轴，0–4）；点击任意国家，查看其 2010~2023 年走势。</div>
+    </div>
+
+    <aside class="side">
+      <label class="sel-k" for="sp-countrySelect">选择国家，查看对应数据</label>
+      <div class="side-sel">
+        <select id="sp-countrySelect" aria-label="选择国家"></select>
+      </div>
+
+      <div class="p-head">
+        <div class="p-name" id="sp-pName">—</div>
+        <div class="p-en" id="sp-pEn">—</div>
+      </div>
+      <div class="p-big"><span class="v">—</span><small>%</small></div>
+      <div class="p-delta" id="sp-pDelta">—</div>
+
+      <div id="sp-trendChart" role="img" aria-label="所选国家历年支出与生育率走势折线图"></div>
+      <div class="t-cap"><span class="lg">实线：所选国家支出（左轴），黑线：生育率（右轴）</span><br><span class="lg">灰线：其余国家，灰虚线：36 国中位数</span></div>
+    </aside>
+  </div>
+
+  <div class="block" id="sp-table">
+    <div class="b-head">
+      <div>
+        <h2>完整数据表（各国生育补贴支出）</h2>
+        <div class="d">2010~2023年经济与合作发展组织（OECD）各国家庭公共支出（含现金及实物）占 GDP 比重（单位：%），按 2021 年数值降序排列；「—」代表当年数据未公布。</div>
+      </div>
+      <a class="dl" href="../data/public-family-spending-by-type-gdp-pct.xlsx" download>↓ 下载 xlsx</a>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead id="sp-tblHead"></thead>
+        <tbody id="sp-tblBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="map-note">
+    <p>指标说明：家庭公共支出（现金和实物）占 GDP 的比例，来源于 OECD 社会支出数据库（SOCX），涵盖家庭领域的现金福利与实物服务。由于各国统计口径存在差异，跨国比较仅供参考。</p>
+    <p>数据来源：<a href="https://data-explorer.oecd.org/vis?lc=en&amp;df[ds]=DisseminateFinalDMZ&amp;df[id]=DSD_SOCX_AGG%40DF_PUB_FAM&amp;df[ag]=OECD.ELS.SPD&amp;df[vs]=1.0&amp;dq=.A..PT_B1GQ.._T..&amp;pd=2010,&amp;to[TIME_PERIOD]=false&amp;vw=tb" target="_blank" rel="noopener">OECD Data · Social Expenditure Database（SOCX）</a>，数据经 OECD Data Explorer 导出。多数国家更新至 2021 年，部分国家已有 2022~2023 年数据。生育率数据（图中黑线）来自 <a href="https://data.worldbank.org/indicator/SP.DYN.TFRT.IN" target="_blank" rel="noopener">世界银行 World Development Indicators</a>，指标代码 SP.DYN.TFRT.IN。</p>
+    <p>相关讨论：生育补贴到底有没有用？见 <a href="../debates/index.html#d6">永恒的争论：补贴无用论</a>。</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script src="../wheel-zoom.js?v=1"></script>
+<script src="../map/echarts.min.js"></script>
+<script src="world-geo.js?v=3"></script>
+<script src="tfr-data.js"></script>
+<script src="spending-data.js?v=2"></script>
+<script src="app.js?v=16"></script>
+<script src="app-spending.js?v=2"></script>
+  <script src="../nav.js?v=39"></script>
+</body>
+</html>

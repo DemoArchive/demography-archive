@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>各省生育地图 - 人口档案馆</title>
+<meta name="description" content="近十年（2016~2025）各省出生人口降幅排序，以及中国分省出生人口与出生率地图（1949~2025）。">
+<meta property="og:title" content="各省生育地图 - 人口档案馆">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<link rel="stylesheet" href="map.css?v=27">
+  <link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+          <a href="../map/index.html#years">各省历年生育地图</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="../forecast/index.html#pop">总人口预测</a>
+          <a href="../forecast/index.html#births">出生人口预测</a>
+          <a href="../forecast/index.html#death">死亡人口预测</a>
+          <a href="../forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="../datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="../datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="../datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="../datacenter/index.html#secFc">未来人口预测</a>
+          <a href="../datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="../datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="../datacenter/index.html#secWorld">各国生育率</a>
+          <a href="../datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= 一、近十年各省出生人口降幅排序 ================= -->
+<section class="sec" id="decline">
+  <div class="sec-head"><h2>近十年各省出生人口降幅排序</h2></div>
+
+  <div class="board">
+    <div class="map-area">
+      <div class="legend-card">
+        <div class="lg-title" id="d-lgTitle">出生人口降幅</div>
+        <div class="lg-bar" id="d-lgBar"></div>
+        <div class="lg-ends"><span id="d-lgMin">—</span><span id="d-lgMax">—</span></div>
+      </div>
+      <div class="mapsel">
+        <select id="d-provSelect" aria-label="选择省份或全国"></select>
+      </div>
+      <div id="d-map"></div>
+    </div>
+
+    <aside class="side">
+      <div class="side-scroll">
+        <div class="side-default" id="d-sideDefault">
+          <div class="nat-head">
+            <div class="nat-title" id="d-natTitle">近十年全国出生人口</div>
+            <span class="src-hint nat-hint" tabindex="0" aria-label="数据口径说明"><i class="info">ⓘ</i><span class="tip">全国出生人口数据采用国家统一发布数据，并非由各省级数据汇总相加所得</span></span>
+          </div>
+          <div class="nat-row">
+            <div class="pv"><div class="k">2016 年出生人口</div><div class="v" id="d-natB0">—<small>万</small></div></div>
+            <div class="pv"><div class="k">2025 年出生人口</div><div class="v" id="d-natB1">—<small>万</small></div></div>
+          </div>
+          <div class="nat-delta" id="d-natDelta"></div>
+          <div class="rank-cap"><span class="cap-main">各省份降幅排序</span><span class="cap-hint">点击条目进入详情</span></div>
+          <div class="rank-scroll"><div class="rank-bar" id="d-rankBar" role="img" aria-label="各省份出生人口降幅排名条形图"></div></div>
+        </div>
+
+        <div class="prov" id="d-provPane">
+          <div class="prov-head">
+            <div class="top">
+              <button class="close" id="d-pClose" aria-label="关闭">✕</button>
+            </div>
+            <div class="p-name-row">
+              <span class="p-name" id="d-pName">—</span>
+              <span class="src-hint" tabindex="0">数据来源<i class="info">ⓘ</i><span class="tip">数据来源与口径见「各省历年生育地图」中该省份数据表下方备注</span></span>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat"><div class="k">2016 年出生人口</div><div class="v" id="d-sB0">—<small>万</small></div></div>
+            <div class="stat"><div class="k">2025 年出生人口</div><div class="v" id="d-sB1">—<small>万</small></div></div>
+            <div class="stat red"><div class="k">减少数量</div><div class="v" id="d-sAbs">—<small>万</small></div></div>
+            <div class="stat red"><div class="k">下降幅度</div><div class="v" id="d-sPct">—<small>%</small></div></div>
+          </div>
+
+          <div class="pc-block">
+            <div class="pc-cap">出生人口变化（万人）</div>
+            <div id="d-panelBirths"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="map-note">
+    数据来源详见「各省历年生育地图」中各省份数据表下方备注。<br>
+    悬停卡片中的折线为归一化走势：以时段首年出生人口为 100，折线越陡表示较首年下降越多，各省刻度一致、可直接比较。<br>
+    底图采用阿里云 DataV.GeoAtlas 数据。
+  </div>
+
+  <div class="block" id="d-table">
+    <div class="b-head">
+      <div>
+        <h2>完整数据表</h2>
+        <div class="d">34 个省级行政区，单位：万人；按出生人口下降幅度从大到小排序</div>
+      </div>
+      <a class="dl" href="../data/provincial-births-decline-2016-2025.xlsx" download>↓ 下载 xlsx</a>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>排名</th><th>省份</th><th>2025 年常住人口（万人）</th><th>2016 年出生人口（万人）</th><th>2025 年出生人口（万人）</th><th>减少数量（万人）</th><th>下降幅度（%）</th></tr></thead>
+        <tbody id="d-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 二、各省历年生育地图 ================= -->
+<section class="sec" id="years">
+  <div class="sec-head"><h2>各省历年生育地图</h2></div>
+
+  <div class="board">
+    <div class="map-area">
+      <div class="legend-card lg-top">
+        <div class="lg-title" id="lgTitle">出生人口</div>
+        <div class="lg-bar" id="lgBar"></div>
+        <div class="lg-ends"><span id="lgMin">—</span><span id="lgMax">—</span></div>
+      </div>
+      <div class="mapsel">
+        <select id="provSelect" aria-label="选择省份或全国"></select>
+      </div>
+      <div id="map"></div>
+      <div class="mini-tl">
+        <div class="mtl-row">
+          <button class="play" id="playBtn" aria-label="播放逐年变化"><span class="ico-play">▶</span><span class="ico-pause" style="display:none">❚❚</span></button>
+          <span class="mtl-year" id="mtlYear">2025</span>
+          <span class="mtl-range" id="tlRange">1978~2025</span>
+        </div>
+        <div class="mtl-track">
+          <input type="range" id="yearSlider" min="1978" max="2025" step="1" value="2025" aria-label="选择年份">
+          <div class="mtl-ticks" id="mtlTicks" aria-label="整十年份快捷定位"></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="side-scroll">
+        <div class="side-default" id="sideDefault">
+          <div class="nat-head">
+            <div class="nat-title" id="natTitle">2025 年全国</div>
+            <span class="src-hint nat-hint" tabindex="0" aria-label="数据口径说明"><i class="info">ⓘ</i><span class="tip">全国出生人口数据采用国家统一发布数据，并非由各省级数据汇总相加所得</span></span>
+          </div>
+          <div class="nat-row">
+            <div class="pv"><div class="k">出生人口</div><div class="v" id="natB">—<small>万</small></div></div>
+            <div class="pv"><div class="k">出生率</div><div class="v" id="natR">—<small>‰</small></div></div>
+          </div>
+          <div class="rank-cap"><span class="cap-main">按出生人口排序</span><span class="cap-hint">点击条目进入详情</span></div>
+          <div class="rank-scroll"><div class="rank-bar" id="rankBar" role="img" aria-label="各省份排名条形图"></div></div>
+        </div>
+
+        <div class="prov" id="provPane">
+          <div class="prov-head">
+            <div class="top">
+              <button class="close" id="pClose" aria-label="关闭">✕</button>
+            </div>
+            <div class="p-name-row">
+              <span class="p-name" id="pName">—</span>
+              <span class="src-hint" tabindex="0">数据来源<i class="info">ⓘ</i><span class="tip">详细数据来源见数据表最下方</span></span>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <button class="on" data-tab="trend">历年变化</button>
+            <button data-tab="table">数据表</button>
+          </div>
+          <div class="tab-body">
+            <div class="tab-pane on" id="paneTrend">
+              <div class="pc-block">
+                <div class="pc-cap">出生人口变化（万人）</div>
+                <div id="panelBirths"></div>
+              </div>
+              <div class="pc-block">
+                <div class="pc-cap">出生率变化（‰）</div>
+                <div id="panelRate"></div>
+              </div>
+            </div>
+            <div class="tab-pane" id="paneTable">
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>年份</th><th>出生人口（万人）</th><th>出生率（‰）</th><th>总人口（万人）</th></tr></thead>
+                  <tbody id="pTbody"></tbody>
+                </table>
+                <div class="tbl-notes" id="pNotes"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="map-note">
+    各省数据来源与计算口径详见各省份数据表下方备注。<br>
+    悬停卡片中的折线为归一化走势：以时段首年出生人口为 100，折线越陡表示较首年下降越多，各省刻度一致、可直接比较。<br>
+    底图采用阿里云 DataV.GeoAtlas 数据。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script src="../wheel-zoom.js?v=1"></script>
+<script src="echarts.min.js"></script>
+<script src="china-geo.js"></script>
+<script src="prov-data.js"></script>
+<script src="../datacenter/national-data.js"></script>
+<script src="app.js?v=30"></script>
+<script src="app-decline.js?v=14"></script>
+  <script src="../nav.js?v=39"></script>
+</body>
+</html>

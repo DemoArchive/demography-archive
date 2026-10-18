@@ -1,0 +1,364 @@
+
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F4F4F4;
+    --ink:#171A20;
+    --body-c:#393C41;
+    --muted:#5C5E62;
+    --faint:#8E8E8E;
+    --line:#EEEEEE;
+    --accent:#3E6AE1;
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:var(--sans);}
+
+  /* ---------- 导航 ---------- */
+  [id]{scroll-margin-top:78px;}
+
+  /* ---------- 页头 ---------- */
+  .head{
+    max-width:1200px;margin:0 auto;padding:30px 32px 0;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  }
+  .head-l h1{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(26px,3.2vw,40px);letter-spacing:normal;line-height:1.2;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .badge{
+    font-family:var(--sans);font-size:11.5px;font-weight:500;letter-spacing:normal;
+    color:var(--muted);background:var(--bg-soft);border:1px solid var(--line);
+    padding:4px 10px;border-radius:4px;white-space:nowrap;
+  }
+  .badge.real{color:var(--accent);border-color:rgba(62,106,225,.4);background:rgba(62,106,225,.05);}
+  .head-l .sub{margin-top:8px;font-size:13.5px;color:var(--muted);letter-spacing:normal;}
+  .head-l .sub button{
+    background:none;border:none;color:var(--faint);font-size:12px;cursor:pointer;
+    text-decoration:underline;text-underline-offset:3px;padding:0;margin-left:10px;
+  }
+  .head-l .sub button:hover{color:var(--accent);}
+  .head-r{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+
+  /* ---------- 章节（一页两节，上下排列） ---------- */
+  .sec + .sec{border-top:1px solid var(--line);margin-top:38px;}
+  .sec-head{max-width:1200px;margin:0 auto;padding:0 32px;}
+  .sec-head h2{
+    font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);
+    letter-spacing:normal;line-height:1.2;margin-top:30px;
+  }
+  .import-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;letter-spacing:normal;padding:9px 18px;cursor:pointer;
+    border:1px solid #D0D1D2;border-radius:4px;background:#FFFFFF;color:#393C41;
+    transition:border-color .33s,color .33s;white-space:nowrap;
+  }
+  .import-btn:hover{border-color:#171A20;color:#171A20;}
+  .import-btn input{display:none;}
+
+  /* ---------- 主板 ---------- */
+  .board{
+    max-width:1200px;margin:22px auto 0;padding:0 32px;
+    display:grid;grid-template-columns:1fr 396px;
+    height:clamp(560px,calc(100vh - 170px),920px);
+  }
+  .sec .board{margin-top:16px;}
+  .map-area{position:relative;overflow:hidden;}
+  #map,#d-map{width:100%;height:100%;}
+
+  /* 图例卡（左下角，避开省份数据面板与悬停卡） */
+  .legend-card{
+    position:absolute;bottom:16px;left:16px;z-index:5;
+    background:var(--bg);border-radius:4px;
+    padding:10px 14px;min-width:150px;
+    
+  }
+  .legend-card .lg-title{font-size:11px;color:var(--muted);letter-spacing:normal;margin-bottom:8px;}
+  .legend-card .lg-bar{height:7px;border-radius:4px;}
+  .legend-card .lg-ends{display:flex;justify-content:space-between;margin-top:6px;
+    font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+
+  /* 全国 / 省份选择控件 */
+  .mapsel{position:absolute;top:14px;left:14px;z-index:6;}
+  .mapsel select{
+    font-family:var(--sans);font-size:12.5px;letter-spacing:normal;color:var(--ink);
+    padding:8px 30px 8px 14px;border:1px solid var(--line);border-radius:4px;
+    background:var(--bg);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C5E62' fill='none'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;
+    
+  }
+  .mapsel select:hover{border-color:var(--faint);}
+
+  /* ---------- 侧栏 ---------- */
+  .side{border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+  .side-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+  .side-default{display:flex;flex-direction:column;height:100%;padding:16px 12px 12px;}
+  .nat-k{text-align:center;font-size:11.5px;color:var(--muted);letter-spacing:normal;}
+  .nat-title{
+    text-align:center;font-family:var(--serif);font-weight:500;
+    font-size:26px;letter-spacing:normal;margin-top:8px;
+  }
+  .side-default .nat-k{font-size:12px;color:var(--muted);letter-spacing:normal;}
+  .side-default .nat-row{display:flex;justify-content:center;gap:40px;margin-top:20px;}
+  .side-default .pv .k{font-size:14px;color:var(--faint);letter-spacing:normal;}
+  .side-default .pv .v{font-family:var(--serif);font-weight:500;font-size:30px;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .side-default .pv .v small{font-size:12px;font-weight:400;color:var(--muted);margin-left:2px;}
+  .nat-delta{text-align:center;margin-top:16px;font-size:12.5px;color:var(--muted);letter-spacing:normal;}
+  .nat-delta b{color:var(--accent);font-weight:500;}
+  .nat-delta b.down{color:#E13D3D;}
+  .rank-cap{display:flex;align-items:baseline;gap:9px;font-size:11px;color:var(--faint);letter-spacing:normal;margin:20px 14px 8px;}
+  .rank-cap .cap-main{font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:normal;}
+  .rank-cap .cap-hint{font-size:10.5px;color:#A6A8AB;letter-spacing:normal;}
+  /* 排名条形图容器（样式同「各国生育补贴支出」页；高度由 JS 按条目数设置） */
+  .rank-scroll{flex:1;min-height:0;overflow-y:auto;padding-bottom:6px;}
+  .rank-bar{width:100%;}
+
+  .prov{display:none;flex-direction:column;min-height:0;flex:1;}
+  .prov.on{display:flex;}
+  .prov-head{padding:10px 22px 0;}
+  .prov-head .top{display:flex;justify-content:flex-end;align-items:center;}
+  .prov-head .close{
+    width:28px;height:28px;border:1px solid var(--line);border-radius:50%;background:var(--bg);
+    color:var(--muted);cursor:pointer;font-size:13px;line-height:1;transition:all .33s;
+  }
+  .prov-head .close:hover{color:var(--accent);border-color:var(--accent);}
+
+  /* 省名 + 「数据来源ⓘ」同行排布（提示浮层靠右展开，故信息入口靠右对齐） */
+  .p-name-row{display:flex;align-items:baseline;gap:10px;min-width:0;}
+  .p-name-row .p-name{white-space:nowrap;}
+  .prov-head .src-hint,.side-default .nat-hint{
+    position:relative;display:inline-flex;align-items:center;gap:3px;flex:none;margin-left:auto;
+    font-size:11px;color:var(--faint);letter-spacing:normal;
+    cursor:default;user-select:none;outline:none;
+  }
+  .prov-head .src-hint .info,.side-default .nat-hint .info{font-style:normal;font-size:12px;line-height:1;transition:color .33s;}
+  .prov-head .src-hint:hover,.prov-head .src-hint:focus,
+  .side-default .nat-hint:hover,.side-default .nat-hint:focus{color:var(--muted);}
+  .prov-head .src-hint .tip,.side-default .nat-hint .tip{
+    position:absolute;top:calc(100% + 9px);right:-6px;z-index:30;
+    background:var(--ink);color:#fff;font-size:11.5px;letter-spacing:normal;line-height:1.5;
+    padding:9px 13px;border-radius:4px;white-space:normal;width:max-content;max-width:236px;
+    
+    opacity:0;visibility:hidden;transform:translateY(4px);
+    transition:opacity .33s ease,transform .33s ease,visibility .33s;
+    pointer-events:none;
+  }
+  .prov-head .src-hint .tip::after,.side-default .nat-hint .tip::after{
+    content:"";position:absolute;top:-3.5px;right:16px;width:7px;height:7px;
+    background:var(--ink);transform:rotate(45deg);border-radius:1.5px;
+  }
+  .prov-head .src-hint:hover .tip,.prov-head .src-hint:focus .tip,
+  .side-default .nat-hint:hover .tip,.side-default .nat-hint:focus .tip{opacity:1;visibility:visible;transform:none;}
+  /* 「XXXX 年全国」/「近十年全国出生人口」标题的统计范围说明ⓘ（与省名旁「数据来源ⓘ」同一套浮层，两处改动）：
+     1）ⓘ 紧跟标题文字排布、抬到末字右上角（标题与 ⓘ 一起居中，不再是贴边绝对定位）；
+     2）浮层改在 ⓘ 上方展开——向下会压住数值区；箭头随之移到浮层下缘；
+     3）.nat-head 的上外边距是浮层的「起飞空间」：ⓘ 提示文案两行（约 56px），
+        头部须整体下移、标题自身 8px 上边距清零，否则未滚动时浮层会被 .side-scroll 的 overflow 裁掉
+        （该容器即侧栏滚动区，无法溢出显示）；两节（历年/下降）共用同一头部结构 */
+  .nat-head{display:flex;align-items:flex-start;justify-content:center;gap:2px;margin-top:28px;}
+  .nat-head .nat-title{margin-top:0;}
+  .side-default .nat-hint{position:relative;margin-left:0;align-self:flex-start;margin-top:13px;}
+  .side-default .nat-hint .tip{top:auto;bottom:calc(100% + 7px);right:-8px;padding:7px 12px;}
+  .side-default .nat-hint .tip::after{top:auto;bottom:-3.5px;right:11px;}
+  .prov-head .p-name{
+    font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:normal;margin-top:4px;
+  }
+
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 22px 0;}
+  .stat{
+    background:var(--bg-soft);border-radius:4px;padding:13px 15px;
+  }
+  .stat .k{font-size:11px;color:var(--muted);letter-spacing:normal;}
+  .stat .v{
+    font-family:var(--serif);font-weight:500;font-size:22px;margin-top:5px;line-height:1.15;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .v small{font-size:11px;font-weight:400;color:var(--muted);margin-left:3px;letter-spacing:normal;}
+  .stat .x{font-size:11px;color:var(--faint);margin-top:3px;font-variant-numeric:tabular-nums;}
+  .stat.red .v{color:#E13D3D;}
+  .stat.red .v small{color:#E13D3D;opacity:.7;}
+
+  .tabs{display:flex;margin:14px 22px 0;background:#F4F4F4;border-radius:4px;padding:3px;gap:2px;flex:none;}
+  .tabs button{
+    flex:1;font-size:13px;letter-spacing:normal;padding:8px 0;border:none;cursor:pointer;
+    background:transparent;color:var(--muted);border-radius:4px;
+    transition:color .33s,background .33s,box-shadow .33s;
+  }
+  .tabs button.on{background:#FFFFFF;color:var(--ink);font-weight:500;}
+  .tab-body{flex:1;min-height:220px;display:flex;flex-direction:column;padding:6px 8px 12px;}
+  .pc-block{flex:1;min-height:0;display:flex;flex-direction:column;}
+  .pc-cap{flex:none;font-size:11px;color:var(--faint);letter-spacing:normal;padding:4px 2px 2px;}
+  #panelBirths,#panelRate,#d-panelBirths{width:100%;flex:1;min-height:120px;}
+  .tbl-wrap{flex:1;overflow-y:auto;}
+  .tbl-wrap table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .tbl-wrap th{
+    position:sticky;top:0;background:var(--bg);text-align:right;font-weight:500;
+    color:var(--muted);letter-spacing:normal;padding:10px 14px 8px;border-bottom:1px solid var(--line);font-size:11px;
+  }
+  .tbl-wrap td{text-align:right;padding:6.5px 14px;border-bottom:1px solid #EEEEEE;color:var(--body-c);font-variant-numeric:tabular-nums;}
+  .tbl-wrap th:first-child,.tbl-wrap td:first-child{text-align:left;}
+  .tbl-wrap tr.cur td{color:var(--accent);font-weight:500;background:rgba(62,106,225,.045);}
+  .tbl-notes{padding:12px 14px 16px;border-top:1px solid var(--line);}
+  .tbl-notes p{margin:5px 0;line-height:1.9;letter-spacing:normal;}
+  .tbl-notes p.n-light{font-size:10px;color:#A6A8AB;}
+  .tbl-notes p.n-source{font-size:12px;color:#6E7073;}
+  .tab-pane{display:none;flex:1;min-height:0;}
+  .tab-pane.on{display:flex;flex-direction:column;}
+
+  /* ---------- 地图底部年份轴（悬浮于地图底部居中，含播放与整十年刻度；
+     图例卡加 .lg-top 置于左上角选择框下方） ---------- */
+  .mini-tl{
+    position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:6;
+    width:min(330px,calc(100% - 24px));
+    padding:9px 14px 8px;
+    background:rgba(255,255,255,.95);
+    border:1px solid var(--line);border-radius:8px;
+    box-shadow:0 4px 18px rgba(23,26,32,.09);
+  }
+  .legend-card.lg-top{top:58px;left:14px;bottom:auto;}
+  .mtl-row{display:flex;align-items:center;gap:10px;}
+  .mtl-row .play{
+    flex:none;width:28px;height:28px;border-radius:50%;
+    border:1px solid var(--line);background:var(--bg);cursor:pointer;
+    color:var(--accent);font-size:10px;line-height:1;display:inline-flex;
+    align-items:center;justify-content:center;transition:all .33s;
+    font-family:var(--sans);letter-spacing:0;
+  }
+  .mtl-row .play:hover{border-color:var(--accent);}
+  .mtl-row .play.playing{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .mtl-year{
+    font-family:var(--serif);font-weight:500;font-size:22px;line-height:1;
+    color:var(--accent);min-width:52px;font-variant-numeric:tabular-nums;letter-spacing:normal;
+  }
+  /* 行末的年份范围（如 1978~2025），补齐首行留白并交代轴的起止 */
+  .mtl-row .mtl-range{
+    margin-left:auto;font-size:10px;color:var(--faint);
+    font-variant-numeric:tabular-nums;letter-spacing:normal;
+  }
+  .mtl-track{margin-top:5px;}
+  .mini-tl input[type=range]{
+    display:block;width:100%;height:14px;margin:0;padding:0;
+    -webkit-appearance:none;appearance:none;outline:none;cursor:pointer;
+    background:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--fill,100%), #EEEEEE var(--fill,100%)) no-repeat center;
+    background-size:100% 3px;
+    border-radius:2px;
+  }
+  .mini-tl input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;
+    background:var(--accent);cursor:pointer;border:2.5px solid #fff;
+  }
+  .mini-tl input[type=range]::-moz-range-thumb{
+    width:12px;height:12px;border-radius:50%;background:var(--accent);cursor:pointer;border:2.5px solid #fff;
+
+  }
+  /* 整十年刻度：与滑杆同宽对位，可点击直达 */
+  .mtl-ticks{position:relative;height:13px;margin-top:1px;}
+  .mtl-tick{
+    position:absolute;top:0;transform:translateX(-50%);padding:0;border:none;background:none;cursor:pointer;
+    font-family:var(--sans);font-size:10px;line-height:13px;color:var(--faint);
+    font-variant-numeric:tabular-nums;letter-spacing:normal;transition:color .2s;
+  }
+  .mtl-tick:hover{color:var(--accent);}
+  .mtl-tick.on{color:var(--accent);font-weight:500;}
+
+  /* ---------- Toast ---------- */
+  #toast{
+    position:fixed;left:50%;bottom:34px;transform:translate(-50%,14px);
+    background:var(--ink);color:#fff;font-size:13px;letter-spacing:normal;
+    padding:11px 22px;border-radius:4px;opacity:0;pointer-events:none;
+    transition:opacity .33s,transform .33s;z-index:99;max-width:80vw;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0);}
+  #toast .bad{color:#D9DBDE;}
+
+  /* ---------- 完整数据表（样式同「各国生育补贴支出」页数据表） ---------- */
+  .block{max-width:1200px;margin:0 auto;padding:58px 32px 0;}
+  .b-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:16px;}
+  .b-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(20px,2.4vw,27px);letter-spacing:normal;}
+  .b-head .d{margin-top:6px;font-size:12.5px;color:var(--muted);letter-spacing:normal;}
+  .dl{
+    display:inline-flex;align-items:center;gap:8px;flex:none;
+    font-size:12.5px;letter-spacing:normal;padding:8px 18px;border-radius:4px;
+    border:1px solid #D0D1D2;background:#FFFFFF;color:#393C41;
+    transition:border-color .33s,color .33s,background-color .33s;
+  }
+  .dl:hover{border-color:#171A20;color:#171A20;}
+  /* 高度约容纳表头 + 10 行数据，其余行在表格内滚动查看 */
+  .tbl-scroll{max-height:316px;overflow:auto;border-top:1px solid var(--line);}
+  .tbl-scroll table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;}
+  /* 各列等宽均分 → 相邻列间距一致；单元格右内边距统一 28px（末列数值离表右缘 28px），
+     左内边距 0（列内容均右对齐，不影响视觉，避免长表头把列撑出 160px）*/
+  .tbl-scroll th,.tbl-scroll td{width:14.2857%;}
+  /* 首列（排名）左内边距 28px，离表左缘留白 */
+  .tbl-scroll th:first-child,.tbl-scroll td:first-child{text-align:left;padding-left:28px;}
+  .tbl-scroll th{
+    position:sticky;top:0;z-index:2;background:#FFFFFF;
+    text-align:right;font-weight:500;color:var(--muted);font-size:11px;letter-spacing:normal;
+    padding:11px 28px 9px 0;border-bottom:1px solid var(--line);white-space:nowrap;
+  }
+  .tbl-scroll td{
+    text-align:right;padding:5.5px 28px 5.5px 0;border-bottom:1px solid #F5F5F6;
+    color:var(--body-c);font-variant-numeric:tabular-nums;white-space:nowrap;
+    transition:background-color .33s,color .33s;
+  }
+  .tbl-scroll th:nth-child(2),.tbl-scroll td:nth-child(2){
+    text-align:left;position:sticky;left:0;background:#FFFFFF;min-width:92px;z-index:1;
+    padding-left:12px;
+    transition:background-color .33s,color .33s;
+  }
+  .tbl-scroll th:nth-child(2){z-index:3;}
+  /* 首行：降幅最大省份（红底红字，与本节红色强调一致） */
+  .tbl-scroll tbody tr:first-child td{background:rgba(225,61,61,.07);color:#E13D3D;font-weight:500;}
+  .tbl-scroll tbody tr:first-child td:nth-child(2){background:rgba(225,61,61,.07);color:#E13D3D;}
+  /* 行悬停：背景加深 + 渐变过渡 */
+  .tbl-scroll tbody tr:hover td{background:#F0F1F3;}
+  .tbl-scroll tbody tr:hover td:nth-child(2){background:#F0F1F3;}
+  /* 首行悬停：在红底上继续加深（置于 hover 规则之后以覆盖灰色） */
+  .tbl-scroll tbody tr:first-child:hover td{background:rgba(225,61,61,.16);}
+  .tbl-scroll tbody tr:first-child:hover td:nth-child(2){background:rgba(225,61,61,.16);}
+
+  .map-note{
+    max-width:1200px;margin:18px auto 0;padding:0 32px;
+    font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+  footer{border-top:1px solid var(--line);margin-top:26px;padding:30px 32px 44px;}
+  .foot-inner{
+    max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--faint);letter-spacing:normal;
+  }
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:960px){
+    .head{padding:26px 20px 0;}
+    .sec-head{padding:0 20px;}
+    .map-area{display:flex;flex-direction:column;}
+    .map-area .mapsel{position:static;align-self:flex-start;margin-bottom:10px;}
+    #map,#d-map{width:100%;}
+    .board{grid-template-columns:1fr;height:auto;padding:0 20px;gap:0;}
+    .map-area{height:110vw;max-height:480px;}
+    .side{border-left:none;border-top:1px solid var(--line);max-height:560px;}
+    /* 侧栏内容与页面其他区块同用 20px 左缘：面板内部的 22px 缩进清零，
+       省名/选项卡/统计卡/排名条与地图、说明文字形成同一对齐线（桌面端不受影响） */
+    .prov-head{padding:10px 0 0;}
+    .stat-grid{padding:12px 0 0;}
+    .tabs{margin:14px 0 0;}
+    .rank-cap{margin:20px 0 8px;}
+    .side-default{padding:16px 0 12px;}
+    /* 画布与页面说明文字（.map-note）同用 20px 左缘：折线图 y 轴刻度贴画布左缘后，
+       图形/图题/下方说明形成一条对齐线（图表内部留白由 ECharts containLabel 自适应） */
+    .tab-body{padding:6px 0 12px;}
+    .block{padding:44px 20px 0;}
+    .map-note{padding:0 20px;}
+    footer .foot-inner{padding:0 20px;}
+  }

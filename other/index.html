@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>其他 - 人口档案馆</title>
+<meta name="description" content="人口数据常用概念解释（总人口、出生人口、出生率、（总和）生育率、世代更替水平等），以及关于本网站的立场说明、数据来源致谢与联系方式。">
+<meta property="og:title" content="其他 - 人口档案馆">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#F4F4F4; --ink:#171A20; --body-c:#393C41;
+    --muted:#5C5E62; --faint:#8E8E8E; --line:#EEEEEE; --accent:#3E6AE1;
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  [id]{scroll-margin-top:78px;}
+
+  /* ---------- HERO ---------- */
+  .hero{max-width:760px;margin:0 auto;padding:90px 28px 8px;text-align:center;}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,4vw,40px);letter-spacing:normal;margin-bottom:22px;}
+  .hero .sub{font-size:15px;line-height:2;color:var(--muted);letter-spacing:normal;}
+  .hero .sub a{color:var(--accent);border-bottom:1px solid rgba(62,106,225,.4);padding-bottom:1px;transition:border-color .33s;}
+  .hero .sub a:hover{border-bottom-color:var(--accent);}
+
+  /* ---------- 布局：侧栏目录 + 正文 ---------- */
+  .page-grid{
+    max-width:1200px;margin:0 auto;padding:48px 32px 0;
+    display:grid;grid-template-columns:232px minmax(0,1fr);gap:52px;align-items:start;
+  }
+  .toc{position:sticky;top:84px;max-height:calc(100vh - 120px);overflow-y:auto;}
+  /* 「目录」小标题：字号/字重/颜色 + 下缘发丝线，与 13px 灰条目拉开层级 */
+  .toc-t{
+    font-family:var(--serif);font-weight:500;font-size:16px;color:var(--ink);
+    letter-spacing:normal;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  .toc a{
+    display:block;font-size:13px;color:var(--muted);padding:7px 12px;margin-bottom:2px;
+    border-left:2px solid var(--line);letter-spacing:normal;line-height:1.7;
+    transition:color .33s,border-color .33s,background .33s;
+  }
+  .toc a:hover{color:var(--ink);}
+  .toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--bg-soft);}
+  /* 组标题以全角标点「开头：标点悬挂进左侧空档（-1em=全角标点宽度），
+     各条目标题文字自同一起点排布——左缘对齐由布局保证，不依赖首字符字形 */
+  .toc a.grp{font-weight:500;color:var(--ink);margin-top:16px;text-indent:-1em;}
+  .toc a.grp:first-of-type{margin-top:2px;}
+  .toc a.grp.on{color:var(--accent);}
+  .content{min-width:0;max-width:840px;}
+
+  /* ---------- 区块头 ---------- */
+  .part-head{padding-top:44px;border-top:1px solid var(--line);margin-bottom:32px;}
+  .part-head h2{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(24px,3.2vw,32px);letter-spacing:normal;line-height:1.4;
+  }
+  .part-head .lead{margin-top:18px;font-size:14px;line-height:2;color:var(--muted);letter-spacing:normal;}
+  .part + .part{margin-top:52px;}
+
+  /* ---------- 概念条目 ---------- */
+  .item{border-top:1px solid var(--line);padding:34px 0 30px;}
+  .item:first-child{border-top:none;padding-top:0;}
+  .term{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+  .term h3{font-family:var(--serif);font-weight:500;font-size:clamp(21px,2.6vw,27px);letter-spacing:normal;}
+  .term .en{font-size:12px;color:var(--faint);letter-spacing:normal;}
+  .item .def{font-size:15px;line-height:2;color:var(--ink);margin-bottom:12px;}
+  .item .def b{color:#171A20;font-weight:500;}
+  .item .note-t{font-size:12.5px;color:var(--accent);margin-bottom:2px;}
+  .item .body{font-size:14px;line-height:2;color:var(--body-c);}
+  .item .body p{margin-bottom:10px;}
+
+  .sec-note{
+    margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+
+  /* ---------- 关于本站 ---------- */
+  /* 立场：居中宣言 */
+  .stance{text-align:center;}
+  .stance .stmt{
+    max-width:640px;margin:0 auto;
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(17px,2.2vw,20px);line-height:1.9;color:var(--ink);
+    text-wrap:balance;
+  }
+  .stance .sub{
+    max-width:640px;margin:0 auto;
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(17px,2.2vw,20px);line-height:1.9;color:var(--ink);
+    text-wrap:balance;
+  }
+
+  /* 致谢：编号清单 */
+  .ack{margin-top:54px;}
+  .ack-lead{font-size:14px;line-height:2;color:var(--muted);letter-spacing:normal;margin-bottom:18px;}
+  .ack-list{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .ack-list > * + *{border-top:1px solid var(--line);}
+  .ack-row{
+    display:grid;grid-template-columns:44px minmax(0,1fr);
+    align-items:baseline;padding:14px 0;
+  }
+  .ack-row .no{font-family:var(--serif);font-weight:500;font-size:12px;letter-spacing:.08em;color:var(--faint);}
+  .ack-row p{font-size:14.5px;line-height:1.95;color:var(--body-c);}
+  .ack-tail{padding:13px 0 14px 44px;font-size:14px;line-height:1.95;color:var(--muted);letter-spacing:normal;}
+
+  .ext{color:var(--accent);border-bottom:1px solid rgba(62,106,225,.4);padding-bottom:1px;transition:border-color .33s;}
+  .ext:hover{border-bottom-color:var(--accent);}
+
+  /* 联系：引导句 + 浅灰卡片 */
+  .contact{margin-top:54px;}
+  .contact-lead{font-size:14.5px;line-height:2.05;color:var(--body-c);max-width:680px;margin-bottom:20px;}
+  .contact-card{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px 32px;background:var(--bg-soft);border-radius:14px;padding:24px 30px;
+  }
+  .ci{min-width:0;}
+  .ci .ck{display:block;font-size:11.5px;color:var(--faint);letter-spacing:normal;margin-bottom:7px;}
+  .ci .cv{font-size:14px;color:var(--ink);letter-spacing:normal;overflow-wrap:anywhere;}
+  .ci .cv a{color:var(--accent);border-bottom:1px solid rgba(62,106,225,.4);padding-bottom:1px;transition:border-color .33s;}
+  .ci .cv a:hover{border-bottom-color:var(--accent);}
+
+  footer{border-top:1px solid var(--line);margin-top:64px;padding:30px 32px 44px;}
+  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+
+  @media (max-width:960px){
+    .hero{padding:60px 22px 6px;}
+    .page-grid{grid-template-columns:1fr;padding:36px 20px 0;gap:30px;}
+    /* 移动端目录：双列平铺列表——组标题独占整行做主级，其下子项两列对齐排布 */
+    .toc{position:static;display:grid;grid-template-columns:1fr 1fr;column-gap:18px;align-items:start;max-height:none;overflow:visible;}
+    .toc-t{grid-column:1/-1;margin-bottom:8px;}
+    .toc a{
+      display:block;min-width:0;font-size:13px;color:var(--muted);line-height:1.5;
+      padding:7px 0 7px 1em;margin:0;border:none;border-radius:0;
+    }
+    .toc a:first-of-type,.toc a.grp{grid-column:1/-1;font-weight:500;color:var(--ink);}
+    .toc a.grp{margin-top:8px;}
+    .toc a:first-of-type{margin-top:0;}
+    .toc a.on,.toc a.grp.on{color:var(--accent);background:none;}
+    .part-head{padding-top:36px;}
+    footer .foot-inner{padding:0 20px;}
+  }
+  @media (max-width:640px){
+    .ack-row{grid-template-columns:34px minmax(0,1fr);padding:13px 0;}
+    .ack-tail{padding-left:34px;}
+    .contact-card{grid-template-columns:1fr;gap:15px;padding:20px 22px;}
+  }
+</style>
+  <link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#years">各省历年生育地图</a>
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="../forecast/index.html#pop">总人口预测</a>
+          <a href="../forecast/index.html#births">出生人口预测</a>
+          <a href="../forecast/index.html#death">死亡人口预测</a>
+          <a href="../forecast/index.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="../datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="../datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="../datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="../datacenter/index.html#secFc">未来人口预测</a>
+          <a href="../datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="../datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="../datacenter/index.html#secWorld">各国生育率</a>
+          <a href="../datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>其他</h1>
+  <p class="sub">本页内容包括<a href="#concept">「概念解释」</a>和<a href="#about">「关于本站」</a></p>
+</header>
+
+<main>
+<div class="page-grid">
+      <aside class="toc">
+        <div class="toc-t">目录</div>
+        <a class="grp" href="#concept">「概念解释」</a>
+        <a class="sub" href="#g-pop">1. 总人口</a>
+        <a class="sub" href="#g-births">2. 出生人口</a>
+        <a class="sub" href="#g-cbr">3. 出生率</a>
+        <a class="sub" href="#g-tfr">4. （总和）生育率</a>
+        <a class="sub" href="#g-diff">5. 出生率 ≠ 生育率</a>
+        <a class="sub" href="#g-replace">6. 世代更替水平</a>
+        <a class="sub" href="#g-ageing">7. 老龄化与少子化</a>
+        <a class="sub" href="#g-boom">8. 婴儿潮与回声潮</a>
+        <a class="grp" href="#about">「关于本站」</a>
+      </aside>
+      <div class="content">
+
+  <section class="part" id="concept">
+    <div class="part-head">
+      <h2>「概念解释」</h2>
+      <p class="lead">本内容为数据科普性阐释，旨在帮助读者理解相关数据；严格技术定义请以统计机构正式发布的统计口径说明为依据。</p>
+    </div>
+
+    <div class="list">
+
+  <section class="item" id="g-pop">
+    <div class="term"><h3>1. 总人口</h3><span class="en">TOTAL POPULATION</span></div>
+    <p class="def">某一时间点上居住在该地区的人口总数。</p>
+    <div class="body">
+      <p>由于不同数据来源的统计口径与统计方法存在差异，本站所列“总人口”数据大多数情况下为<b>年末常住人口</b>，少数情况下为<b>户籍人口</b>。具体来源请参见各数据表格底部说明。</p>
+    </div>
+  </section>
+
+  <section class="item" id="g-births">
+    <div class="term"><h3>2. 出生人口</h3><span class="en">BIRTH POPULATION</span></div>
+    <p class="def">一年内活产婴儿的总数，单位通常为<b>万人</b>。</p>
+    <div class="body">
+      <p>它决定二十年后的劳动力、六十年后的养老结构，是本站所有叙事的主角。</p>
+    </div>
+  </section>
+
+  <section class="item" id="g-cbr">
+    <div class="term"><h3>3. 出生率</h3><span class="en">CRUDE BIRTH RATE</span></div>
+    <p class="def">一年内出生人口与<b>年平均总人口</b>之比，单位<b>‰（千分之）</b>。</p>
+    <div class="body">
+      <p>（本站点并不喜欢使用这个指标）</p>
+    </div>
+  </section>
+
+  <section class="item" id="g-tfr">
+    <div class="term"><h3>4. （总和）生育率</h3><span class="en">TOTAL FERTILITY RATE (TFR)</span></div>
+    <p class="def">指一个国家或地区的妇女在育龄期间平均生育的子女数。</p>
+    <div class="body">
+      <p>该指标是衡量生育水平最核心的人口统计指标，常简称为 “生育率”；本网站提及的 “生育率” 均指总和生育率。国际上通常以 <b>2.1</b> 作为“世代更替水平”，即平均每对夫妇需生育 2.1 个孩子才能维持人口总量稳定。</p>
+    </div>
+  </section>
+
+  <section class="item" id="g-diff">
+    <p class="note-t">注意：</p>
+    <div class="term"><h3>5. 出生率 ≠ 生育率</h3><span class="en">BIRTH RATE ≠ FERTILITY RATE</span></div>
+    <p class="def">两者常被混用，但完全不同：</p>
+    <div class="body">
+      <p>简单来说，<b>出生率</b>看的是“整个社会里新生儿的多少”，<b>生育率</b>看的是“育龄女性生孩子的意愿和能力”。生育率更能反映真实的生育水平，也更适合用来比较不同国家或不同时期的情况。</p>
+    </div>
+  </section>
+
+  <section class="item" id="g-replace">
+    <div class="term"><h3>6. 世代更替水平</h3><span class="en">REPLACEMENT LEVEL</span></div>
+    <p class="def">指维持人口数量长期稳定所需的生育率，通常对应（总和）生育率约为<b>2.1</b>。</p>
+    <div class="body">
+      <p>其中额外的 0.1 用于抵消婴幼儿死亡和性别比例差异等因素。</p>
+    </div>
+  </section>
+
+  <section class="item" id="g-ageing">
+    <div class="term"><h3>7. 老龄化 与 少子化</h3><span class="en">AGEING &amp; SUB-REPLACEMENT FERTILITY</span></div>
+    <p class="def"><b>老龄化</b>指 65 岁及以上人口占比不断上升；<b>少子化</b>指未成年人口（尤其 0~14 岁）占比与绝对数量持续下降。</p>
+  </section>
+
+  <section class="item" id="g-boom">
+    <div class="term"><h3>8. 婴儿潮 与 回声潮</h3><span class="en">BABY BOOM &amp; ECHO BOOM</span></div>
+    <p class="def"><b>婴儿潮</b>指出生人口显著高于前后时期的阶段；上一代婴儿潮的孩子集中进入育龄期带来的出生高峰，称为<b>回声潮</b>。</p>
+  </section>
+
+    </div>
+  </section>
+
+  <section class="part" id="about">
+    <div class="part-head">
+      <h2>「关于本站」</h2>
+    </div>
+
+    <section class="stance">
+      <p class="stmt">本站<b>不评判任何个体的生育选择</b>，也无意为任何人做出选择。</p>
+      <p class="sub">本站只是想针对“人口与未来”的关系，提出一些新观点（准确来说，是整理一些已有的旧观点），供大家讨论。</p>
+    </section>
+
+    <section class="ack">
+      <p class="ack-lead">本网站的数据和内容建设，离不开以下机构提供的公开数据、研究成果与技术支持：</p>
+      <div class="ack-list">
+        <div class="ack-row"><span class="no">1</span><p>国家统计局及各省市统计局发布的公开数据；</p></div>
+        <div class="ack-row"><span class="no">2</span><p>世界银行、经济合作与发展组织（OECD）等国际机构发布的公开数据；</p></div>
+        <div class="ack-row"><span class="no">3</span><p><a class="ext" href="https://www.yuwa.org.cn/" target="_blank" rel="noopener">育娲人口研究智库</a>发布的公开数据与研究成果；</p></div>
+        <div class="ack-row"><span class="no">4</span><p><a class="ext" href="https://www.macrodatas.cn/" target="_blank" rel="noopener">马克数据网</a>分享的部分统计年鉴文件；</p></div>
+        <div class="ack-row"><span class="no">5</span><p><a class="ext" href="https://zcode.z.ai/cn" target="_blank" rel="noopener">Zcode</a>、<a class="ext" href="https://www.codebuddy.cn/home/" target="_blank" rel="noopener">Codebuddy</a> 等AI工具；</p></div>
+        <p class="ack-tail">以及那些我本应感谢、却未能一一提及的机构、学者与个人，在此一并致以诚挚的谢意。</p>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <p class="contact-lead">如果您发现了本网站中的一些错误（这几乎是必然的），或者更重要的是，有任何新观点（或者被遗忘的旧观点），欢迎联系本站作者。</p>
+      <div class="contact-card">
+        <div class="ci"><span class="ck">邮箱</span><span class="cv"><a href="mailto:qidaoweb@outlook.com">qidaoweb@outlook.com</a></span></div>
+        <div class="ci"><span class="ck">微信</span><span class="cv">zzxxcc1-9</span></div>
+        <div class="ci"><span class="ck">地址</span><span class="cv">四川省成都市</span></div>
+      </div>
+    </section>
+  </section>
+
+      </div>
+    </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* 目录高亮：以「视口顶部向下 30%」为判定线，取最后一个越过它的小节——
+     与原 IntersectionObserver 的 15%–30% 观察带等效，但同步算出、无竞态。
+     弃用观察器的原因：文档尾部比视口矮时，末节滚到页底也送不进观察带，
+     末项目录永远点不亮；这里滚到页底时强制点亮最后一项兜底。
+     点击目录项则立即点亮并锁定——目标小节可能根本无法靠滚动到达（页已
+     滚到底），锁定保证「点到哪项亮哪项」；滚动位置一变即解除锁定。 */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var els = Object.keys(map).map(function(id){ return document.getElementById(id); })
+             .filter(function(el){ return !!el; });
+  if (!els.length) return;
+  els.sort(function(a, b){
+    return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+  });
+  var elOf = {};
+  els.forEach(function(el){ elOf[el.id] = el; });
+  function setActive(el){
+    links.forEach(function(a){ a.classList.remove('on'); });
+    var l = map[el.id]; if (l) l.classList.add('on');
+  }
+  var pinned = null, pinnedY = 0;
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      pinned = a.getAttribute('href').slice(1);
+      pinnedY = window.scrollY;
+      if (elOf[pinned]) setActive(elOf[pinned]);
+    });
+  });
+  function update(){
+    /* 点击锁定：位置未动时保持点击所选项 */
+    if (pinned && Math.abs(window.scrollY - pinnedY) < 0.5 && elOf[pinned]) { setActive(elOf[pinned]); return; }
+    pinned = null;
+    var active = els[0];
+    for (var i = 0; i < els.length; i++){
+      if (els[i].getBoundingClientRect().top <= window.innerHeight * 0.30) active = els[i];
+      else break;
+    }
+    /* 页底兜底：末节可能永远够不到判定线，滚到底强制点亮末项 */
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll > 0 && Math.round(window.scrollY) >= maxScroll - 1) active = els[els.length - 1];
+    setActive(active);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+  <script src="../nav.js?v=39"></script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+/* ============================================================
+   人口档案馆 · 各国生育率页面样式
+   与「各省生育地图」同构但配色区分：地图用靛蓝→浅沙的冷色带，
+   界面强调色为靛蓝 --blue（生育地图为暖赭红 --accent）。
+   ============================================================ */
+
+:root{
+  --bg:#FFFFFF;
+  --bg-soft:#F4F4F4;
+  --ink:#171A20;
+  --body-c:#393C41;
+  --muted:#5C5E62;
+  --faint:#8E8E8E;
+  --line:#EEEEEE;
+  --blue:#3E6AE1;
+  --blue-deep:#2445A8;
+  --blue-wash:rgba(62,106,225,.07);
+  --no-data:#E4E5E7;
+  --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+html{scroll-behavior:smooth;overflow-y:scroll;}
+@view-transition{navigation:auto;}
+::view-transition-old(root){animation:vt-out .33s ease both;}
+::view-transition-new(root){animation:vt-in .33s ease both;}
+@keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+@keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+::selection{background:rgba(62,106,225,.14);}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--sans);}
+[id]{scroll-margin-top:78px;}
+
+/* ---------- 章节（一页两节，上下排列） ---------- */
+.sec + .sec{border-top:1px solid var(--line);margin-top:38px;}
+.sec-head{max-width:1200px;margin:0 auto;padding:0 32px;}
+.sec-head h2{
+  font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);
+  letter-spacing:normal;line-height:1.2;margin-top:30px;
+}
+.sec .board{margin-top:16px;}
+
+/* ---------- 主板（第一节：生育率地图） ---------- */
+.board{
+  max-width:1200px;margin:22px auto 0;padding:0 32px;
+  display:grid;grid-template-columns:1fr 396px;
+  height:clamp(560px,calc(100vh - 170px),920px);
+}
+.map-area{position:relative;overflow:hidden;}
+#map{width:100%;height:100%;}
+
+/* 图例卡 */
+.legend-card{
+  position:absolute;bottom:16px;left:16px;z-index:5;
+  background:var(--bg);border-radius:4px;
+  padding:10px 14px 12px;min-width:232px;
+  
+}
+.legend-card .lg-title{font-size:11px;color:var(--muted);letter-spacing:normal;margin-bottom:9px;}
+.legend-card .lg-bar{position:relative;height:8px;border-radius:4px;}
+.legend-card .lg-tick{
+  position:absolute;top:-3px;bottom:-3px;width:0;
+  border-left:1.5px dashed rgba(23,26,32,.65);
+}
+.legend-card .lg-ends{
+  display:flex;justify-content:space-between;align-items:baseline;margin-top:7px;
+  font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;position:relative;
+}
+.legend-card .lg-repl{
+  position:absolute;left:22%;transform:translateX(-50%);
+  font-size:9.5px;color:var(--faint);letter-spacing:normal;white-space:nowrap;
+}
+
+/* 国家选择控件 */
+.mapsel{position:absolute;top:14px;left:14px;z-index:6;}
+.mapsel select{
+  font-family:var(--sans);font-size:12.5px;letter-spacing:normal;color:var(--ink);
+  padding:8px 30px 8px 14px;border:1px solid var(--line);border-radius:4px;
+  background:var(--bg);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C5E62' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  
+  max-width:260px;
+}
+.mapsel select:hover{border-color:var(--faint);}
+
+/* ---------- 侧栏 ---------- */
+.side{border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.side-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.side-default{display:flex;flex-direction:column;height:100%;padding:16px 12px 12px;}
+.nat-k{text-align:center;font-size:14px;color:var(--muted);letter-spacing:normal;}
+.nat-title{
+  text-align:center;font-family:var(--serif);font-weight:500;
+  font-size:38px;letter-spacing:normal;margin-top:8px;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.nat-delta{text-align:center;margin-top:10px;font-size:12.5px;color:var(--muted);letter-spacing:normal;min-height:19px;}
+.nat-delta b{font-weight:500;}
+.nat-delta b.up{color:var(--blue);}
+.nat-delta b.down{color:var(--blue-deep);}
+
+/* 世界概览三格 */
+.ov-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px;padding:0 4px;}
+.ov{background:var(--bg-soft);border-radius:4px;padding:11px 12px;min-width:0;}
+.ov .k{font-size:10.5px;color:var(--faint);letter-spacing:normal;white-space:nowrap;}
+.ov .v{
+  font-family:var(--serif);font-weight:500;font-size:19px;margin-top:5px;line-height:1.15;
+  font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ov .v .u{font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--muted);letter-spacing:normal;}
+.ov .s{font-size:10.5px;color:var(--muted);margin-top:3px;letter-spacing:normal;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ov.blue .v{color:var(--blue);}
+
+.rank-cap{font-size:11px;color:var(--faint);letter-spacing:normal;margin:20px 14px 8px;}
+/* 排名条形图容器（样式同「各国生育补贴支出」页；高度由 JS 按条目数设置） */
+.rank-scroll{flex:1;min-height:0;overflow-y:auto;padding-bottom:6px;}
+.rank-bar{width:100%;}
+
+/* ---------- 国家详情 ---------- */
+.prov{display:none;flex-direction:column;min-height:0;flex:1;}
+.prov.on{display:flex;}
+.prov-head{padding:10px 22px 0;}
+.prov-head .top{display:flex;justify-content:flex-end;align-items:center;}
+.prov-head .close{
+  width:28px;height:28px;border:1px solid var(--line);border-radius:50%;background:var(--bg);
+  color:var(--muted);cursor:pointer;font-size:13px;line-height:1;transition:all .33s;
+}
+.prov-head .close:hover{color:var(--blue);border-color:var(--blue);}
+.prov-head .p-name{
+  font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:normal;margin-top:2px;
+}
+.p-en{font-size:10.5px;color:var(--faint);letter-spacing:normal;margin-top:3px;}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 22px 0;}
+.stat{background:var(--bg-soft);border-radius:4px;padding:12px 15px;min-width:0;}
+.stat .k{font-size:11px;color:var(--muted);letter-spacing:normal;}
+.stat .v{
+  font-family:var(--serif);font-weight:500;font-size:26px;margin-top:5px;line-height:1.15;
+  font-variant-numeric:tabular-nums;
+}
+.stat .x{font-size:11px;color:var(--faint);margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:normal;}
+.stat.blue .v{color:var(--blue);}
+
+.tabs{display:flex;margin:14px 22px 0;background:#F4F4F4;border-radius:4px;padding:3px;gap:2px;flex:none;}
+.tabs button{
+  flex:1;font-size:13px;letter-spacing:normal;padding:8px 0;border:none;cursor:pointer;
+  background:transparent;color:var(--muted);border-radius:4px;
+  transition:color .33s,background .33s,box-shadow .33s;
+}
+.tabs button.on{background:#FFFFFF;color:var(--ink);font-weight:500;}
+.tab-body{flex:1;min-height:220px;display:flex;flex-direction:column;padding:6px 8px 12px;}
+#trendChart{width:100%;flex:1;min-height:200px;}
+.tbl-wrap{flex:1;overflow-y:auto;}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.tbl-wrap th{
+  position:sticky;top:0;background:var(--bg);text-align:right;font-weight:500;
+  color:var(--muted);letter-spacing:normal;padding:10px 14px 8px;border-bottom:1px solid var(--line);font-size:11px;
+}
+.tbl-wrap td{text-align:right;padding:6px 14px;border-bottom:1px solid #EEEEEE;color:var(--body-c);font-variant-numeric:tabular-nums;}
+.tbl-wrap th:first-child,.tbl-wrap td:first-child{text-align:left;}
+.tbl-wrap tr.cur td{color:var(--blue);font-weight:500;background:var(--blue-wash);}
+.tbl-notes{padding:12px 14px 16px;border-top:1px solid var(--line);}
+.tbl-notes p{margin:5px 0;line-height:1.9;letter-spacing:normal;}
+.tbl-notes p.n-light{font-size:10px;color:#A6A8AB;}
+.tbl-notes p.n-source{font-size:12px;color:#6E7073;}
+.tab-pane{display:none;flex:1;min-height:0;}
+.tab-pane.on{display:flex;flex-direction:column;}
+
+/* ---------- 地图底部年份轴（悬浮于地图底部居中，含播放与整十年刻度；
+   图例卡加 .lg-top 置于左上角选择框下方） ---------- */
+.mini-tl{
+  position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:6;
+  width:min(330px,calc(100% - 24px));
+  padding:9px 14px 8px;
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line);border-radius:8px;
+  box-shadow:0 4px 18px rgba(23,26,32,.09);
+}
+.legend-card.lg-top{top:58px;left:14px;bottom:auto;}
+.mtl-row{display:flex;align-items:center;gap:10px;}
+.mtl-row .play{
+  flex:none;width:28px;height:28px;border-radius:50%;
+  border:1px solid var(--line);background:var(--bg);cursor:pointer;
+  color:var(--blue);font-size:10px;line-height:1;display:inline-flex;
+  align-items:center;justify-content:center;transition:all .33s;
+  font-family:var(--sans);letter-spacing:0;
+}
+.mtl-row .play:hover{border-color:var(--blue);}
+.mtl-row .play.playing{background:var(--blue);border-color:var(--blue);color:#fff;}
+.mtl-year{
+  font-family:var(--serif);font-weight:500;font-size:22px;line-height:1;
+  color:var(--blue);min-width:52px;font-variant-numeric:tabular-nums;letter-spacing:normal;
+}
+/* 行末的年份范围（如 1960~2024），补齐首行留白并交代轴的起止 */
+.mtl-row .mtl-range{
+  margin-left:auto;font-size:10px;color:var(--faint);
+  font-variant-numeric:tabular-nums;letter-spacing:normal;
+}
+.mtl-track{margin-top:5px;}
+.mini-tl input[type=range]{
+  display:block;width:100%;height:14px;margin:0;padding:0;
+  -webkit-appearance:none;appearance:none;outline:none;cursor:pointer;
+  background:linear-gradient(to right, var(--blue) 0%, var(--blue) var(--fill,100%), #EEEEEE var(--fill,100%)) no-repeat center;
+  background-size:100% 3px;
+  border-radius:2px;
+}
+.mini-tl input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--blue);cursor:pointer;border:2.5px solid #fff;
+}
+.mini-tl input[type=range]::-moz-range-thumb{
+  width:12px;height:12px;border-radius:50%;background:var(--blue);cursor:pointer;border:2.5px solid #fff;
+
+}
+/* 整十年刻度：与滑杆同宽对位，可点击直达 */
+.mtl-ticks{position:relative;height:13px;margin-top:1px;}
+.mtl-tick{
+  position:absolute;top:0;transform:translateX(-50%);padding:0;border:none;background:none;cursor:pointer;
+  font-family:var(--sans);font-size:10px;line-height:13px;color:var(--faint);
+  font-variant-numeric:tabular-nums;letter-spacing:normal;transition:color .2s;
+}
+.mtl-tick:hover{color:var(--blue);}
+.mtl-tick.on{color:var(--blue);font-weight:500;}
+
+/* ---------- 说明与页脚 ---------- */
+.map-note{
+  max-width:1200px;margin:18px auto 0;padding:0 32px;
+  font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;
+}
+.map-note p{margin-top:3px;}
+.map-note a{color:var(--faint);text-decoration:underline;text-underline-offset:3px;transition:color .33s;}
+.map-note a:hover{color:var(--blue);}
+.term-hint{position:relative;display:inline;border-bottom:1px dashed var(--faint);cursor:help;outline:none;}
+.term-hint .tip{
+  position:absolute;left:50%;bottom:calc(100% + 9px);z-index:30;
+  width:280px;background:var(--ink);color:#fff;
+  font-size:11.5px;letter-spacing:normal;line-height:1.75;
+  padding:9px 12px;border-radius:4px;white-space:normal;text-align:left;
+  opacity:0;visibility:hidden;transform:translate(-50%,4px);
+  transition:opacity .25s ease,transform .25s ease,visibility .25s;
+  pointer-events:none;
+}
+.term-hint .tip::after{
+  content:"";position:absolute;bottom:-3.5px;left:50%;width:7px;height:7px;
+  background:var(--ink);transform:translateX(-50%) rotate(45deg);border-radius:1.5px;
+}
+.term-hint:hover .tip,.term-hint:focus .tip{opacity:1;visibility:visible;transform:translate(-50%,0);}
+footer{border-top:1px solid var(--line);margin-top:26px;padding:30px 32px 44px;}
+.foot-inner{
+  max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:11.5px;color:var(--faint);letter-spacing:normal;
+}
+
+/* ============================================================
+   第二节「各国生育补贴支出」（原独立页并入，样式随之吸收；
+   与第一节同族：排名条形图 + 粘性国家详情栏 + 完整数据表）
+   ============================================================ */
+
+/* ---------- 引言 ---------- */
+.lead{max-width:1200px;margin:14px auto 0;padding:0 32px;}
+.lead p{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(14px,1.6vw,17px);line-height:1.9;color:var(--ink);
+  max-width:46em;
+}
+.lead p.dim{font-size:13.5px;line-height:2;color:var(--muted);font-weight:400;margin-top:4px;}
+
+/* ---------- 主板覆盖：自动高度 + 粘性侧栏 ---------- */
+#support .board{height:auto;grid-template-columns:minmax(0,1fr) 384px;gap:30px;align-items:start;}
+#support .side{position:sticky;top:78px;display:block;overflow:visible;padding:4px 0 0 26px;min-height:430px;}
+
+/* 左：年份切换 + 排名条形图 */
+.bar-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:12px;}
+#support .tabs{display:inline-flex;margin:0;}
+#support .tabs button{flex:none;font-size:12.5px;padding:6px 16px;}
+.bar-cap{font-size:11px;color:var(--faint);letter-spacing:normal;text-align:right;}
+#sp-barChart{width:100%;height:900px;}
+.bar-tip{margin-top:10px;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+
+/* 右：粘性详情栏 */
+.sel-k{display:block;font-size:11px;color:var(--muted);letter-spacing:normal;margin-bottom:8px;}
+.side-sel select{
+  width:100%;font-family:var(--sans);font-size:13px;color:var(--ink);
+  padding:9px 34px 9px 12px;border:1px solid var(--line);border-radius:4px;
+  background:var(--bg);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C5E62' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  transition:border-color .33s;
+}
+.side-sel select:hover{border-color:var(--faint);}
+.p-head{margin-top:24px;}
+.p-head .p-name{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:normal;line-height:1.15;}
+.p-big{margin-top:14px;display:flex;align-items:baseline;gap:7px;}
+.p-big .v{
+  font-family:var(--serif);font-weight:500;font-size:40px;line-height:1;
+  color:var(--blue);font-variant-numeric:tabular-nums;
+}
+.p-big small{font-size:12px;color:var(--muted);letter-spacing:normal;}
+.p-delta{margin-top:9px;font-size:12.5px;color:var(--muted);letter-spacing:normal;min-height:18px;}
+.p-delta b{font-weight:500;color:var(--ink);}
+#sp-trendChart{width:100%;height:238px;margin-top:14px;}
+/* 图注：分行排列，左缘与上方折线图绘图区左缘对齐（38px = 趋势图 grid.left） */
+.t-cap{font-size:10.5px;color:var(--faint);letter-spacing:normal;margin-top:6px;line-height:1.9;text-align:left;padding-left:38px;}
+.t-cap .lg{white-space:nowrap;}
+
+/* ---------- 完整数据表 ---------- */
+.block{max-width:1200px;margin:0 auto;padding:58px 32px 0;}
+.b-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:16px;}
+.b-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(20px,2.4vw,27px);letter-spacing:normal;}
+.b-head .d{margin-top:6px;font-size:12.5px;color:var(--muted);letter-spacing:normal;}
+.dl{
+  display:inline-flex;align-items:center;gap:8px;flex:none;
+  font-size:12.5px;letter-spacing:normal;padding:8px 18px;border-radius:4px;
+  border:1px solid #D0D1D2;background:#FFFFFF;color:#393C41;
+  transition:border-color .33s,color .33s,background-color .33s;
+}
+.dl:hover{border-color:#171A20;color:#171A20;}
+.tbl-scroll{max-height:640px;overflow:auto;border-top:1px solid var(--line);}
+.tbl-scroll table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;}
+.tbl-scroll th{
+  position:sticky;top:0;z-index:2;background:#FFFFFF;
+  text-align:right;font-weight:500;color:var(--muted);font-size:11px;letter-spacing:normal;
+  padding:11px 12px 9px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+.tbl-scroll td{
+  text-align:right;padding:5.5px 12px;border-bottom:1px solid #F5F5F6;
+  color:var(--body-c);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.tbl-scroll th:first-child,.tbl-scroll td:first-child{
+  text-align:left;position:sticky;left:0;background:#FFFFFF;min-width:92px;z-index:1;
+}
+.tbl-scroll th:first-child{z-index:3;}
+.tbl-scroll tbody tr{cursor:pointer;}
+.tbl-scroll tbody tr:hover td{background:#FAFAFB;}
+.tbl-scroll tbody tr:hover td:first-child{background:#FAFAFB;}
+.tbl-scroll tr.cur td{background:var(--blue-wash);color:var(--blue);font-weight:500;}
+.tbl-scroll tr.cur td:first-child{background:var(--blue-wash);color:var(--blue);}
+
+/* ---------- 移动端 ---------- */
+@media (max-width:960px){
+  .sec-head{padding:0 20px;}
+  .map-area{display:flex;flex-direction:column;}
+  .map-area .mapsel{position:static;align-self:flex-start;margin-bottom:10px;}
+  #map{width:100%;}
+  .board{grid-template-columns:1fr;height:auto;padding:0 20px;gap:0;}
+  .map-area{height:110vw;max-height:480px;}
+  .side{border-left:none;border-top:1px solid var(--line);max-height:620px;}
+  .lead{padding:0 20px;}
+  #support .board{grid-template-columns:1fr;gap:0;}
+  #support .side{position:static;max-height:none;padding:24px 0 0;margin-top:28px;min-height:0;}
+  #sp-barChart{height:920px;}
+  .block{padding:44px 20px 0;}
+  .map-note{padding:0 20px;}
+  .term-hint .tip{position:fixed;left:50%;top:auto;bottom:14px;transform:translate(-50%,4px);width:min(320px,86vw);}
+  .term-hint:hover .tip,.term-hint:focus .tip{transform:translate(-50%,0);}
+  .term-hint .tip::after{display:none;}
+  footer .foot-inner{padding:0 20px;}
+}

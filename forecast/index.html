@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>未来人口预测 - 人口档案馆</title>
+<meta name="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景。本页数据均为预测结果，仅供参考。预测方法详见“人口预测模型”（队列要素法）">
+<meta property="og:title" content="未来人口预测 - 人口档案馆">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F4F4F4;
+    --ink:#171A20;
+    --body-c:#393C41;
+    --muted:#5C5E62;
+    --faint:#8E8E8E;
+    --line:#EEEEEE;
+    --accent:#3E6AE1;
+    --serif:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+    --sans:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:500;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(62,106,225,.14);}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:var(--sans);}
+  [id]{scroll-margin-top:78px;}
+
+
+  .head{max-width:1200px;margin:0 auto;padding:30px 32px 0;}
+  .kicker{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--accent);margin-bottom:16px;}
+  .kicker::before{content:"";display:inline-block;width:22px;height:1px;background:var(--accent);vertical-align:middle;margin-right:12px;}
+  .head h1{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);letter-spacing:normal;}
+  .head-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+  .head-src{font-size:12.5px;line-height:1.7;color:var(--faint);letter-spacing:normal;max-width:680px;}
+  .head-src a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--faint);}
+  .head-src a:hover{color:var(--accent);}
+  .head .sub{margin-top:10px;font-size:13.5px;color:var(--muted);letter-spacing:normal;}
+
+  .controls{max-width:1200px;margin:26px auto 0;padding:0 32px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .seg{display:flex;background:#F4F4F4;border-radius:4px;padding:3px;gap:2px;}
+  .seg button{font-size:12.5px;letter-spacing:normal;padding:8px 15px;background:transparent;border:none;cursor:pointer;color:var(--muted);border-radius:4px;white-space:nowrap;transition:color .33s,background .33s,box-shadow .33s;}
+  .seg button.on{background:#FFFFFF;color:var(--ink);font-weight:500;}
+  .seg button:hover:not(.on){color:var(--ink);}
+
+  .board{max-width:1200px;margin:20px auto 0;padding:0 32px;display:grid;grid-template-columns:1fr 300px;gap:20px;}
+  .chart-box{height:480px;position:relative;}
+  #chart{width:100%;height:100%;}
+  .legend-bar{position:absolute;top:0;left:0;right:0;z-index:5;height:24px;display:flex;justify-content:center;align-items:center;gap:18px;}
+  .lg-item{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;transition:opacity .33s;}
+  .lg-item:hover .lg-t{color:var(--ink);}
+  .lg-item.off{opacity:.32;}
+  .lg-item .lg-sw{width:14px;height:2px;border-radius:1px;flex:none;}
+  .lg-item .lg-t{font-size:11.5px;color:var(--muted);letter-spacing:normal;transition:color .33s;}
+  .stat-col{display:flex;flex-direction:column;gap:10px;}
+  .stat{flex:1 1 0;min-height:0;display:flex;flex-direction:column;justify-content:center;background:#FFFFFF;border:1px solid var(--line);border-radius:4px;box-shadow:0 2px 12px rgba(23,26,32,.06);padding:10px 15px;}
+  .stat .k{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;color:var(--muted);letter-spacing:normal;}
+  .stat .k .unit{font-size:10.5px;color:var(--faint);}
+  .srows{margin-top:6px;display:flex;flex-direction:column;gap:5px;}
+  .srow{display:flex;align-items:center;gap:7px;}
+  .srow .sw{width:14px;height:2px;border-radius:1px;flex:none;}
+  .srow .sn{font-size:12px;color:var(--muted);flex:none;}
+  .srow.mid .sn{color:var(--ink);font-weight:500;}
+  .srow .dots{flex:1 1 auto;height:1px;min-width:10px;border-bottom:1px dotted #D9D9D9;}
+  .srow .sv{font-family:var(--serif);font-weight:500;font-size:15px;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;}
+  .srow.mid .sv{font-size:17px;color:var(--accent);}
+  .src-hint{
+    position:relative;display:inline-flex;align-items:center;flex:none;
+    font-size:12px;line-height:1;color:var(--faint);
+    cursor:default;user-select:none;outline:none;
+  }
+  .src-hint .info{font-style:normal;font-size:12px;line-height:1;transition:color .33s;}
+  .src-hint:hover,.src-hint:focus{color:var(--muted);}
+  .src-hint:hover .info,.src-hint:focus .info{color:var(--muted);}
+  .src-hint .tip{
+    position:absolute;top:calc(100% + 9px);left:-6px;z-index:30;
+    width:200px;background:var(--ink);color:#fff;
+    font-size:11.5px;letter-spacing:normal;line-height:1.75;
+    padding:9px 12px;border-radius:4px;white-space:normal;text-align:left;
+    opacity:0;visibility:hidden;transform:translateY(4px);
+    transition:opacity .33s ease,transform .33s ease,visibility .33s;
+    pointer-events:none;
+  }
+  .src-hint .tip::after{
+    content:"";position:absolute;top:-3.5px;left:14px;width:7px;height:7px;
+    background:var(--ink);transform:rotate(45deg);border-radius:1.5px;
+  }
+  .src-hint:hover .tip,.src-hint:focus .tip{opacity:1;visibility:visible;transform:none;}
+
+  .notes{max-width:1200px;margin:26px auto 0;padding:0 32px;display:grid;grid-template-columns:1fr;gap:14px;}
+  .note-card{background:transparent;border-top:1px solid var(--line);border-radius:0;padding:20px 0 0;}
+  .note-card h3{font-family:var(--serif);font-weight:500;font-size:15px;letter-spacing:normal;margin-bottom:14px;}
+  .scen-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  .scen-item{border-radius:8px;padding:13px 16px;}
+  .scen-item.h{background:linear-gradient(180deg,rgba(142,142,142,.13),rgba(142,142,142,.03));}
+  .scen-item.m{background:linear-gradient(180deg,rgba(62,106,225,.12),rgba(62,106,225,.02));}
+  .scen-item.l{background:linear-gradient(180deg,rgba(225,61,61,.11),rgba(225,61,61,.02));}
+  .scen-item .scen-h{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--ink);}
+  .scen-item .scen-h .sw{width:14px;height:2px;border-radius:1px;flex:none;}
+  .scen-item p{font-size:12.5px;line-height:1.9;color:var(--body-c);margin-top:7px;}
+  .scen-note{margin-top:14px;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+  .term-hint{position:relative;display:inline;border-bottom:1px dashed var(--faint);cursor:help;outline:none;}
+  .term-hint .tip{
+    position:absolute;left:50%;bottom:calc(100% + 9px);z-index:30;
+    width:280px;background:var(--ink);color:#fff;
+    font-size:11.5px;letter-spacing:normal;line-height:1.75;
+    padding:9px 12px;border-radius:4px;white-space:normal;text-align:left;
+    opacity:0;visibility:hidden;transform:translate(-50%,4px);
+    transition:opacity .25s ease,transform .25s ease,visibility .25s;
+    pointer-events:none;
+  }
+  .term-hint .tip::after{
+    content:"";position:absolute;bottom:-3.5px;left:50%;width:7px;height:7px;
+    background:var(--ink);transform:translateX(-50%) rotate(45deg);border-radius:1.5px;
+  }
+  .term-hint:hover .tip,.term-hint:focus .tip{opacity:1;visibility:visible;transform:translate(-50%,0);}
+  .method-card{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:20px 0 0;overflow:visible;}
+  .method-card summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0;user-select:none;}
+  .method-card summary::-webkit-details-marker{display:none;}
+  .method-card summary::marker{content:"";}
+  .method-card summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;}
+  .method-summary-main{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;min-width:0;}
+  .method-title{font-family:var(--serif);font-weight:500;font-size:15px;letter-spacing:normal;color:var(--ink);transition:color .2s;}
+  .method-card summary:hover .method-title{color:var(--accent);}
+  .method-sub{font-size:11.5px;line-height:1.6;color:var(--faint);letter-spacing:normal;}
+  .method-cue{display:flex;align-items:center;gap:8px;flex:none;}
+  .method-action{font-size:11.5px;color:var(--muted);letter-spacing:normal;transition:color .2s;}
+  .method-action::before{content:"点击展开";}
+  .method-card[open] .method-action::before{content:"收起";}
+  .method-card summary:hover .method-action{color:var(--accent);}
+  .method-toggle{width:24px;height:24px;border:1px solid rgba(62,106,225,.35);border-radius:50%;flex:none;position:relative;background:rgba(62,106,225,.06);transition:background .2s,border-color .2s;}
+  .method-toggle::before,.method-toggle::after{content:"";position:absolute;left:50%;top:50%;background:var(--accent);border-radius:1px;transform:translate(-50%,-50%);transition:opacity .2s;}
+  .method-toggle::before{width:10px;height:1px;}
+  .method-toggle::after{width:1px;height:10px;}
+  .method-card summary:hover .method-toggle{background:rgba(62,106,225,.14);border-color:var(--accent);}
+  .method-card[open] .method-toggle::after{opacity:0;}
+  .method-body{padding:14px 0 0;}
+  .method-intro{font-size:12.5px;line-height:1.9;color:var(--body-c);}
+  .method-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px;}
+  .method-item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0;}
+  .method-item h4{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);letter-spacing:normal;margin-bottom:8px;}
+  .method-item h4 .num{width:20px;height:20px;border-radius:50%;background:rgba(62,106,225,.10);color:var(--accent);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;}
+  .method-item p{font-size:12px;line-height:1.9;color:var(--body-c);}
+  .method-item p + p{margin-top:6px;}
+  .method-item .method-lead{font-size:12.5px;line-height:1.85;color:var(--ink);}
+  .method-item .method-lead + p{margin-top:8px;}
+  .formula{width:fit-content;max-width:100%;margin:14px auto;padding:0;
+    background:none;border:0;
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    font-size:11.5px;line-height:2;color:var(--ink);text-align:left;
+    white-space:pre-wrap;overflow-x:auto;}
+  .method-wide{grid-column:auto;}
+  .method-note{font-size:11.5px;line-height:1.9;color:var(--faint);margin-top:16px;}
+  .method-note a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--faint);}
+  .method-note a:hover{color:var(--accent);}
+  .page-note .page-danger{color:#C62828;font-weight:400;}
+
+  .page-note{
+    max-width:1200px;margin:18px auto 0;padding:0 32px;
+    font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+  .page-note .warn{color:#171A20;font-weight:500;}
+  .page-note a{color:var(--faint);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--faint);}
+  .page-note a:hover{color:var(--accent);}
+
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:30px 32px 44px;}
+  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+
+  @media (max-width:960px){
+    .head{padding:26px 20px 0;}
+    .controls{padding:0 20px;}
+    /* 四个指标按钮在手机宽度下放不下（按钮文字不换行），收紧内边距避免顶出横向滚动 */
+    .seg button{padding:8px 9px;font-size:12px;}
+    .board{grid-template-columns:1fr;padding:0 20px;}
+    .chart-box{height:340px;}
+    .stat-col{flex-direction:row;flex-wrap:wrap;}
+    .stat{flex:1 1 40%;}
+    .legend-bar{gap:12px;}
+    .scen-grid{grid-template-columns:1fr;gap:14px;}
+    .method-sub{display:none;}
+    .src-hint .tip{position:fixed;left:50%;top:auto;bottom:14px;transform:translate(-50%,4px);width:min(340px,86vw);}
+    .src-hint:hover .tip,.src-hint:focus .tip{transform:translate(-50%,0);}
+    .src-hint .tip::after{display:none;}
+    .term-hint .tip{position:fixed;left:50%;top:auto;bottom:14px;transform:translate(-50%,4px);width:min(320px,86vw);}
+    .term-hint:hover .tip,.term-hint:focus .tip{transform:translate(-50%,0);}
+    .term-hint .tip::after{display:none;}
+    .head-src{max-width:100%;font-size:12px;}
+    .notes{grid-template-columns:1fr;padding:0 20px;}
+    .page-note{padding:0 20px;}
+    footer .foot-inner{padding:0 20px;}
+  }
+</style>
+  <link rel="stylesheet" href="../nav.css?v=45">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">
+      <span class="zh">人口档案馆</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="../harms/index.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="../harms/index.html#s1">幼儿园</a>
+          <a href="../harms/index.html#s2">中学</a>
+          <a href="../harms/index.html#s3">高等教育</a>
+          <a href="../harms/index.html#s4">日常消费品</a>
+          <a href="../harms/index.html#s5">公务员、事业编</a>
+          <a href="../harms/index.html#s6">房地产及上下游</a>
+          <a href="../harms/index.html#s7">互联网巨头</a>
+          <a href="../harms/index.html#s8">电力和医院</a>
+          <a href="../harms/index.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../map/index.html">各省生育地图</a>
+        <div class="menu">
+          <a href="../map/index.html#years">各省历年生育地图</a>
+          <a href="../map/index.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="../forecast/index.html">未来人口预测</a>
+        <div class="menu">
+          <a href="#pop">总人口预测</a>
+          <a href="#births">出生人口预测</a>
+          <a href="#death">死亡人口预测</a>
+          <a href="#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../world/index.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="../world/index.html#tfr">各国生育率</a>
+          <a href="../world/index.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../debates/index.html">永恒的争论</a>
+        <div class="menu">
+          <a href="../debates/index.html#d1">人口过多论</a>
+          <a href="../debates/index.html#d2">收缩红利论</a>
+          <a href="../debates/index.html#d3">机器替代论</a>
+          <a href="../debates/index.html#d4">内卷降低论</a>
+          <a href="../debates/index.html#d5">少生优生论</a>
+          <a href="../debates/index.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../viewpoints/index.html">各方观点</a>
+        <div class="menu">
+          <a href="../viewpoints/index.html#p1">普京（俄罗斯）</a>
+          <a href="../viewpoints/index.html#p2">李光耀（新加坡）</a>
+          <a href="../viewpoints/index.html#p3">马斯克（美国）</a>
+          <a href="../viewpoints/index.html#p4">李显龙（新加坡）</a>
+          <a href="../viewpoints/index.html#p5">梁建章（中国）</a>
+          <a href="../viewpoints/index.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../thought-experiment/index.html">思想实验</a>
+        <div class="menu">
+          <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
+          <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
+          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../datacenter/index.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="../datacenter/index.html#secNat">全国历年出生人口</a>
+          <a href="../datacenter/index.html#secCensus">七普回溯出生人口</a>
+          <a href="../datacenter/index.html#secDec">各年代年均出生人口</a>
+          <a href="../datacenter/index.html#secFc">未来人口预测</a>
+          <a href="../datacenter/index.html#secProv">各省历年出生数据</a>
+          <a href="../datacenter/index.html#secDecline">各省出生人口下降幅度</a>
+          <a href="../datacenter/index.html#secWorld">各国生育率</a>
+          <a href="../datacenter/index.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="../other/index.html">其他</a>
+        <div class="menu align-right">
+          <a href="../other/index.html#g-pop">总人口</a>
+          <a href="../other/index.html#g-births">出生人口</a>
+          <a href="../other/index.html#g-cbr">出生率</a>
+          <a href="../other/index.html#g-tfr">(总和) 生育率</a>
+          <a href="../other/index.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="../other/index.html#g-replace">世代更替水平</a>
+          <a href="../other/index.html#g-ageing">老龄化与少子化</a>
+          <a href="../other/index.html#g-boom">婴儿潮与回声潮</a>
+          <a href="../other/index.html#about">关于本站</a>
+          <a href="../other/index.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="head-row">
+    <h1>未来人口预测</h1>
+    <span class="head-src">本页数据均为预测结果，仅供参考。预测方法详见<a href="#method">“人口预测模型”</a></span>
+  </div>
+  <p class="sub">2026~2100 年：总人口、出生人口、死亡人口、年减少人数；包含高、中、低三种预测情景</p>
+</header>
+
+<div class="controls">
+  <div class="seg" role="group" aria-label="选择指标">
+    <button class="on" data-m="pop">总人口</button>
+    <button data-m="births">出生人口</button>
+    <button data-m="death">死亡人口</button>
+    <button data-m="dec">年减少人数</button>
+  </div>
+</div>
+
+<main class="board">
+  <div class="chart-box">
+    <div class="legend-bar" id="legendBar"></div>
+    <div id="chart"></div>
+  </div>
+  <div class="stat-col" id="statCol"></div>
+</main>
+
+<section class="notes">
+  <div class="note-card">
+    <h3>三种情景的假设</h3>
+    <div class="scen-grid">
+      <div class="scen-item h">
+        <div class="scen-h"><span class="sw" style="background:#8E8E8E"></span>高预测</div>
+        <p>从 2025 年约 0.96 的生育率逐步回升，2035 年达到 1.3；此后保持 1.3。</p>
+      </div>
+      <div class="scen-item m">
+        <div class="scen-h"><span class="sw" style="background:#3E6AE1"></span>中预测</div>
+        <p>从 2025 年约 0.96 逐步回升，2035 年达到 1.0；此后保持 1.0。</p>
+      </div>
+      <div class="scen-item l">
+        <div class="scen-h"><span class="sw" style="background:#E13D3D"></span>低预测</div>
+        <p>从 2025 年约 0.96 逐步下降，2035 年降到 0.8；此后保持 0.8。</p>
+      </div>
+    </div>
+    <div class="scen-note">注：生育率指<span class="term-hint" tabindex="0" aria-describedby="tfr-def">总和生育率 (TFR)<span class="tip" id="tfr-def" role="tooltip">指一个国家或地区的妇女在育龄期间平均生育的子女数。</span></span>；2025 年由实际出生 792 万反推约 0.96。三情景仅生育率不同，共用同一死亡率假设——2050 年前死亡人口几乎相同，此后才因人口规模差异略有分化。</div>
+  </div>
+  <details class="note-card method-card" id="method">
+    <summary>
+      <span class="method-summary-main">
+        <span class="method-title">模型方法</span>
+        <span class="method-sub">四张图数据的计算方法，含公式与通俗解释</span>
+      </span>
+      <span class="method-cue">
+        <span class="method-action" aria-hidden="true"></span>
+        <span class="method-toggle" aria-hidden="true"></span>
+      </span>
+    </summary>
+    <div class="method-body">
+      <p class="method-intro">模型采用人口学中的队列要素法（cohort-component method），按性别和单岁年龄分组，逐年递推。</p>
+      <div class="method-grid">
+        <div class="method-item">
+          <h4><span class="num">1</span>总人口</h4>
+          <p class="method-lead">计算逻辑：各年龄人口逐年递进一岁，0 岁人口由当年出生人口补充，死亡人口退出，净迁移于年末计入。</p>
+          <p>用 P(t,a,s) 表示 t 年、a 岁、性别 s 的人数；q(t,a,s) 表示这个年龄的人一年内死亡的概率。t+1 年 a+1 岁人口，为 t 年 a 岁人口存活至下一年的部分：</p>
+          <div class="formula">P(t+1, a+1, s) = P(t, a, s) × [1 − q(t, a, s)]      a = 0…98</div>
+          <p>0 岁人口来自当年出生的婴儿；100 岁及以上不再分年龄，统一并入最后一档：</p>
+          <div class="formula">P(t+1, 0, s)   = B_s(t) × [1 − q(t, 0, s)]
+P(t+1, 100, s) = P(t, 99, s) × [1 − q(t, 99, s)]
+               + P(t, 100, s) × [1 − q(t, 100, s)]</div>
+          <p>将各年龄、性别人口加总，即得总人口；各年人口还需满足人口平衡方程：</p>
+          <div class="formula">P(t) = Σa Σs P(t, a, s)
+P(t+1) = P(t) + B(t) − D(t) + M(t)</div>
+          <p>该等式为人口平衡关系：本年人口 = 上年人口 + 出生 − 死亡 + 净迁移，确保各年龄人口与总人口相互一致。</p>
+        </div>
+        <div class="method-item">
+          <h4><span class="num">2</span>出生人口</h4>
+          <p class="method-lead">计算逻辑：出生人口由育龄妇女人数、年龄别生育率分布与总和生育率共同决定。</p>
+          <p>F(t,a) 为 t 年 a 岁女性人数；f(t,a) 为生育年龄分布，表示全部生育中发生在 a 岁的比例。</p>
+          <p><b>分布特征：</b>f(t,a) 覆盖 15—49 岁，各年龄之和为 1（Σf=1），因此仅决定生育的年龄结构，不改变生育总量。其形状取自联合国《世界人口展望 2024》中中国 2020 年的年龄别生育率。</p>
+          <p><b>每年后移 0.05 岁的含义：</b>该设定反映平均生育年龄上升。0.05 岁/年相当于每 20 年推迟 1 岁，至 2050 年累计后移 1.5 岁；2020 年的 25 岁生育高峰对应 2050 年的 26.5 岁。平移后重新归一化，使 Σf 仍为 1。</p>
+          <p>TFR 表示生育总量：TFR=1.0 表示平均每位女性一生生育 1 个孩子。以 f 加权的育龄女性人数乘以 TFR，即为出生人口：</p>
+          <div class="formula">B(t) = TFR(t) × Σ(a=15…49) F(t, a) × f(t, a)</div>
+          <p>TFR 以 2025 年实际出生 792 万反推的 0.963 为起点，线性变化至 2035 年目标，此后保持不变：</p>
+          <div class="formula">TFR(t) = TFR(2025) + [TFR目标 − TFR(2025)] × min(1, (t−2025)/10)</div>
+          <p>按出生性别比 SRB 拆分为男婴、女婴。SRB=106 表示每出生 100 个女婴对应 106 个男婴：</p>
+          <div class="formula">B男(t) = B(t) × SRB(t) / (100 + SRB(t))
+B女(t) = B(t) × 100 / (100 + SRB(t))</div>
+        </div>
+        <div class="method-item">
+          <h4><span class="num">3</span>死亡人口</h4>
+          <p class="method-lead">计算逻辑：各年龄人口乘以对应年龄别死亡概率后加总，并计入当年出生婴儿在 0 岁的死亡。</p>
+          <p>q(t,a,s) 是 a 岁的人一年内死亡的概率。死亡人口等于各年龄人数乘 q 之和；当年出生的婴儿也可能在 0 岁死亡，所以再加一项：</p>
+          <div class="formula">D(t) = Σa Σs P(t, a, s) × q(t, a, s)
+     + Σs B_s(t) × q(t, 0, s)</div>
+          <p>q 随年龄和时间变化。以联合国《世界人口展望 2024》中中国 2020 年的生命表为起点，按年龄别改善速度 g(a) 逐年下降：婴幼儿与青壮年改善较快，老年较慢。再以整体水平 λ(t) 调整整条曲线：</p>
+          <div class="formula">q_raw(t,a,s) = 1 − [1 − q(t−1,a,s)]^exp(−g(a))
+q(t,a,s)     = 1 − [1 − q_raw(t,a,s)]^exp(λ(t))</div>
+          <p>g(a) 为分段线性假设：婴幼儿 1.0%—2.5%/年，青壮年 1.0%—1.2%/年，老年 0.4%—0.9%/年。λ(t) 每年用二分法求解，使算出的出生时预期寿命 e0 正好等于目标。</p>
+          <p>e0 表示：若一生的死亡率均与当年相同，新生儿平均可存活多少年。公式中 L 为生命表各年龄的平均存活人年数，l 为活到该年龄的人数：</p>
+          <div class="formula">e0(t, s) = Σa L(t, a, s) / l(t, 0) = e0目标(t, s)</div>
+          <p>三情景共用同一 e0 路径：2035 年 79.5 / 84.5 岁，2050 年 82.0 / 87.0 岁，2100 年 86.0 / 90.5 岁（男 / 女）。因此，三情景死亡人口基本一致，仅因人口年龄结构不同而在长期略有差异。</p>
+        </div>
+        <div class="method-item">
+          <h4><span class="num">4</span>年减少人数</h4>
+          <p class="method-lead">计算逻辑：年减少人数为相邻两年总人口之差，正数表示减少，负数表示增加。</p>
+          <p>年减少人数并非单纯的“死亡 − 出生”，还需计入迁移。对人口平衡方程移项：</p>
+          <div class="formula">ΔP(t) = P(t−1) − P(t)
+      = D(t) − B(t) − M(t)</div>
+          <p>因此，年减少人数 = 死亡 − 出生 − 净迁移。净迁移通常为负（净迁出），会扩大人口减少幅度。</p>
+        </div>
+        <div class="method-item method-wide">
+          <h4><span class="num">5</span>净迁移、历史校准与情景</h4>
+          <p class="method-lead">计算逻辑：历史年份依据官方数据校准，预测年份按情景假设外推。</p>
+          <p>净迁移按年龄段分配：</p>
+          <div class="formula">M(t) = 年度净迁移规模 × 年龄分布权重</div>
+          <p>2026—2035 年 −20 万/年，2036—2050 年 −15 万/年，2051—2100 年 −10 万/年；主要落在 20—59 岁，男女各半。</p>
+          <p>2021—2025 年是校准期：出生、死亡直接采用国家统计局实际值；每年反解死亡率整体水平，使模型死亡人数等于实际死亡人数；官方总人口变化与“出生 − 死亡”的差额，统一计入净迁移/统计误差。由此，2025 年总人口与官方值 14.0489 亿一致。</p>
+          <p>2026 年起进入预测。三种情景仅在 TFR 上不同（低 0.8 / 中 1.0 / 高 1.3），死亡率、迁移、出生性别比等参数完全相同。</p>
+        </div>
+      </div>
+      <p class="method-note">基准人口：2020 年七普表 3-1（31 省 14.0978 亿）+ 200 万现役军人，合计 14.1178 亿；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">UN WPP 2024</a>；2021—2025 年数据来自国家统计局。完整参数与逐年结果见<a href="../datacenter/index.html#secFc">数据中心 → 4. 未来人口预测</a>。</p>
+    </div>
+  </details>
+</section>
+
+<div class="page-note">
+  <span class="page-danger">本页全部数据均为预测数据，仅作参考——预测基于情景假设推算，不是对未来的承诺，请勿当作事实引用。</span>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆©2026</span>
+  </div>
+</footer>
+
+<script src="../map/echarts.min.js"></script>
+<script src="forecast-data.js?v=4"></script>
+<script>
+(function(){
+"use strict";
+var F = window.FORECAST_DATA;
+var years = F.years;
+var metric = 'pop';
+var METRICS = [
+  {k:'pop',   name:'总人口',    key:'pop'},
+  {k:'births',name:'出生人口',  key:'births'},
+  {k:'death', name:'死亡人口',  key:'death'},
+  {k:'dec',   name:'年减少人数', key:'dec'}
+];
+function ser(m, s){ return F.data[s + '_' + m] || []; }
+function fmtW(v){ return Math.round(v).toLocaleString('en-US'); }
+function fmtY(v){ return (Math.round(v/100)/100).toLocaleString('en-US'); }
+function isPop(){ return metric === 'pop'; }
+function fmtVal(v){ return isPop() ? fmtY(v) + ' 亿' : fmtW(v) + ' 万'; }
+var SCEN = [
+  {s:'高预测', c:'#8E8E8E', w:1.4, tip:'从 2025 年约 0.96 的生育率逐步回升，2035 年达到 1.3；此后保持 1.3。'},
+  {s:'中预测', c:'#3E6AE1', w:2.4, tip:'从 2025 年约 0.96 逐步回升，2035 年达到 1.0；此后保持 1.0。'},
+  {s:'低预测', c:'#E13D3D', w:1.6, tip:'从 2025 年约 0.96 逐步下降，2035 年降到 0.8；此后保持 0.8。'}
+];
+var visible = { '高预测': true, '中预测': true, '低预测': true };
+function niceMax(v){
+  var p = Math.pow(10, Math.floor(Math.log(v)/Math.log(10)));
+  var d = v / p;
+  var steps = [1,1.5,2,2.5,3,3.5,4,4.5,5,6,7,8,9,10];
+  for (var i = 0; i < steps.length; i++){ if (d <= steps[i]) return steps[i] * p; }
+  return 10 * p;
+}
+var YMAX = {};
+METRICS.forEach(function(m){
+  var mx = 0;
+  SCEN.forEach(function(sm){
+    ser(m.k, sm.s).forEach(function(v){ if (v > mx) mx = v; });
+  });
+  YMAX[m.k] = niceMax(mx);
+});
+
+var chart = echarts.init(document.getElementById('chart'));
+var MQ_NARROW = window.matchMedia('(max-width:960px)');
+function option(){
+  return {
+    /* 窄屏改用 containLabel 自适应贴边：y 轴刻度贴画布左缘，消除固定 left 66/40 的死空白；
+       bottom 相应减小抵消 x 刻度被计入 grid 的高度 */
+    grid: MQ_NARROW.matches ? { left: 2, right: 12, top: 30, bottom: 14, containLabel: true } : { left: 66, right: 24, top: 30, bottom: 34 },
+    tooltip: {
+      trigger: 'axis', textStyle: { fontSize: 11.5 },
+      valueFormatter: function(v){ return fmtVal(v); }
+    },
+    xAxis: {
+      type: 'category', data: years, boundaryGap: false,
+      axisLine: { lineStyle: { color: '#EEEEEE' } }, axisTick: { show: false },
+      axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E', interval: function(index, value){ return value % 10 === 0; } }
+    },
+    yAxis: {
+      type: 'value', min: 0, max: YMAX[metric], splitNumber: 5,
+      splitLine: { lineStyle: { color: '#EEEEEE' } },
+      axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E', formatter: function(v){ return isPop() ? fmtY(v) : v.toLocaleString('en-US'); } },
+      axisLine: { show: false }, axisTick: { show: false }
+    },
+    series: SCEN.filter(function(sm){ return visible[sm.s]; }).map(function(sm){
+      return { name: sm.s, type: 'line', data: ser(metric, sm.s), symbol: 'none', smooth: 0.35,
+        lineStyle: { color: sm.c, width: sm.w }, itemStyle: { color: sm.c } };
+    })
+  };
+}
+function stats(){
+  var name = METRICS.filter(function(m){ return m.k === metric; })[0].name;
+  var marks = [2035, 2050, 2075, 2100];
+  var unit = isPop() ? '亿' : '万';
+  var html = '';
+  marks.forEach(function(y){
+    var idx = years.indexOf(y);
+    html += '<div class="stat">'
+          + '<div class="k"><span>' + name + '（' + y + '）</span><span class="unit">' + unit + '</span></div>'
+          + '<div class="srows">';
+    SCEN.forEach(function(sm){
+      var arr = ser(metric, sm.s);
+      var v = idx >= 0 ? arr[idx] : null;
+      var val = v == null ? '—' : (isPop() ? fmtY(v) : fmtW(v));
+      html += '<div class="srow' + (sm.s === '中预测' ? ' mid' : '') + '">'
+            + '<span class="sw" style="background:' + sm.c + '"></span>'
+            + '<span class="sn">' + sm.s + '</span>'
+            + '<span class="dots"></span>'
+            + '<span class="sv">' + val + '</span>'
+            + '</div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('statCol').innerHTML = html;
+}
+function renderLegend(){
+  var html = '';
+  SCEN.forEach(function(sm){
+    html += '<span class="lg-item' + (visible[sm.s] ? '' : ' off') + '" data-s="' + sm.s + '" role="button" tabindex="0">'
+          + '<span class="lg-sw" style="background:' + sm.c + '"></span>'
+          + '<span class="lg-t">' + sm.s + '</span>'
+          + '<span class="src-hint" tabindex="0"><i class="info">ⓘ</i><span class="tip">' + sm.tip + '</span></span>'
+          + '</span>';
+  });
+  document.getElementById('legendBar').innerHTML = html;
+}
+function toggleScen(item){
+  var s = item.getAttribute('data-s');
+  visible[s] = !visible[s];
+  item.classList.toggle('off', !visible[s]);
+  chart.setOption(option(), true);
+}
+document.getElementById('legendBar').addEventListener('click', function(e){
+  if (e.target.closest && e.target.closest('.src-hint')) return;
+  var item = e.target.closest ? e.target.closest('.lg-item') : null;
+  if (item) toggleScen(item);
+});
+document.getElementById('legendBar').addEventListener('keydown', function(e){
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  if (e.target.closest && e.target.closest('.src-hint')) return;
+  var item = e.target.closest ? e.target.closest('.lg-item') : null;
+  if (item){ e.preventDefault(); toggleScen(item); }
+});
+function setMetric(k){
+  if (!/^(pop|births|death|dec)$/.test(k)) return;
+  metric = k;
+  document.querySelectorAll('.seg button').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-m') === k);
+  });
+  chart.setOption(option(), true);
+  stats();
+}
+document.querySelectorAll('.seg button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var k = btn.getAttribute('data-m');
+    setMetric(k);
+    if (location.hash.slice(1) !== k) location.hash = k;
+  });
+});
+/* 断点翻转时需重设 option（resize 只重算尺寸，不会改 grid 留白） */
+var lastNarrow = MQ_NARROW.matches;
+window.addEventListener('resize', function(){
+  if (MQ_NARROW.matches !== lastNarrow) {
+    lastNarrow = MQ_NARROW.matches;
+    chart.setOption(option(), true);
+  }
+  chart.resize();
+});
+chart.setOption(option(), true);
+renderLegend();
+stats();
+/* 顶部导航悬停目录：#pop / #births / #death / #dec 直达对应指标 */
+function applyHash(){
+  var h = location.hash.slice(1);
+  if (/^(pop|births|death|dec)$/.test(h) && h !== metric) setMetric(h);
+}
+window.addEventListener('hashchange', applyHash);
+applyHash();
+})();
+</script>
+  <script src="../nav.js?v=40"></script>
+<script>
+(function(){
+  var method = document.getElementById('method');
+  if (!method) return;
+  function openMethod(){
+    if (location.hash === '#method') {
+      method.open = true;
+      requestAnimationFrame(function(){ method.scrollIntoView({ block: 'start' }); });
+    }
+  }
+  openMethod();
+  window.addEventListener('hashchange', openMethod);
+  document.querySelectorAll('a[href="#method"]').forEach(function(a){
+    a.addEventListener('click', function(){ method.open = true; });
+  });
+})();
+</script>
+</body>
+</html>
