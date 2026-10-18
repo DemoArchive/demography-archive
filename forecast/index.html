@@ -127,7 +127,7 @@
   .chart-box{height:480px;position:relative;}
   #chart{width:100%;height:100%;}
   .legend-bar{position:absolute;top:0;left:0;right:0;z-index:5;height:24px;display:flex;justify-content:center;align-items:center;gap:18px;}
-  .y-unit{position:absolute;top:25px;left:66px;z-index:6;font-size:10px;line-height:1;color:#8E8E8E;letter-spacing:normal;pointer-events:none;}
+  .y-unit{position:absolute;top:10px;left:66px;transform:translateX(-100%);z-index:6;font-size:10px;line-height:1;color:#8E8E8E;letter-spacing:normal;pointer-events:none;white-space:nowrap;}
   .lg-item{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;transition:opacity .33s;}
   .lg-item:hover .lg-t{color:var(--ink);}
   .lg-item.off{opacity:.32;}
@@ -258,7 +258,7 @@
     .tfr-ctl .tip::after{display:none;}
     .board{grid-template-columns:1fr;padding:0 20px;}
     .chart-box{height:340px;}
-    .y-unit{left:0;}
+    .y-unit{left:0;top:26px;transform:none;}
     .stat-col{flex-direction:row;flex-wrap:wrap;}
     .stat{flex:1 1 40%;}
     .legend-bar{gap:12px;}
@@ -415,7 +415,7 @@
 <main class="board">
   <div class="chart-box">
     <div class="legend-bar" id="legendBar"></div>
-    <span class="y-unit" id="yUnit">亿人</span>
+    <span class="y-unit" id="yUnit">单位：亿人</span>
     <div id="chart"></div>
   </div>
   <div class="stat-col" id="statCol"></div>
@@ -509,13 +509,13 @@ q(t,a,s)     = 1 − [1 − q_raw(t,a,s)]^exp(λ(t))</div>
           <p class="method-lead">计算逻辑：历史年份依据官方数据校准，预测年份按情景假设外推。</p>
           <p>净迁移按年龄段分配：</p>
           <div class="formula">M(t) = 年度净迁移规模 × 年龄分布权重</div>
-          <p>2026—2035 年 −20 万/年，2036—2050 年 −15 万/年，2051—2100 年 −10 万/年；主要落在 20—59 岁，男女各半。</p>
-          <p>2021—2025 年是校准期：出生、死亡直接采用国家统计局实际值；每年反解死亡率整体水平，使模型死亡人数等于实际死亡人数；官方总人口变化与“出生 − 死亡”的差额，统一计入净迁移/统计误差。由此，2025 年总人口与官方值 14.0489 亿一致。</p>
+          <p>2026~2035 年 −20 万/年，2036~2050 年 −15 万/年，2051~2100 年 −10 万/年；主要落在 20—59 岁，男女各半。</p>
+          <p>2021~2025 年是校准期：出生、死亡直接采用国家统计局实际值；每年反解死亡率整体水平，使模型死亡人数等于实际死亡人数；官方总人口变化与“出生 − 死亡”的差额，统一计入净迁移/统计误差。由此，2025 年总人口与官方值 14.0489 亿一致。</p>
           <p>2026 年起进入预测。三种情景仅在 TFR 上不同（低 0.8 / 中 1.0 / 高 1.3），死亡率、迁移、出生性别比等参数完全相同。</p>
           <p><b>自定义生育率：</b>页面顶部可将目标 TFR 设为 0.7~3.0 之间的任意值，仍按 2025 年 0.963、2035 年达到目标的路径推算。各年出生、死亡与总人口由低、中、高三情景按目标值插值/外推，用于交互查看，不是独立模型结果。</p>
         </div>
       </div>
-      <p class="method-note">基准人口：2020 年七普表 3-1（31 省 14.0978 亿）+ 200 万现役军人，合计 14.1178 亿；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">UN WPP 2024</a>；2021—2025 年数据来自国家统计局。完整参数与逐年结果见<a href="../datacenter/index.html#secFc">数据中心 → 4. 未来人口预测</a>。</p>
+      <p class="method-note">基准人口：2020 年中国人口普查年鉴<a href="https://www.stats.gov.cn/sj/pcsj/rkpc/7rp/zk/html/A0301.xls" target="_blank" rel="noopener">表 3-1</a>；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">UN WPP 2024</a>；2021~2025 年数据来自国家统计局。完整参数与逐年结果见<a href="../datacenter/index.html#secFc">数据中心 → 4. 未来人口预测</a>。</p>
     </div>
   </details>
 </section>
@@ -619,7 +619,7 @@ var chart = echarts.init(document.getElementById('chart'));
 var MQ_NARROW = window.matchMedia('(max-width:960px)');
 function option(){
   var yUnit = document.getElementById('yUnit');
-  if (yUnit) yUnit.textContent = isPop() ? '亿人' : '万人';
+  if (yUnit) yUnit.textContent = '单位：' + (isPop() ? '亿人' : '万人');
   return {
     /* 自定义情景拖动时关闭补间动画，保证曲线实时跟手；默认三情景仍保留入场动画 */
     animation: !customData,

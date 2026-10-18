@@ -364,12 +364,12 @@
     <a class="dl" href="../data/forecast-all.xlsx" download>↓ 下载完整数据 xlsx</a>
   </div>
   <div class="mini-grid">
-    <div class="mini"><h3>总人口</h3><div class="u">万人（2026~2100）</div><div class="c" id="cPop"></div><div class="dl-row"><a class="dl" href="../data/forecast-population.xlsx" download>↓ 下载 xlsx</a></div></div>
+    <div class="mini"><h3>总人口</h3><div class="u">亿人（2026~2100）</div><div class="c" id="cPop"></div><div class="dl-row"><a class="dl" href="../data/forecast-population.xlsx" download>↓ 下载 xlsx</a></div></div>
     <div class="mini"><h3>出生人口</h3><div class="u">万人（2026~2100）</div><div class="c" id="cBirths"></div><div class="dl-row"><a class="dl" href="../data/forecast-births.xlsx" download>↓ 下载 xlsx</a></div></div>
     <div class="mini"><h3>死亡人口</h3><div class="u">万人（2026~2100）</div><div class="c" id="cDeath"></div><div class="dl-row"><a class="dl" href="../data/forecast-deaths.xlsx" download>↓ 下载 xlsx</a></div></div>
     <div class="mini"><h3>年减少人数</h3><div class="u">万人（2026~2100）</div><div class="c" id="cDec"></div><div class="dl-row"><a class="dl" href="../data/forecast-decrease.xlsx" download>↓ 下载 xlsx</a></div></div>
   </div>
-  <p class="sec-note">详见<a href="../forecast/index.html#method" style="text-decoration:underline;text-underline-offset:3px;">人口预测模型</a>。基准为 2020 年七普表 3-1 单岁人口，2021—2025 年采用国家统计局实际数据校准；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">UN WPP 2024</a>。</p>
+  <p class="sec-note">详见<a href="../forecast/index.html#method" style="text-decoration:underline;text-underline-offset:3px;">人口预测模型</a>。基准为 2020 年七普表 3-1 单岁人口，2021~2025 年采用国家统计局实际数据校准；生命表与年龄别生育率来自 <a href="https://population.un.org/wpp/" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;">UN WPP 2024</a>。</p>
 </section>
 
 <section class="block" id="secProv">
@@ -489,15 +489,20 @@ var SCEN = [
   { s: '低预测', c: '#E13D3D', w: 1.5 }
 ];
 function miniOpt(kind){
+  var isPop = kind === 'pop';
   var series = SCEN.map(function(sc){
-    return lineSeries(sc.s, F.data[sc.s + '_' + kind] || [], sc.c, sc.w);
+    var arr = F.data[sc.s + '_' + kind] || [];
+    if (isPop) arr = arr.map(function(v){ return v / 10000; });
+    return lineSeries(sc.s, arr, sc.c, sc.w);
   });
+  var yAxis = baseAxis(F.years, 0)[1];
+  if (isPop) yAxis.axisLabel.formatter = function(v){ return v === 0 ? '' : v.toFixed(1); };
   return {
     grid: mqNarrow() ? { left: 2, right: 10, top: 26, bottom: 4, containLabel: true } : { left: 52, right: 12, top: 26, bottom: 24 },
     legend: { top: 0, left: 2, itemWidth: 12, itemHeight: 2, textStyle: { color: '#5C5E62', fontSize: 10.5 }, itemGap: 10 },
-    tooltip: { trigger: 'axis', textStyle: { fontSize: 10.5 }, valueFormatter: function(v){ return fmtW(v) + ' 万'; } },
+    tooltip: { trigger: 'axis', textStyle: { fontSize: 10.5 }, valueFormatter: function(v){ return isPop ? (Math.round(v * 100) / 100).toFixed(2) + ' 亿' : fmtW(v) + ' 万'; } },
     xAxis: baseAxis(F.years, Math.ceil(F.years.length / 6))[0],
-    yAxis: baseAxis(F.years, 0)[1],
+    yAxis: yAxis,
     series: series
   };
 }
