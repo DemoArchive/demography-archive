@@ -614,12 +614,39 @@ function maxFor(k){
   if (customData) customData[k].forEach(function(v){ if (v > mx) mx = v; });
   return niceMax(mx);
 }
+function niceStep(v){
+  var p = Math.pow(10, Math.floor(Math.log(v)/Math.log(10)));
+  var d = v / p;
+  var steps = [1,1.5,2,2.5,3,4,5,6,8,10];
+  for (var i = 0; i < steps.length; i++){ if (d <= steps[i]) return steps[i] * p; }
+  return 10 * p;
+}
+/* 年减少人数在高生育率情景下会转为负值（人口增加）；纵轴需同时容纳正负，
+   否则 min:0 会把负值区间裁掉。其余指标仍从 0 起。 */
+function decRange(){
+  var mn = 0, mx = 0;
+  function scan(arr){
+    arr.forEach(function(v){ if (v < mn) mn = v; if (v > mx) mx = v; });
+  }
+  SCEN.forEach(function(sm){ scan(ser('dec', sm.s)); });
+  if (customData) scan(customData.dec);
+  if (mn >= 0) return { min: 0, max: maxFor('dec') };
+  var step = niceStep((mx - mn) / 5);
+  return { min: Math.floor(mn / step) * step, max: Math.ceil(mx / step) * step, step: step };
+}
 
 var chart = echarts.init(document.getElementById('chart'));
 var MQ_NARROW = window.matchMedia('(max-width:960px)');
 function option(){
   var yUnit = document.getElementById('yUnit');
   if (yUnit) yUnit.textContent = '单位：' + (isPop() ? '亿人' : '万人');
+  var yMin = 0, yMax = maxFor(metric), yInterval;
+  if (metric === 'dec'){
+    var range = decRange();
+    yMin = range.min;
+    yMax = range.max;
+    yInterval = range.step;
+  }
   return {
     /* 自定义情景拖动时关闭补间动画，保证曲线实时跟手；默认三情景仍保留入场动画 */
     animation: !customData,
@@ -632,11 +659,11 @@ function option(){
     },
     xAxis: {
       type: 'category', data: years, boundaryGap: false,
-      axisLine: { lineStyle: { color: '#EEEEEE' } }, axisTick: { show: false },
+      axisLine: { onZero: false, lineStyle: { color: '#EEEEEE' } }, axisTick: { show: false },
       axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E', interval: function(index, value){ return value % 10 === 0; } }
     },
     yAxis: {
-      type: 'value', min: 0, max: maxFor(metric), splitNumber: 5,
+      type: 'value', min: yMin, max: yMax, interval: yInterval, splitNumber: 5,
       splitLine: { lineStyle: { color: '#EEEEEE' } },
       axisLabel: { fontFamily: 'Noto Sans SC, Arial, sans-serif', fontSize: 10, color: '#8E8E8E', formatter: function(v){ return isPop() ? fmtY(v) : v.toLocaleString('en-US'); } },
       axisLine: { show: false }, axisTick: { show: false }
