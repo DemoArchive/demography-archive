@@ -55,15 +55,10 @@
 
 ## 数据来源
 
-### 中国数据
-
 - **国家统计局**：全国历年出生人口、出生率、年末总人口；年度人口抽样调查，以及 1982、1990、2000、2010、2020 年历次人口普查。主要取自国家统计局[“国家数据”](https://data.stats.gov.cn/)。
 - **各省、自治区、直辖市统计局**：各省历年出生人口、出生率、常住人口，来源为各省统计年鉴、国民经济和社会发展统计公报及省级统计部门公开发布的数据。各省口径、修订情况与缺失年份见对应省份数据表下方注释。
 - **育娲人口智库**：出生人口回溯数据与研究成果，主要依据[《中国百年历史人口报告》](https://file.c-ctrip.com/files/6/yuwa/0R72e12000ty0rddz037D.pdf)。
 - **马克数据网**：部分统计年鉴文件，用于补充和交叉核对，见 [macrodatas.cn](https://www.macrodatas.cn/)。
-
-### 国际数据
-
 - **世界银行 World Development Indicators**：1960~2024 年各国（总和）生育率，指标代码 `SP.DYN.TFRT.IN`，见 [WDI](https://data.worldbank.org/indicator/SP.DYN.TFRT.IN)。
 - **经济合作与发展组织（OECD）**：2010~2023 年各国家庭公共支出（现金及实物）占 GDP 比重，取自 OECD Social Expenditure Database（SOCX），经 [OECD Data Explorer](https://data-explorer.oecd.org/) 导出。
 - **联合国《世界人口展望 2024》**：人口预测所用的中国年龄别生育率与生命表，见 [UN WPP 2024](https://population.un.org/wpp/)。
