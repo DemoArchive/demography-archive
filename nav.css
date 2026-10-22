@@ -340,18 +340,23 @@ body.nav-open .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45d
 body.nav-open .nav-burger span:nth-child(2){opacity:0;}
 body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-/* —— 10 项导航的分段间距，保证单行不溢出（1080px 以下收进汉堡面板） —— */
+/* —— 10 项导航的分段间距，保证单行不溢出（1080px 以下收进汉堡面板） ——
+   右端对齐：最后一个栏目「其他」的文字右缘对齐页面内容右缘（栏边距 32px），
+   GitHub 图标整体挂到「其他」右侧、向内容栏外探出。1240px 以下导航已贴住
+   视口边缘，没有余量容纳探出的图标，故保持图标收在栏内（见 min-width:1081）。 */
 @media (min-width:1081px){
   .nav-links{gap:4px;margin-left:auto;}
   .nav-links > a,.nav-drop > a{padding:0 8px;}
   .nav-github{margin-left:-5.5px;}
 }
-@media (min-width:1241px) and (max-width:1320px){
-  .nav-github{margin-left:-11.5px;}
+@media (min-width:1241px){
+  /* 本区间末项内边距 8px：左边距 -16 = 抵消 flex 间距 16 + 末项内边距 8 的差值 */
+  .nav-github{margin-left:-16px;margin-right:-34px;}
 }
 @media (min-width:1321px){
   .nav-links > a,.nav-drop > a{padding:0 12px;}
-  .nav-github{margin-left:-7.5px;}
+  /* 末项内边距 12px：-20 使「其他」二字右缘正好落到内容栏右缘（32px） */
+  .nav-github{margin-left:-20px;}
 }
 @media (max-width:1320px){
   .nav-links > a,.nav-drop > a{font-size:12.5px;}

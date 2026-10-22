@@ -172,6 +172,15 @@
   }
   .verdict p:last-child{margin-bottom:0;}
 
+  /* 篇末后记：作为第三篇的一部分紧随结语，不加分隔线；字号只轻一档 */
+  p.postscript{
+    margin:28px 0 0;
+    font-size:14px;line-height:2;color:var(--body-c);
+  }
+  p.postscript b{
+    font-family:var(--serif);font-weight:500;color:var(--ink);
+  }
+
   /* 尾声的过渡句 */
   .challenge{
     font-family:var(--serif);font-weight:500;
@@ -219,7 +228,7 @@
     footer .foot-inner{padding:0 22px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=47">
+  <link rel="stylesheet" href="../nav.css?v=48">
 </head>
 <body>
 
@@ -538,6 +547,8 @@
         <p>真正稀缺的，是人。</p>
         <p>更准确地说，是年轻人。</p>
       </div>
+
+      <p class="postscript"><b>后记：</b>随着人工智能的飞速发展，未来的养老或许不再是难题。然而，出生人口的急剧萎缩所带来的冲击，永远不会只停留在“养老”这一层面。</p>
 
     </main>
 
