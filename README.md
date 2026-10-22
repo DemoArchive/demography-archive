@@ -46,14 +46,18 @@
 **2026\~2100 年**　高预测、中预测、低预测三种情景
 
 <table>
-  <tr>
-    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#pop"><img src="images/nav/fc-pop.svg" width="440" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a></td>
-    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#births"><img src="images/nav/fc-births.svg" width="440" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a></td>
-  </tr>
-  <tr>
-    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#death"><img src="images/nav/fc-death.svg" width="440" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a></td>
-    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#dec"><img src="images/nav/fc-dec.svg" width="440" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#pop"><img src="images/nav/fc-pop.svg" width="440" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a></td>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#births"><img src="images/nav/fc-births.svg" width="440" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a></td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#death"><img src="images/nav/fc-death.svg" width="440" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a></td>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#dec"><img src="images/nav/fc-dec.svg" width="440" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a></td>
+    </tr>
+  </tbody>
 </table>
 
 ### 4. [各国生育率与生育支持](https://demoarchive.net/world/)
@@ -81,16 +85,20 @@
 **不同人物对低生育率的看法**
 
 <table>
-  <tr>
-    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p1"><img src="viewpoints/avatars/putin.jpg" width="120" alt="普京"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p1">普京</a></strong><br>俄罗斯</td>
-    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p2"><img src="viewpoints/avatars/lee-kuan-yew.jpg" width="120" alt="李光耀"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p2">李光耀</a></strong><br>新加坡</td>
-    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p3"><img src="viewpoints/avatars/musk.jpg" width="120" alt="马斯克"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p3">马斯克</a></strong><br>美国</td>
-  </tr>
-  <tr>
-    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p4"><img src="viewpoints/avatars/lee-hsien-loong.jpg" width="120" alt="李显龙"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p4">李显龙</a></strong><br>新加坡</td>
-    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p5"><img src="viewpoints/avatars/liang-jianzhang.jpg" width="120" alt="梁建章"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p5">梁建章</a></strong><br>中国</td>
-    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p6"><img src="viewpoints/avatars/huang-wenzheng.png" width="120" alt="黄文政"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p6">黄文政</a></strong><br>中国</td>
-  </tr>
+  <tbody>
+    <tr>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p1"><img src="viewpoints/avatars/putin.jpg" width="120" alt="普京"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p1">普京</a></strong><br>俄罗斯</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p2"><img src="viewpoints/avatars/lee-kuan-yew.jpg" width="120" alt="李光耀"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p2">李光耀</a></strong><br>新加坡</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p3"><img src="viewpoints/avatars/musk.jpg" width="120" alt="马斯克"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p3">马斯克</a></strong><br>美国</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p4"><img src="viewpoints/avatars/lee-hsien-loong.jpg" width="120" alt="李显龙"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p4">李显龙</a></strong><br>新加坡</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p5"><img src="viewpoints/avatars/liang-jianzhang.jpg" width="120" alt="梁建章"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p5">梁建章</a></strong><br>中国</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p6"><img src="viewpoints/avatars/huang-wenzheng.png" width="120" alt="黄文政"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p6">黄文政</a></strong><br>中国</td>
+    </tr>
+  </tbody>
 </table>
 
 ### 7. [思想实验](https://demoarchive.net/thought-experiment/)
