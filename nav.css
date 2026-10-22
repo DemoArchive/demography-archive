@@ -192,6 +192,37 @@ html{
 /* 「数据中心」二列目录（numbered 模式）：限宽使列宽收窄贴向内容，两列相互靠近；
    不影响「永恒的争论」引文面板（quotes 模式同用 cols2，保持满幅） */
 .tp-numbered .tp-grid.cols2{max-width:600px;}
+/* 危险页九项目录：宽屏三列三行，中列略宽以容纳最长的一句说明；
+   窄屏面板收窄，三列放不下，回到两列，说明仍保持单行 */
+@media (min-width:1321px){
+  .tp-numbered .tp-grid.tp-grid-3x3{
+    display:grid;grid-auto-flow:column;
+    grid-template-rows:repeat(3,auto);
+    grid-template-columns:1fr 1.2fr 1fr;
+    column-gap:32px;
+  }
+}
+/* 危险页 3×3 末列的悬停底色不再向右外扩 10px：
+   右缘与「未来人口预测」第 4 张卡右缘（即「其他」文字右缘）对齐 */
+.tp-numbered .tp-grid.tp-grid-3x3 .tp-row:nth-child(n+7){margin-right:0;}
+/* 1320 及以下面板收窄到 760px：三列仍放得下，但列距与说明字号同步收紧；
+   1240 以下只剩 680px，三列无论如何都放不下，回到两列 */
+@media (min-width:1241px) and (max-width:1320px){
+  .tp-numbered .tp-grid.tp-grid-3x3{
+    display:grid;grid-auto-flow:column;
+    grid-template-rows:repeat(3,auto);
+    grid-template-columns:1fr 1.22fr 1fr;
+    column-gap:16px;
+  }
+  .tp-numbered .tp-grid.tp-grid-3x3 .tp-row{
+    padding-left:6px;padding-right:6px;margin-left:-6px;margin-right:-6px;
+  }
+  .tp-numbered .tp-grid.tp-grid-3x3 .tp-q .q{font-size:11.5px;}
+}
+@media (max-width:1240px){
+  .tp-numbered .tp-grid.tp-grid-3x3{columns:2;}
+  .tp-numbered .tp-grid.tp-grid-3x3 .tp-row:nth-child(n+6){margin-right:0;}
+}
 
 /* 两行式引文条目（永恒的争论） */
 .tp-q{flex-direction:column;align-items:flex-start;gap:2px;padding:9px 10px;}

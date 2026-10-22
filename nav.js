@@ -178,8 +178,21 @@
       cta: "阅读完整故事"
     },
     "harms/index.html": {
-      mode: "numbered", cols: 3,
-      listTitle: "出生人口减少对不同行业的冲击"
+      mode: "numbered", cols: 3, grid3x3: true,
+      listTitle: "出生人口减少对不同行业的冲击",
+      /* 每个行业的两行式说明（与「永恒的争论」条目同样式）：第二行灰色小字。
+         键为原生菜单链接的 #hash；均取自危险页各节 h2 冒号后的半句。 */
+      descs: {
+        s1: "冲击已经发生，而且还没有触底",
+        s2: "山顶就在眼前，山下是一道陡坡",
+        s3: "当下的“巨大成就”，未来将毫无意义",
+        s4: "随消费者的消失一同消失",
+        s5: "服务对象都消失了，岗位存在的意义又在哪里呢",
+        s6: "2021年的下跌，只是风暴的预演",
+        s7: "流量红利见顶之后，是存量萎缩",
+        s8: "可能是例外",
+        fin: "行业规模将随出生人口一同收缩"
+      }
     },
     "map/index.html": {
       mode: "cards",
@@ -328,12 +341,17 @@
     };
 
     if (cfg.mode === "numbered") {
-      var grid = el("div", "tp-grid cols" + (cfg.cols || 3));
+      var grid = el("div", "tp-grid cols" + (cfg.cols || 3) + (cfg.grid3x3 ? " tp-grid-3x3" : ""));
       links.forEach(function (a, k) {
         var row = cloneLink(a, k + animBase);
         row.classList.add("tp-row");
         row.textContent = "";
         row.appendChild(el("span", "t", a.textContent));
+        var d = cfg.descs && cfg.descs[hashOf(a)];
+        if (d) {
+          row.classList.add("tp-q");
+          row.appendChild(el("span", "q", "「" + d + "」"));
+        }
         grid.appendChild(row);
       });
       body.appendChild(grid);

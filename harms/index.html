@@ -154,9 +154,108 @@
     .content .article h2[id] ~ p{padding-left:22px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=48">
+  <link rel="stylesheet" href="../nav.css?v=51">
 </head>
 <body>
+<script>
+/* 首次进入：以 2025 年生育时钟（15 人/分钟，黑色）作为全屏加载层。
+   同一会话只显示一次；页面结构就绪后淡出。样式与 SVG 全部内联，避免额外请求。 */
+(function () {
+  "use strict";
+  var KEY = "da-intro-seen";
+  try {
+    if (sessionStorage.getItem(KEY)) return;
+    sessionStorage.setItem(KEY, "1");
+  } catch (e) { return; }
+
+  var d = document;
+  var body = d.body;
+  if (!body) return;
+
+  var css = '.da-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#fff;visibility:visible;opacity:1;transition:opacity .45s ease;font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;}'
+    + '.da-loader.is-done{opacity:0;pointer-events:none;}'
+    + '.da-loader .ld-clock{display:flex;flex-direction:column;align-items:center;}'
+    + '.da-loader .c-dial{position:relative;width:min(200px,64vw);margin:0;padding-bottom:113px;}'
+    + '.da-loader .c-face{position:relative;z-index:0;}'
+    + '.da-loader .c-face svg{display:block;width:100%;height:auto;}'
+    + '.da-loader .c-plate{filter:drop-shadow(0 2px 5px rgba(23,26,32,.1));}'
+    + '.da-loader .c-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}'
+    + '.da-loader .c-num{font-family:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;font-weight:500;font-size:clamp(34px,3.8vw,46px);line-height:1;color:#171A20;font-variant-numeric:tabular-nums;}'
+    + '.da-loader .c-unit{font-size:11px;color:#5C5E62;letter-spacing:normal;}'
+    + '.da-loader .p-arm{position:absolute;left:calc(50% - 1.5px);top:50%;width:3px;height:98%;border-radius:1.5px;transform-origin:50% 0;background:linear-gradient(to bottom,#3A3D44,#171A20 78%);animation:da-swing 3.98s ease-in-out infinite;z-index:-1;}'
+    + '.da-loader .p-arm::after{content:"";position:absolute;left:50%;bottom:-13px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#565B66 0,#2B2E35 46%,#101216 100%);box-shadow:0 3px 7px rgba(23,26,32,.22);}'
+    + '.da-loader .p-trail{position:absolute;left:calc(50% - 1.5px);top:50%;width:3px;height:98%;border-radius:1.5px;transform-origin:50% 0;background:linear-gradient(to bottom,#3A3D44,#171A20 78%);animation:da-swing 3.98s ease-in-out infinite;z-index:-1;}'
+    + '.da-loader .p-trail.t1{opacity:.42;filter:blur(1px);animation-delay:calc(.015s - 3.98s);}'
+    + '.da-loader .p-trail.t2{opacity:.26;filter:blur(1.25px);animation-delay:calc(.03s - 3.98s);}'
+    + '.da-loader .p-trail.t3{opacity:.14;filter:blur(1.5px);animation-delay:calc(.045s - 3.98s);}'
+    + '.da-loader .p-trail.t4{opacity:.07;filter:blur(1.8px);animation-delay:calc(.06s - 3.98s);}'
+    + '.da-loader .p-trail::after{content:"";position:absolute;left:50%;bottom:-13px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#565B66 0,#2B2E35 46%,#101216 100%);}'
+    + '@keyframes da-swing{0%{transform:rotate(-10deg);}50%{transform:rotate(10deg);}100%{transform:rotate(-10deg);}}'
+    + '.da-loader .ld-brand{margin-top:26px;font-size:12px;letter-spacing:.18em;color:#8E8E8E;line-height:1;}'
+    + '.da-loader .da-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}'
+    + '@media (prefers-reduced-motion: reduce){.da-loader .p-arm,.da-loader .p-trail{animation:none;}.da-loader .p-trail{display:none;}.da-loader{transition:none;}}';
+
+  var style = d.createElement("style");
+  style.textContent = css;
+  (d.head || d.documentElement).appendChild(style);
+
+  var loader = d.createElement("div");
+  loader.className = "da-loader";
+  loader.setAttribute("role", "status");
+  loader.setAttribute("aria-live", "polite");
+  loader.innerHTML = '<span class="da-sr">页面正在加载</span>'
+    + '<div class="ld-clock" aria-hidden="true">'
+    + '<div class="c-dial"><div class="c-face">'
+    + '<svg viewBox="0 0 260 260"></svg>'
+    + '<div class="p-arm"></div>'
+    + '<div class="p-trail t1"></div><div class="p-trail t2"></div><div class="p-trail t3"></div><div class="p-trail t4"></div>'
+    + '<div class="c-center"><div class="c-num">15</div><div class="c-unit">人 / 分钟</div></div>'
+    + '</div></div>'
+    + '<div class="ld-brand">人口档案馆</div>'
+    + '</div>';
+  body.insertBefore(loader, body.firstChild);
+
+  var NS = "http://www.w3.org/2000/svg", C = 130, R2 = 120;
+  var svg = loader.querySelector(".c-dial svg");
+  var disc = d.createElementNS(NS, "circle");
+  disc.setAttribute("cx", C); disc.setAttribute("cy", C); disc.setAttribute("r", "127");
+  disc.setAttribute("fill", "#FFFFFF"); disc.setAttribute("stroke", "#E8E9EB"); disc.setAttribute("stroke-width", "1");
+  disc.setAttribute("class", "c-plate");
+  svg.appendChild(disc);
+  for (var i = 0; i < 60; i++) {
+    var a = (i * 6 - 90) * Math.PI / 180;
+    var major = (i % 15 === 0);
+    var R1 = major ? 84 : 88;
+    var line = d.createElementNS(NS, "line");
+    line.setAttribute("x1", (C + R1 * Math.cos(a)).toFixed(2));
+    line.setAttribute("y1", (C + R1 * Math.sin(a)).toFixed(2));
+    line.setAttribute("x2", (C + R2 * Math.cos(a)).toFixed(2));
+    line.setAttribute("y2", (C + R2 * Math.sin(a)).toFixed(2));
+    line.setAttribute("stroke", i < 15 ? "#171A20" : "#D9DBDE");
+    line.setAttribute("stroke-width", major ? "6.2" : "4.6");
+    line.setAttribute("stroke-linecap", "round");
+    svg.appendChild(line);
+  }
+
+  var MIN = 600, start = Date.now(), done = false;
+  function reveal() {
+    if (done) return;
+    done = true;
+    setTimeout(function () {
+      loader.classList.add("is-done");
+      setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 520);
+    }, Math.max(0, MIN - (Date.now() - start)));
+  }
+  function afterDom() { setTimeout(reveal, 1400); }
+  if (d.readyState === "complete") reveal();
+  else {
+    if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", afterDom, { once: true });
+    else afterDom();
+    window.addEventListener("load", reveal, { once: true });
+  }
+  setTimeout(reveal, 8000);
+})();
+</script>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -302,7 +401,7 @@
   <h2 id="s4">4. 日常消费品：随消费者的消失一同消失</h2>
   <p>烟草、白酒、饮料等消费品行业，同样高度依赖国内市场，消费主力也集中在国内中青年群体。2025年出生的这一代人，将在2043年成年，而他们的人数，不足2016年的一半，仅为80后年均出生人数的35.6%。退出市场的老年人，是人数最多的几代；补充进来的年轻人，是越来越少的一代。行业规模和从业人员减半，只是时间问题。</p>
 
-  <h2 id="s5">5. 公务员、事业编：服务对象都消失了，岗位存在的意义又在哪里呢？</h2>
+  <h2 id="s5">5. 公务员、事业编：服务对象都消失了，岗位存在的意义又在哪里呢</h2>
   <p>许多中小城市，以及许多行业，都将快速收缩，带有服务属性的公务员和事业编，也不可能独善其身：例如事业编里占比最大的教师岗位，就与学生人数直接挂钩。更要紧的是，留下来的人，收入也会下降：城市收缩，财政收入必然减少，而其中很大一部分，还要用于社会养老（以上海为例，2025年末，上海户籍人口1556万，其中60岁及以上老年人口584万，占比37.6%，也就是说，每8个上海人里，就有3个老人。不需要太久，每2个上海人中，就会有1个老年人）。因此，无论是烟草职工、事业编还是公务员，都不是能够一劳永逸、安享稳定的“铁饭碗”。无论过去、现在还是可预见的未来，世上从来不存在真正的“铁饭碗”。</p>
 
   <h2 id="s6">6. 房地产及上下游：2021年的下跌，只是风暴的预演</h2>
@@ -314,7 +413,7 @@
   <h2 id="s8">8. 电力和医院：可能是例外</h2>
   <p>总人口下降，电力消耗也会下降，但人工智能、机器人等新兴产业拥有巨大的用电需求，可能抵消前者的影响。医院的衰减会更慢一些：总人口的下降速度，慢于出生人口的下降速度，而且老龄化会带来老年医疗和护理需求上升，部分对冲总量的下滑。但产科和儿科是例外，它们的萎缩，正在发生。</p>
 
-  <h2 id="fin">9. 未来正在到来</h2>
+  <h2 id="fin">9. 未来正在到来：行业规模将随出生人口一同收缩</h2>
   <p>因此，所有不具备海外市场的行业，规模都将随出生人口一起收缩，许多行业会缩减一半，并带来巨大的就业冲击。</p>
   <p>我无法给出这一天到来的准确时间，但它已经在路上，它从幼儿园开始，正以大约每三年一个时段的速度向上传导。这一切的终局无须等到下一代人来见证，当前处于黄金年龄的中青年人群，都将亲历其完整的展开过程。</p>
 </main>
@@ -446,6 +545,6 @@
   update();
 })();
 </script>
-  <script src="../nav.js?v=39"></script>
+  <script src="../nav.js?v=45"></script>
 </body>
 </html>
