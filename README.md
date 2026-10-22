@@ -34,33 +34,36 @@
 
 ### 2. [各省生育地图](https://demoarchive.net/map/)
 
-<p align="center">
-  <a href="https://demoarchive.net/map/#decline"><img src="images/nav/map-decline.png" width="440" alt="近十年各省出生人口降幅排序地图"><br><strong>近十年各省出生人口降幅排序 ›</strong></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://demoarchive.net/map/#years"><img src="images/nav/map-years.png" width="440" alt="各省历年生育地图"><br><strong>各省历年生育地图 ›</strong></a>
-</p>
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="https://demoarchive.net/map/#decline"><img src="images/nav/map-decline.png" width="440" alt="近十年各省出生人口降幅排序地图"><br><strong>近十年各省出生人口降幅排序 ›</strong></a></td>
+    <td align="center" valign="top"><a href="https://demoarchive.net/map/#years"><img src="images/nav/map-years.png" width="440" alt="各省历年生育地图"><br><strong>各省历年生育地图 ›</strong></a></td>
+  </tr>
+</table>
 
 ### 3. [未来人口预测](https://demoarchive.net/forecast/)
 
 **2026\~2100 年**　高预测、中预测、低预测三种情景
 
-<p align="center">
-  <a href="https://demoarchive.net/forecast/#pop"><img src="images/nav/fc-pop.svg" width="210" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a>
-  &nbsp;&nbsp;
-  <a href="https://demoarchive.net/forecast/#births"><img src="images/nav/fc-births.svg" width="210" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a>
-  &nbsp;&nbsp;
-  <a href="https://demoarchive.net/forecast/#death"><img src="images/nav/fc-death.svg" width="210" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a>
-  &nbsp;&nbsp;
-  <a href="https://demoarchive.net/forecast/#dec"><img src="images/nav/fc-dec.svg" width="210" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a>
-</p>
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#pop"><img src="images/nav/fc-pop.svg" width="440" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a></td>
+    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#births"><img src="images/nav/fc-births.svg" width="440" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#death"><img src="images/nav/fc-death.svg" width="440" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a></td>
+    <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#dec"><img src="images/nav/fc-dec.svg" width="440" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a></td>
+  </tr>
+</table>
 
 ### 4. [各国生育率与生育支持](https://demoarchive.net/world/)
 
-<p align="center">
-  <a href="https://demoarchive.net/world/#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"><br><strong>各国生育率 ›</strong></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://demoarchive.net/world/#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"><br><strong>各国生育补贴支出 ›</strong></a>
-</p>
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="https://demoarchive.net/world/#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"><br><strong>各国生育率 ›</strong></a></td>
+    <td align="center" valign="top"><a href="https://demoarchive.net/world/#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"><br><strong>各国生育补贴支出 ›</strong></a></td>
+  </tr>
+</table>
 
 ### 5. [永恒的争论](https://demoarchive.net/debates/)
 
@@ -77,52 +80,24 @@
 
 **不同人物对低生育率的看法**
 
-| [<img src="viewpoints/avatars/putin.jpg" width="56" alt="普京">](https://demoarchive.net/viewpoints/#p1) | [<img src="viewpoints/avatars/lee-kuan-yew.jpg" width="56" alt="李光耀">](https://demoarchive.net/viewpoints/#p2) | [<img src="viewpoints/avatars/musk.jpg" width="56" alt="马斯克">](https://demoarchive.net/viewpoints/#p3) | [<img src="viewpoints/avatars/lee-hsien-loong.jpg" width="56" alt="李显龙">](https://demoarchive.net/viewpoints/#p4) | [<img src="viewpoints/avatars/liang-jianzhang.jpg" width="56" alt="梁建章">](https://demoarchive.net/viewpoints/#p5) | [<img src="viewpoints/avatars/huang-wenzheng.png" width="56" alt="黄文政">](https://demoarchive.net/viewpoints/#p6) |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **[普京](https://demoarchive.net/viewpoints/#p1)**<br>俄罗斯 | **[李光耀](https://demoarchive.net/viewpoints/#p2)**<br>新加坡 | **[马斯克](https://demoarchive.net/viewpoints/#p3)**<br>美国 | **[李显龙](https://demoarchive.net/viewpoints/#p4)**<br>新加坡 | **[梁建章](https://demoarchive.net/viewpoints/#p5)**<br>中国 | **[黄文政](https://demoarchive.net/viewpoints/#p6)**<br>中国 |
+<table>
+  <tr>
+    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p1"><img src="viewpoints/avatars/putin.jpg" width="120" alt="普京"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p1">普京</a></strong><br>俄罗斯</td>
+    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p2"><img src="viewpoints/avatars/lee-kuan-yew.jpg" width="120" alt="李光耀"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p2">李光耀</a></strong><br>新加坡</td>
+    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p3"><img src="viewpoints/avatars/musk.jpg" width="120" alt="马斯克"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p3">马斯克</a></strong><br>美国</td>
+  </tr>
+  <tr>
+    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p4"><img src="viewpoints/avatars/lee-hsien-loong.jpg" width="120" alt="李显龙"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p4">李显龙</a></strong><br>新加坡</td>
+    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p5"><img src="viewpoints/avatars/liang-jianzhang.jpg" width="120" alt="梁建章"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p5">梁建章</a></strong><br>中国</td>
+    <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p6"><img src="viewpoints/avatars/huang-wenzheng.png" width="120" alt="黄文政"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p6">黄文政</a></strong><br>中国</td>
+  </tr>
+</table>
 
 ### 7. [思想实验](https://demoarchive.net/thought-experiment/)
 
 <p align="center">
   <a href="https://demoarchive.net/thought-experiment/#exp1"><img src="images/prisoners-dilemma.png" width="420" alt="少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育"><br><strong>《囚徒困境》博弈树 ›</strong></a>
 </p>
-
-**三个思想实验**
-
-- [《少子化的囚徒困境》](https://demoarchive.net/thought-experiment/#exp1)
-- [《博士与母亲》](https://demoarchive.net/thought-experiment/#exp2)
-- [《2060年的五百万》](https://demoarchive.net/thought-experiment/#exp3)
-
-### 8. [数据中心](https://demoarchive.net/datacenter/)
-
-**数据查看和下载**
-
-- [全国历年出生人口](https://demoarchive.net/datacenter/#secNat)
-- [七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus)
-- [各年代年均出生人口](https://demoarchive.net/datacenter/#secDec)
-- [未来人口预测](https://demoarchive.net/datacenter/#secFc)
-- [各省历年出生数据](https://demoarchive.net/datacenter/#secProv)
-- [各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline)
-- [各国生育率](https://demoarchive.net/datacenter/#secWorld)
-- [各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport)
-
-### 9. [其他](https://demoarchive.net/other/)
-
-**概念解释**
-
-- [总人口](https://demoarchive.net/other/#g-pop)
-- [出生人口](https://demoarchive.net/other/#g-births)
-- [出生率](https://demoarchive.net/other/#g-cbr)
-- [(总和) 生育率](https://demoarchive.net/other/#g-tfr)
-- [出生率 ≠ 生育率](https://demoarchive.net/other/#g-diff)
-- [世代更替水平](https://demoarchive.net/other/#g-replace)
-- [老龄化与少子化](https://demoarchive.net/other/#g-ageing)
-- [婴儿潮与回声潮](https://demoarchive.net/other/#g-boom)
-
-**关于本站**
-
-- [关于本站](https://demoarchive.net/other/#about)
-- [联系方式](https://demoarchive.net/other/#contact)
 
 ## 数据下载
 
