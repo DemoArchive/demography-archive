@@ -63,10 +63,18 @@
 ### 4. [各国生育率与生育支持](https://demoarchive.net/world/)
 
 <table>
-  <tr>
-    <td align="center" valign="top"><a href="https://demoarchive.net/world/#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"><br><strong>各国生育率 ›</strong></a></td>
-    <td align="center" valign="top"><a href="https://demoarchive.net/world/#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"><br><strong>各国生育补贴支出 ›</strong></a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="bottom"><a href="https://demoarchive.net/world/#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"></a></td>
+      <td align="center" valign="bottom"><a href="https://demoarchive.net/world/#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"></a></td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td align="center"><strong><a href="https://demoarchive.net/world/#tfr">各国生育率 ›</a></strong></td>
+      <td align="center"><strong><a href="https://demoarchive.net/world/#support">各国生育补贴支出 ›</a></strong></td>
+    </tr>
+  </tbody>
 </table>
 
 ### 5. [永恒的争论](https://demoarchive.net/debates/)
