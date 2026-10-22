@@ -1,8 +1,8 @@
+# 人口档案馆（Demography Archive）
+
 > **经济可以上行，也可以下行，但从长远来看，人口决定命运。**
 >
 > *The economy can go up, the economy can go down, but in the long run demography is destiny.*
-
-# 人口档案馆（Demography Archive）
 
 **网站：<https://demoarchive.net>**
 
@@ -20,7 +20,7 @@
 
 ### 1. [正在来临的危险](https://demoarchive.net/harms/)
 
-人口缩减沿年龄阶梯向上传导：2016 年出生 1883 万，2025 年只剩 792 万；幼儿园、中学、高等教育、日常消费品、公务员与事业编、房地产、互联网依次承压。
+**出生人口减少对不同行业的冲击**
 
 - [幼儿园](https://demoarchive.net/harms/#s1)：「冲击已经发生，而且还没有触底」
 - [中学](https://demoarchive.net/harms/#s2)：「山顶就在眼前，山下是一道陡坡」
@@ -34,52 +34,60 @@
 
 ### 2. [各省生育地图](https://demoarchive.net/map/)
 
-近十年各省出生人口降幅排序，以及分省历年出生人口与出生率地图。
-
-- [近十年各省出生人口降幅排序](https://demoarchive.net/map/#decline)
-- [各省历年生育地图](https://demoarchive.net/map/#years)
+<p align="center">
+  <a href="https://demoarchive.net/map/#decline"><img src="images/nav/map-decline.png" width="440" alt="近十年各省出生人口降幅排序地图"><br><strong>近十年各省出生人口降幅排序 ›</strong></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://demoarchive.net/map/#years"><img src="images/nav/map-years.png" width="440" alt="各省历年生育地图"><br><strong>各省历年生育地图 ›</strong></a>
+</p>
 
 ### 3. [未来人口预测](https://demoarchive.net/forecast/)
 
-队列要素法推演 2026\~2100 年人口；高、中、低三情景总和生育率为 1.3、1.0、0.8，可查看总人口、出生、死亡与年减少人数，也可自定义生育率。
+**2026\~2100 年**　高预测、中预测、低预测三种情景
 
-- [总人口预测](https://demoarchive.net/forecast/#pop)
-- [出生人口预测](https://demoarchive.net/forecast/#births)
-- [死亡人口预测](https://demoarchive.net/forecast/#death)
-- [年减少人数预测](https://demoarchive.net/forecast/#dec)
+<p align="center">
+  <a href="https://demoarchive.net/forecast/#pop"><img src="images/nav/fc-pop.svg" width="210" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a>
+  &nbsp;&nbsp;
+  <a href="https://demoarchive.net/forecast/#births"><img src="images/nav/fc-births.svg" width="210" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a>
+  &nbsp;&nbsp;
+  <a href="https://demoarchive.net/forecast/#death"><img src="images/nav/fc-death.svg" width="210" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a>
+  &nbsp;&nbsp;
+  <a href="https://demoarchive.net/forecast/#dec"><img src="images/nav/fc-dec.svg" width="210" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a>
+</p>
 
 ### 4. [各国生育率与生育支持](https://demoarchive.net/world/)
 
-1960\~2024 年世界各国（总和）生育率地图；2010\~2023 年经济合作与发展组织（OECD）国家家庭福利公共支出占 GDP 比重排名与走势。
-
-- [各国生育率](https://demoarchive.net/world/#tfr)
-- [各国生育补贴支出](https://demoarchive.net/world/#support)
+<p align="center">
+  <a href="https://demoarchive.net/world/#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"><br><strong>各国生育率 ›</strong></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://demoarchive.net/world/#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"><br><strong>各国生育补贴支出 ›</strong></a>
+</p>
 
 ### 5. [永恒的争论](https://demoarchive.net/debates/)
 
-逐条回应六种常见论点：人口过多论、收缩红利论、机器替代论、内卷降低论、少生优生论、补贴无用论。
+**围绕低生育率的主要争议**
 
-- [人口过多论](https://demoarchive.net/debates/#d1)
-- [收缩红利论](https://demoarchive.net/debates/#d2)
-- [机器替代论](https://demoarchive.net/debates/#d3)
-- [内卷降低论](https://demoarchive.net/debates/#d4)
-- [少生优生论](https://demoarchive.net/debates/#d5)
-- [补贴无用论](https://demoarchive.net/debates/#d6)
+- [人口过多论](https://demoarchive.net/debates/#d1)：「中国人太多了，几亿人就够了」
+- [收缩红利论](https://demoarchive.net/debates/#d2)：「出生人口减少是好事」
+- [机器替代论](https://demoarchive.net/debates/#d3)：「未来AI和人形机器人会替代大部分工作」
+- [内卷降低论](https://demoarchive.net/debates/#d4)：「大家少生点，竞争就不卷了」
+- [少生优生论](https://demoarchive.net/debates/#d5)：「一个顶尖科学家顶一万个普通人」
+- [补贴无用论](https://demoarchive.net/debates/#d6)：「别的国家花了那么多钱也没用」
 
 ### 6. [各方观点](https://demoarchive.net/viewpoints/)
 
-普京、李光耀、马斯克、李显龙、梁建章、黄文政等人关于人口问题的公开表述和观点。
+**不同人物对低生育率的看法**
 
-- [普京（俄罗斯）](https://demoarchive.net/viewpoints/#p1)
-- [李光耀（新加坡）](https://demoarchive.net/viewpoints/#p2)
-- [马斯克（美国）](https://demoarchive.net/viewpoints/#p3)
-- [李显龙（新加坡）](https://demoarchive.net/viewpoints/#p4)
-- [梁建章（中国）](https://demoarchive.net/viewpoints/#p5)
-- [黄文政（中国）](https://demoarchive.net/viewpoints/#p6)
+| [<img src="viewpoints/avatars/putin.jpg" width="56" alt="普京">](https://demoarchive.net/viewpoints/#p1) | [<img src="viewpoints/avatars/lee-kuan-yew.jpg" width="56" alt="李光耀">](https://demoarchive.net/viewpoints/#p2) | [<img src="viewpoints/avatars/musk.jpg" width="56" alt="马斯克">](https://demoarchive.net/viewpoints/#p3) | [<img src="viewpoints/avatars/lee-hsien-loong.jpg" width="56" alt="李显龙">](https://demoarchive.net/viewpoints/#p4) | [<img src="viewpoints/avatars/liang-jianzhang.jpg" width="56" alt="梁建章">](https://demoarchive.net/viewpoints/#p5) | [<img src="viewpoints/avatars/huang-wenzheng.png" width="56" alt="黄文政">](https://demoarchive.net/viewpoints/#p6) |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **[普京](https://demoarchive.net/viewpoints/#p1)**<br>俄罗斯 | **[李光耀](https://demoarchive.net/viewpoints/#p2)**<br>新加坡 | **[马斯克](https://demoarchive.net/viewpoints/#p3)**<br>美国 | **[李显龙](https://demoarchive.net/viewpoints/#p4)**<br>新加坡 | **[梁建章](https://demoarchive.net/viewpoints/#p5)**<br>中国 | **[黄文政](https://demoarchive.net/viewpoints/#p6)**<br>中国 |
 
 ### 7. [思想实验](https://demoarchive.net/thought-experiment/)
 
-三篇叙事型实验：《少子化的囚徒困境》《博士与母亲》《2060年的五百万》，分别讨论个体理性、代际账本与养老兑付。
+<p align="center">
+  <a href="https://demoarchive.net/thought-experiment/#exp1"><img src="images/prisoners-dilemma.png" width="420" alt="少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育"><br><strong>《囚徒困境》博弈树 ›</strong></a>
+</p>
+
+**三个思想实验**
 
 - [《少子化的囚徒困境》](https://demoarchive.net/thought-experiment/#exp1)
 - [《博士与母亲》](https://demoarchive.net/thought-experiment/#exp2)
@@ -87,7 +95,7 @@
 
 ### 8. [数据中心](https://demoarchive.net/datacenter/)
 
-全国、各省、预测与国际比较共 8 组数据；在线交互查看，并可下载 xlsx，清单见下一节。
+**数据查看和下载**
 
 - [全国历年出生人口](https://demoarchive.net/datacenter/#secNat)
 - [七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus)
@@ -100,7 +108,7 @@
 
 ### 9. [其他](https://demoarchive.net/other/)
 
-人口概念解释：总人口、出生人口、出生率、（总和）生育率、世代更替水平、老龄化与少子化、婴儿潮与回声潮；另含关于本站与联系方式。
+**概念解释**
 
 - [总人口](https://demoarchive.net/other/#g-pop)
 - [出生人口](https://demoarchive.net/other/#g-births)
@@ -110,6 +118,9 @@
 - [世代更替水平](https://demoarchive.net/other/#g-replace)
 - [老龄化与少子化](https://demoarchive.net/other/#g-ageing)
 - [婴儿潮与回声潮](https://demoarchive.net/other/#g-boom)
+
+**关于本站**
+
 - [关于本站](https://demoarchive.net/other/#about)
 - [联系方式](https://demoarchive.net/other/#contact)
 
@@ -117,16 +128,16 @@
 
 全部文件位于仓库 `data/` 目录，也可在[数据中心](https://demoarchive.net/datacenter/)逐项下载。
 
-| # | 数据组与文件 | 内容与说明 |
-| :---: | --- | --- |
-| 1 | **[全国历年出生人口](https://demoarchive.net/datacenter/#secNat)**<br>[`nbs-national-data.xlsx`](data/nbs-national-data.xlsx)<br>[`yuwa-births-backcast.xlsx`](data/yuwa-births-backcast.xlsx) | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
-| 2 | **[七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus)**<br>[`population-census-2020.xlsx`](data/population-census-2020.xlsx) | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
-| 3 | **[各年代年均出生人口](https://demoarchive.net/datacenter/#secDec)**<br>[`avg-births-by-decade.xlsx`](data/avg-births-by-decade.xlsx) | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
-| 4 | **[未来人口预测](https://demoarchive.net/datacenter/#secFc)**<br>[`forecast-all.xlsx`](data/forecast-all.xlsx)<br>[`forecast-population.xlsx`](data/forecast-population.xlsx)<br>[`forecast-births.xlsx`](data/forecast-births.xlsx)<br>[`forecast-deaths.xlsx`](data/forecast-deaths.xlsx)<br>[`forecast-decrease.xlsx`](data/forecast-decrease.xlsx) | 2026\~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
-| 5 | **[各省历年出生数据](https://demoarchive.net/datacenter/#secProv)**<br>[`provinces/*.xlsx`](data/provinces/)（34 份） | 34 个省级行政区历年出生人口及出生率数据。详细信息见[下表](#各省历年出生数据下载)。 |
-| 6 | **[各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline)**<br>[`provincial-births-decline-2016-2025.xlsx`](data/provincial-births-decline-2016-2025.xlsx) | 各省 2016 与 2025 年出生人口及降幅（%）。 |
-| 7 | **[各国生育率](https://demoarchive.net/datacenter/#secWorld)**<br>[`wdi-tfr-by-country.xlsx`](data/wdi-tfr-by-country.xlsx) | 世界银行 WDI，1960\~2024 年各国（总和）生育率。 |
-| 8 | **[各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport)**<br>[`public-family-spending-by-type-gdp-pct.xlsx`](data/public-family-spending-by-type-gdp-pct.xlsx) | OECD SOCX，2010\~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
+| # | 数据组 | 文件 | 内容与说明 |
+| :---: | --- | --- | --- |
+| 1 | **[全国历年出生人口](https://demoarchive.net/datacenter/#secNat)** | [`nbs-national-data.xlsx`](data/nbs-national-data.xlsx)<br>[`yuwa-births-backcast.xlsx`](data/yuwa-births-backcast.xlsx) | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
+| 2 | **[七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus)** | [`population-census-2020.xlsx`](data/population-census-2020.xlsx) | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
+| 3 | **[各年代年均出生人口](https://demoarchive.net/datacenter/#secDec)** | [`avg-births-by-decade.xlsx`](data/avg-births-by-decade.xlsx) | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
+| 4 | **[未来人口预测](https://demoarchive.net/datacenter/#secFc)** | [`forecast-all.xlsx`](data/forecast-all.xlsx)<br>[`forecast-population.xlsx`](data/forecast-population.xlsx)<br>[`forecast-births.xlsx`](data/forecast-births.xlsx)<br>[`forecast-deaths.xlsx`](data/forecast-deaths.xlsx)<br>[`forecast-decrease.xlsx`](data/forecast-decrease.xlsx) | 2026\~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
+| 5 | **[各省历年出生数据](https://demoarchive.net/datacenter/#secProv)** | [`provinces/*.xlsx`](data/provinces/)（34 份） | 34 个省级行政区历年出生人口及出生率数据。详细信息见[下表](#各省历年出生数据下载)。 |
+| 6 | **[各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline)** | [`provincial-births-decline-2016-2025.xlsx`](data/provincial-births-decline-2016-2025.xlsx) | 各省 2016 与 2025 年出生人口及降幅（%）。 |
+| 7 | **[各国生育率](https://demoarchive.net/datacenter/#secWorld)** | [`wdi-tfr-by-country.xlsx`](data/wdi-tfr-by-country.xlsx) | 世界银行 WDI，1960\~2024 年各国（总和）生育率。 |
+| 8 | **[各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport)** | [`public-family-spending-by-type-gdp-pct.xlsx`](data/public-family-spending-by-type-gdp-pct.xlsx) | OECD SOCX，2010\~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
 
 ### 各省历年出生数据下载
 
