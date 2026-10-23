@@ -574,52 +574,37 @@
   }
   .t-avatars .ava-names span{white-space:nowrap;}
 
-  /* 思想实验 · 书目 + 博弈树展台：左列三本实验书目 = 目录式三行（与「永恒的争论」同一视觉语言：
-     无编号、无卡片，行间 1px Cloud Gray 发丝线，书名居中）；
-     右侧博弈树直贴卡面（白底图以 multiply 融入 Light Ash 卡面，悬停变色时同步融入），图注标明出处。
-     **左右位置**：博弈树在左、三行书名在右（用 row-reverse 交换视觉列序，DOM 顺序不变，
-     故移动端仍按 DOM 堆叠为「书名在上、树图在下」）；
-     **上下界对齐机制**：树列内容 = 博弈树图 + 图下方的等高占位（--cap-h，图注已删但占位保留，
-     删图注时树图位置才不会下移），书名列内容 = 三行书名 + 同高镜像留白（.t-exp 的 padding-bottom），
-     两列内容等高后各自在视觉区内垂直居中；行高按 --row-h =（树图高 − 文字行高）÷ 2 取值，
-     使首行书名的**文字顶边** = 博弈树顶边、末行书名的**文字底边** = 博弈树底边（中间行自然居中）；
-     改 --tree-w 时 --row-h 必须同步按该式重算（树图 1060×531 ≈ 2:1）。
+  /* 思想实验 · 双图展台：两张作品卡并排，各为「图区 + 名称行」（与导航面板同构）。
+     图区等高（--im-h），两行名称落在同一基线、图片底边对齐；
+     白底博弈树图以 multiply 融入 Light Ash 卡面（悬停变色时同步融入），
+     竖版插画为满幅彩色图，不做混合。
      依 DESIGN.md：无描边无投影 / 字重 400-500 */
-  .t-visual.t-expv{gap:28px;align-items:stretch;flex-direction:row-reverse;}
-  .t-expv{--row-h:60px;--cap-h:23px;--tree-w:288px;}
-  .t-exp{
-    list-style:none;margin:0;padding:0 0 var(--cap-h);
-    flex:1 1 auto;min-width:0;
-    display:flex;flex-direction:column;justify-content:center;
+  .t-visual.t-expv{gap:28px;align-items:stretch;}
+  .t-expv{--im-h:200px;}
+  .t-expv .exp-card{
+    flex:1 1 0;min-width:0;
+    display:flex;flex-direction:column;justify-content:flex-end;gap:14px;
   }
-  .t-exp li{
-    flex:none;height:var(--row-h);
-    display:flex;align-items:center;justify-content:center;text-align:center;
+  .t-expv .exp-im{
+    height:var(--im-h);width:100%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  /* 提高优先级以压过上方 .tile-grid .t-visual img:not(.ava) 的 max-height:244px 全局约束 */
+  .tile-grid .t-visual.t-expv .exp-im img{
+    max-width:100%;max-height:100%;width:auto;height:auto;display:block;
+  }
+  .t-expv .exp-im img.blend{mix-blend-mode:multiply;}
+  /* 竖版插画再收一档并加 12px 圆角（与站内图片一致），居中留白更透气（博弈树不受影响） */
+  .tile-grid .t-visual.t-expv .exp-im img.portrait{max-height:80%;border-radius:12px;}
+  .t-expv .exp-name{
     font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.4;
-    letter-spacing:normal;color:var(--ink);
-  }
-  .t-exp li + li{border-top:1px solid var(--line);}
-  .t-expv .exp-tree{
-    flex:none;width:var(--tree-w);
-    /* 图注已删：树图下方改用与书名列镜像留白等高的空白占位，树图位置与上下界对齐保持原样 */
-    padding-bottom:var(--cap-h);
-    display:flex;flex-direction:column;justify-content:center;
-  }
-  .t-expv .exp-tree img{
-    width:100%;height:auto;display:block;
-    mix-blend-mode:multiply;
+    letter-spacing:normal;color:var(--ink);text-align:center;
   }
 
-  /* 窄桌面（≤1240）：卡内净宽收窄，树宽 240 → 图高 120，行高 (120-21)/2≈49，书名降 15px */
-  @media (max-width:1240px){
-    .t-visual.t-expv{gap:20px;}
-    .t-expv{--row-h:49px;--tree-w:240px;}
-    .t-exp li{font-size:15px;}
-  }
-  /* 更窄桌面（≤1080）：树宽 190 → 图高 95，行高 (95-20)/2≈38，书名 14px，保证三行不折行 */
+  /* 窄桌面（≤1080）：图区降为 170，名称 15px */
   @media (max-width:1080px){
-    .t-expv{--row-h:38px;--tree-w:190px;}
-    .t-exp li{font-size:14px;}
+    .t-expv{--im-h:170px;}
+    .t-expv .exp-name{font-size:15px;}
   }
 
   /* 卡片入场：滚动到视口内逐块淡入（.js-reveal 由脚本添加，无 JS / 减少动态时不隐藏） */
@@ -685,18 +670,17 @@
     .t-avatars img.ava{--ava:58px;}
     .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.29);}
     .t-avatars .ava-names{font-size:12px;}
-    /* 堆叠排版：书名三行在上、博弈树在下，无需与树图上下界对齐（故清掉镜像留白与固定行高） */
-    .t-exp{flex:none;padding-bottom:0;}
-    .t-exp li{height:auto;font-size:17px;padding:14px 0;}
-    .t-visual.t-expv{flex-direction:column;gap:22px;}
-    .t-expv .exp-tree{width:100%;flex:none;padding-bottom:0;}
+    /* 移动端：两卡并排收窄，图区降为 140，名称 14px */
+    .t-expv{--im-h:140px;}
+    .t-visual.t-expv{gap:18px;}
+    .t-expv .exp-name{font-size:14px;}
     .t-visual.t-fc{margin:20px 0 24px;gap:10px;}
     .t-visual.t-fc .fc-grid img{max-height:110px;}
     .t-fc .fc-grid figure{padding:8px 10px 9px;}
     .t-fc .fc-legend{gap:14px;}
   }
 </style>
-  <link rel="stylesheet" href="nav.css?v=51">
+  <link rel="stylesheet" href="nav.css?v=53">
 </head>
 <body>
 <script>
@@ -869,7 +853,6 @@
         <div class="menu">
           <a href="thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
           <a href="thought-experiment/index.html#exp2">《博士与母亲》</a>
-          <a href="thought-experiment/index.html#exp3">《2060年的五百万》</a>
         </div>
       </div>
       <div class="nav-drop">
@@ -1327,15 +1310,15 @@
         <h3 class="t-title">思想实验</h3>
         <p class="t-sub">一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量</p>
         <div class="t-visual t-expv">
-          <ol class="t-exp">
-            <li>《少子化的囚徒困境》</li>
-            <li>《博士与母亲》</li>
-            <li>《2060年的五百万》</li>
-          </ol>
-          <!-- 博弈树展台：提取自《少子化的囚徒困境》页内生育博弈收益图（家庭 A/B 四种选择组合） -->
-          <figure class="exp-tree">
-            <img src="images/prisoners-dilemma.png" alt="生育博弈树：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy">
-          </figure>
+          <!-- 双图展台：左博弈树（提取自《少子化的囚徒困境》页内收益图），右竖版插画（博士与母亲） -->
+          <span class="exp-card">
+            <span class="exp-im"><img class="blend" src="images/prisoners-dilemma.png" alt="生育博弈树：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy"></span>
+            <span class="exp-name">少子化的囚徒困境</span>
+          </span>
+          <span class="exp-card">
+            <span class="exp-im"><img class="portrait" src="images/nav/phd-mother-thumb.webp" alt="《博士与母亲》插图：身着博士服的青年与怀抱幼儿的母亲背靠背而立，眺望远方的城市" width="420" height="564" loading="lazy"></span>
+            <span class="exp-name">博士与母亲</span>
+          </span>
         </div>
         <span class="t-btn">完整内容</span>
       </a>
@@ -1980,7 +1963,7 @@ window.addEventListener('resize', onScroll);
 onScroll();
 })();
 </script>
-  <script src="nav.js?v=45"></script>
+  <script src="nav.js?v=46"></script>
   <script>
   /* 卡片入场：滚动到视口内逐块淡入上浮（仅在本页开启 js-reveal 时生效；无 JS / 减少动态时不隐藏） */
   (function(){

@@ -271,6 +271,13 @@ html{
 .tp-card:hover .cap-t{color:#3E6AE1;}
 .tp-card:hover .cap-a{color:#3E6AE1;transform:translateX(3px);}
 
+/* 思想实验双图卡（.tp-flat）：去卡片框与底色——竖版插画满幅彩色，框内留白很扎眼；
+   两图改为自带圆角（与站内图片一致的 12px），白底博弈树则直接融入磨砂面板；
+   图高较其他面板收窄一档，控制面板整体高度 */
+.tp-flat .tp-card .im{padding:0;background:none;border:none;height:clamp(180px,17vw,210px);}
+.tp-flat .tp-card:hover .im{transform:none;box-shadow:none;}
+.tp-flat .tp-card .im img{border-radius:12px;}
+
 /* 双图卡（地图 / 世界） */
 .tp-cardgrid{flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;}
 /* 四图卡（未来人口预测）：四张缩略折线图排成一行，图高收窄以控制面板整体高度 */
@@ -283,7 +290,7 @@ html{
 
 /* 左图右目录（预测 / 思想实验） */
 .tp-chart-links .tp-visual{flex:0 0 400px;}
-/* 右列 = 小标题（cfg.listTitle，如「三个思想实验」）+ 三行目录：
+/* 右列 = 小标题（cfg.listTitle，如「两个思想实验」）+ 两行目录：
    整块顶对齐图片顶边，行目自上而下紧凑顺排，不做均匀拉伸 */
 .tp-chart-links .tp-list{flex:1;align-self:flex-start;}
 .tp-list{display:block;min-width:0;}

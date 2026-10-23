@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>思想实验 - 人口档案馆</title>
-<meta name="description" content="三场关于人口与养老的思想实验：《少子化的囚徒困境》《博士与母亲》与《2060年的五百万》。一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
+<meta name="description" content="两场关于人口与养老的思想实验：《少子化的囚徒困境》与《博士与母亲》。一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
 <meta property="og:title" content="思想实验 - 人口档案馆">
 <meta property="og:description" content="一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
 <meta property="og:type" content="article">
@@ -108,6 +108,13 @@
     font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
     margin-top:10px;
   }
+  /* 收益图（博弈树）：缩至栏宽一半并居中 */
+  .figure.half img{width:50%;margin:0 auto;}
+  /* 竖版插图：与导航面板「博士与母亲」缩略图同尺寸（156×210，正文沿左侧环绕），
+     顶边与「S国，两个同为35岁的年轻人：」一行对齐 */
+  .figure.float-right{float:right;width:min(156px,53%);margin:67px 0 18px 32px;}
+  .figure.float-right img{width:100%;height:auto;}
+  .figure.float-right figcaption{text-align:center;}
 
   .sec-t{
     font-family:var(--serif);font-weight:500;
@@ -164,29 +171,13 @@
   ol.npts p{font-size:15px;line-height:2;color:var(--body-c);margin:0;grid-column:2;grid-row:2;}
   ol.npts p b{color:var(--ink);}
 
-  /* 结语框：三篇思想实验共用 */
+  /* 结语框：两篇思想实验共用 */
   .verdict{margin:44px 0 10px;padding:26px 28px;border-left:3px solid #171A20;background:var(--bg-soft);}
   .verdict p{
     font-family:var(--serif);font-weight:500;
     font-size:15px;line-height:2;color:var(--ink);margin:0 0 8px;
   }
   .verdict p:last-child{margin-bottom:0;}
-
-  /* 篇末后记：作为第三篇的一部分紧随结语，不加分隔线；字号只轻一档 */
-  p.postscript{
-    margin:28px 0 0;
-    font-size:14px;line-height:2;color:var(--body-c);
-  }
-  p.postscript b{
-    font-family:var(--serif);font-weight:500;color:var(--ink);
-  }
-
-  /* 尾声的过渡句 */
-  .challenge{
-    font-family:var(--serif);font-weight:500;
-    font-size:clamp(17px,2.2vw,21px);line-height:1.8;letter-spacing:normal;
-    color:var(--ink);margin:20px 0 0;
-  }
 
   /* 注脚 + 页脚 */
   .smallnote{
@@ -225,10 +216,12 @@
 .tl-track,.tl-fill{left:5px;}
     .exp-title::after,.sec-t::after{left:-16px;}
     .article,.smallnote{padding-left:22px;padding-right:22px;}
+    /* 竖版插图取消浮动，居中独占 */
+    .figure.float-right{float:none;width:min(340px,88%);margin:20px auto;}
     footer .foot-inner{padding:0 22px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=51">
+  <link rel="stylesheet" href="../nav.css?v=53">
 </head>
 <body>
 <script>
@@ -401,7 +394,6 @@
         <div class="menu">
           <a href="../thought-experiment/index.html#exp1">《少子化的囚徒困境》</a>
           <a href="../thought-experiment/index.html#exp2">《博士与母亲》</a>
-          <a href="../thought-experiment/index.html#exp3">《2060年的五百万》</a>
         </div>
       </div>
       <div class="nav-drop">
@@ -456,13 +448,6 @@
     <a class="sub" href="#t5">彼时的共识</a>
     <a class="sub" href="#t6">历史的转向</a>
     <a class="sub" href="#t7">时间的账本</a>
-    <a class="grp" href="#exp3">《2060年的五百万》</a>
-    <a class="sub" href="#t8">500万元的晚年</a>
-    <a class="sub" href="#t9">钱只是养老的凭证</a>
-    <a class="sub" href="#t10">第一关 服务端</a>
-    <a class="sub" href="#t11">第二关 资产端</a>
-    <a class="sub" href="#t12">第三关 兑付端</a>
-    <a class="sub" href="#t13">财富幻觉与人口真相</a>
   </aside>
 
   <div class="content">
@@ -485,7 +470,7 @@
       <h3 class="sec-t" id="t2">理性的选择</h3>
       <p>假设有两个家庭 A 和 B，他们都面临两个选择：生育，或者不生育。</p>
       <p>下图展示了双方不同选择组合下的结果。</p>
-      <figure class="figure">
+      <figure class="figure half">
         <img src="../images/prisoners-dilemma.png" alt="生育博弈收益图：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy">
         <figcaption>模型假设：数字代表双方相对收益。双方生育获得（4，4）；一方不生育可获得最大个人收益（8），另一方承担成本（-8）；双方不生育则共同承担低生育带来的长期损失（-4，-4）。</figcaption>
       </figure>
@@ -536,6 +521,10 @@
         <h2 class="exp-title">《博士与母亲》</h2>
       </div>
 
+      <figure class="figure float-right">
+        <img src="../images/phd-and-mother.png" alt="《博士与母亲》插图：身着博士服、手执文凭的青年与怀抱幼儿、牵着女孩的母亲背靠背而立，眺望远方的城市" width="1024" height="1376" loading="lazy">
+        <figcaption>插图</figcaption>
+      </figure>
       <h3 class="sec-t" id="t4">故事的起点</h3>
       <p class="before-list">S国，两个同为35岁的年轻人：</p>
       <ul class="mk">
@@ -578,81 +567,10 @@
         <p>但没有 B 承担的“人口再生产”，A 创造的辉煌甚至连一个世代都无法维系</p>
       </div>
 
-      <!-- ============ 思想实验三：《2060年的五百万》 ============ -->
-      <div class="exp-head" id="exp3">
-        <h2 class="exp-title">《2060年的五百万》</h2>
-      </div>
-
-      <h3 class="sec-t" id="t8">500万元的晚年</h3>
-      <p>小明勤奋工作，认真储蓄，一生都在为自己的晚年做准备。</p>
-      <p>他选择不生育子女，或者只生育很少的子女。</p>
-      <p>年轻时，小明相信一个再简单不过的道理：财富是未来的保障。</p>
-      <p>于是，他省下每一笔钱，规划每一步未来，购买保险，缴纳养老保障。</p>
-      <p>75岁这一天，小明拥有500万元现金，以及一套已经还清贷款的住房。他终于可以停下来了。不用再为工作奔波，不用再为房贷焦虑。</p>
-      <p>他想象中的晚年，是安稳而体面的：清晨去公园散步；生病时能够得到治疗；行动不便时，可以请护理人员照顾；家里的水管、灯泡出了问题，也有人可以上门维修。</p>
-      <p>他以为，自己已经为晚年准备好了足够的财富。</p>
-      <p>但他没有想到：2060年，养老的逻辑，已经改变。</p>
-      <p>届时，由于社会长期处于较低的生育水平，65岁及以上老年人口占总人口比重将超过四成。需要照料的人越来越多，而能够提供照料的人却越来越少。</p>
-      <p>当照料一位老人的成本不断提高，小明攒下的500万元，还能够支撑他的晚年生活吗？</p>
-      <p>要回答这个问题，首先要弄清楚：小明积累了一辈子的500万元，到底是什么？</p>
-
-      <h3 class="sec-t" id="t9">钱不是养老本身，只是养老的凭证</h3>
-      <p>钱不能替小明看病，不能替他送药、做饭、修理房屋，也不能替他完成各种生活服务。</p>
-      <p>他真正需要的，是医生、护士、护理员、厨师、维修工、快递员，以及无数仍然在工作的劳动者。</p>
-      <p>钱，本质上只是一种凭证。</p>
-      <p>它代表小明过去创造的价值，也代表他未来可以向社会交换商品和服务的权利。</p>
-      <p>但凭证本身并不产生价值。</p>
-      <p>它能够兑换多少东西，最终取决于另一端：未来还有多少人在生产，还有多少人在提供服务。</p>
-      <p>因此，养老真正的约束，从来不只是账户上的数字。而是：当小明老去的时候，社会上还有多少年轻人在创造财富。</p>
-
-      <h3 class="sec-t" id="t10">第一关：服务端——越来越多的老人，争夺越来越少的劳动者</h3>
-      <p>75岁以后，小明需要的并不是某一种商品。</p>
-      <p>他需要的是一整套庞大的服务体系：医疗、护理、陪伴、送餐、维修、交通，以及日常生活中的各种帮助。</p>
-      <p>而这些行业有一个共同特点：高度依赖人。</p>
-      <p>当老人越来越多，年轻人越来越少，越来越多像小明一样的老人，会拿着自己的“财富凭证”，去购买越来越稀缺的劳动服务。</p>
-      <p>结果必然是：服务越来越贵。</p>
-      <p>小明账户上的500万元，仍然是500万元。</p>
-      <p>但它能够购买的护理时间、医疗服务和生活照料，将会大幅减少。</p>
-
-      <h3 class="sec-t" id="t11">第二关：资产端——越来越多的人想出售，越来越少的人愿意接手</h3>
-      <p>小明想到：如果现金不够，还有房子。</p>
-      <p>可是，房子的价值，最终也取决于未来有没有足够多的人愿意购买。</p>
-      <p>2060年，庞大的老年群体可能同时面对同一个选择：出售资产，换取资金。</p>
-      <p>然而，另一端的年轻购买者，却远少于今天。</p>
-      <p>当出售的人越来越多，而接手的人越来越少，资产价格必然下跌。</p>
-      <p>房产不会因为过去的繁荣而永远保值，其价值最终仍取决于未来的人口结构。</p>
-
-      <h3 class="sec-t" id="t12">第三关：兑付端——所有承诺，都需要未来的年轻一代兑现</h3>
-      <p>小明还有最后一道保障：养老金、保险、基金，以及各种长期金融安排。</p>
-      <p>这些都是写在合同上的承诺，看起来十分可靠。</p>
-      <p>但任何承诺，最终都需要兑付。</p>
-      <p>而兑付它们的基础，仍然是未来社会的劳动、收入和产出。</p>
-      <p>但是，当社会中缴费的人减少、领取的人增加，生产的人减少、被供养的人增加时，小明账户上的数字或许并未发生变化。</p>
-      <p>但数字背后的购买力和兑现能力，已经改变。</p>
-
-      <h3 class="sec-t" id="t13">财富幻觉与人口真相</h3>
-      <p>小明想知道：</p>
-      <p>2060年的500万元，到底还值多少钱？</p>
-      <p>但更深层的问题是：</p>
-      <p>2060年的世界，还有没有足够多的年轻人，去生产这500万元原本能够购买的东西？</p>
-
-      <p>对于小明这类无子女或子女较少的群体而言，这一问题尤为突出。家庭可提供的养老支持不断弱化，其对社会化养老的依赖程度随之上升。</p>
-      <p>但在长期低生育率的社会环境下，需要照护的人群持续增长，能够提供照护服务的人力却不断缩减。</p>
-      <p class="challenge">这就是低生育带来的长期挑战。</p>
-
-      <p>小明最终明白：真正稀缺的从来不是账面上的财富。因为货币可以增加，资产可以重新定价，数字也可以留在账户里。</p>
-
-      <div class="verdict">
-        <p>真正稀缺的，是人。</p>
-        <p>更准确地说，是年轻人。</p>
-      </div>
-
-      <p class="postscript"><b>后记：</b>随着人工智能的飞速发展，未来的养老或许不再是难题。然而，出生人口的急剧萎缩所带来的冲击，永远不会只停留在“养老”这一层面。</p>
-
     </main>
 
     <div class="smallnote">
-      说明：本页收录三篇思想实验——《少子化的囚徒困境》《博士与母亲》与《2060年的五百万》。文中的人物、数值与年份均为假设性推演设定，用于呈现人口结构与养老保障之间的机制关系，而非对具体年份的预测，也不构成任何理财或养老建议。本站立场详见<a href="../other/index.html#about">关于本站</a>。
+      说明：本页收录两篇思想实验——《少子化的囚徒困境》与《博士与母亲》。文中的人物、数值与年份均为假设性推演设定，用于呈现人口结构与养老保障之间的机制关系，而非对具体年份的预测，也不构成任何理财或养老建议。本站立场详见<a href="../other/index.html#about">关于本站</a>。
       <h3>本文发布时间</h3>
       <p>2026年10月11日</p>
     </div>
@@ -747,6 +665,6 @@
   update();
 })();
 </script>
-  <script src="../nav.js?v=45"></script>
+  <script src="../nav.js?v=46"></script>
 </body>
 </html>

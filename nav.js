@@ -247,9 +247,14 @@
       ]
     },
     "thought-experiment/index.html": {
-      mode: "chart-links",
-      listTitle: "三个思想实验",
-      visual: { hash: "#exp1", src: "images/prisoners-dilemma.png", label: "《囚徒困境》博弈树", alt: "少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育" }
+      mode: "cards",
+      cardFlat: true,
+      listTitle: "两个思想实验",
+      /* 两张作品卡：博弈树（《少子化的囚徒困境》）+ 竖版插画（《博士与母亲》缩略图） */
+      cards: [
+        { hash: "#exp1", src: "images/prisoners-dilemma.png", label: "少子化的囚徒困境", alt: "少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育" },
+        { hash: "#exp2", src: "images/nav/phd-mother-thumb.webp", label: "博士与母亲", alt: "《博士与母亲》插图：身着博士服的青年与怀抱幼儿的母亲背靠背而立，眺望远方的城市" }
+      ]
     },
     "datacenter/index.html": {
       mode: "numbered", cols: 2,
@@ -303,6 +308,7 @@
 
     /* 内容块（.tl-content）挂在持久壳 .tl-shell 内，由 showPanel 控制换入换出 */
     var p = el("div", "tl-content tp-" + cfg.mode);
+    if (cfg.cardFlat) p.classList.add("tp-flat");
     var inner = el("div", "tp-inner");
 
     /* 头部：栏目标签 / 导语 / 副题 */
@@ -383,7 +389,7 @@
       body.appendChild(vis);
       var list = el("div", "tp-list");
       var listBase = cfg.listTitle ? 2 : 1;
-      /* 可选小标题（如「三个思想实验」）：复用分组小标题样式，置于目录首行之上 */
+      /* 可选小标题（如「两个思想实验」）：复用分组小标题样式，置于目录首行之上 */
       if (cfg.listTitle) list.appendChild(anim(el("p", "tp-group-h", cfg.listTitle), 1));
       links.forEach(function (a, k) {
         var row = cloneLink(a, k + listBase);
