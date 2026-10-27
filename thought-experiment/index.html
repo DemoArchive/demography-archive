@@ -110,12 +110,6 @@
   }
   /* 收益图（博弈树）：缩至栏宽一半并居中 */
   .figure.half img{width:50%;margin:0 auto;}
-  /* 竖版插图：与导航面板「博士与母亲」缩略图同尺寸（156×210，正文沿左侧环绕），
-     顶边与「S国，两个同为35岁的年轻人：」一行对齐 */
-  .figure.float-right{float:right;width:min(156px,53%);margin:67px 0 18px 32px;}
-  .figure.float-right img{width:100%;height:auto;}
-  .figure.float-right figcaption{text-align:center;}
-
   .sec-t{
     font-family:var(--serif);font-weight:500;
     font-size:clamp(19px,2.3vw,23px);letter-spacing:normal;line-height:1.6;
@@ -216,8 +210,6 @@
 .tl-track,.tl-fill{left:5px;}
     .exp-title::after,.sec-t::after{left:-16px;}
     .article,.smallnote{padding-left:22px;padding-right:22px;}
-    /* 竖版插图取消浮动，居中独占 */
-    .figure.float-right{float:none;width:min(340px,88%);margin:20px auto;}
     footer .foot-inner{padding:0 22px;}
   }
 </style>
@@ -521,10 +513,6 @@
         <h2 class="exp-title">《博士与母亲》</h2>
       </div>
 
-      <figure class="figure float-right">
-        <img src="../images/phd-and-mother.png" alt="《博士与母亲》插图：身着博士服、手执文凭的青年与怀抱幼儿、牵着女孩的母亲背靠背而立，眺望远方的城市" width="1024" height="1376" loading="lazy">
-        <figcaption>插图</figcaption>
-      </figure>
       <h3 class="sec-t" id="t4">故事的起点</h3>
       <p class="before-list">S国，两个同为35岁的年轻人：</p>
       <ul class="mk">
