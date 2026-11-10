@@ -24,6 +24,9 @@
    ============================================================ */
 (function () {
   "use strict";
+  /* iOS Safari 只在页面存在 touchstart 监听时才应用 :active。加一个空监听，
+     让移动端菜单/顶栏的按压反馈（浅灰底色）在 iPhone 上也能出现。 */
+  document.addEventListener("touchstart", function () {}, { passive: true });
   var mq = window.matchMedia("(max-width:1080px)");
   var burger = document.querySelector(".nav-burger");
   if (!burger) return;

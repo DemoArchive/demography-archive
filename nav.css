@@ -51,7 +51,15 @@ html{
   border-radius:4px;white-space:nowrap;text-decoration:none;
   transition:color .33s,background-color .33s;
 }
-.nav-links > a:hover,.nav-drop > a:hover{background:#F4F4F4;}
+/* 悬停底色只给真正有指针悬停的设备：触屏上 :hover 会黏在最后点过的条目上，
+   留下一块灰底（Apple 移动端菜单没有这种残留），触屏改由 :active 即时反馈。 */
+@media (hover:hover){
+  .nav-links > a:hover,.nav-drop > a:hover{background:#F4F4F4;}
+}
+/* 按压反馈（Apple 同款）：去掉浏览器默认的蓝色/灰色点击高亮，按下时铺一层
+   浅灰底色、松手即退；桌面鼠标同样适用。 */
+.nav a,.nav-burger{-webkit-tap-highlight-color:transparent;}
+.nav-links > a:active,.nav-drop > a:active,.nav-burger:active,.nav-github:active{background:#F0F0F0;}
 .nav-links > a.here,.nav-drop > a.here{background:#F4F4F4;color:#171A20;}
 /* —— 悬停面板（Apple 官网风格：满幅磨砂浮层 + 栏目专属内容 + 展开动画）——
    关键约束：带 backdrop-filter 的元素会成为「背景根」，其子树内的 backdrop-filter
@@ -365,7 +373,7 @@ html{
   color:#171A20;text-decoration:none;
   transition:background-color .33s,color .33s;
 }
-.nav-github:hover{background:#F4F4F4;}
+@media (hover:hover){.nav-github:hover{background:#F4F4F4;}}
 .nav-github:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
 .nav-github svg{width:19px;height:19px;display:block;fill:currentColor;}
 
@@ -376,7 +384,7 @@ html{
   background:transparent;border:none;border-radius:4px;cursor:pointer;
 }
 .nav-burger span{display:block;width:100%;height:2px;border-radius:2px;background:#171A20;transition:transform .33s,opacity .33s;}
-.nav-burger:hover{background:#F4F4F4;}
+@media (hover:hover){.nav-burger:hover{background:#F4F4F4;}}
 .nav-burger:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
 body.nav-open .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 body.nav-open .nav-burger span:nth-child(2){opacity:0;}
@@ -427,35 +435,61 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .nav-links{gap:2px;padding:0;border-radius:0;background:transparent;}
   .nav-links > a,.nav-drop > a{font-size:12.5px;padding:0 8px;height:auto;}
   .nav-links > *:nth-child(n+4){display:none;}
+  /* —— 点开汉堡后的整页菜单（Apple 官网移动端同款）——
+     白色覆盖到视口底部，条目 24px 左对齐、无胶囊底纹，右侧细箭头；
+     子目录缩进成 16px 灰字，去掉原来那根左侧竖线（Apple 的手风琴没有）。
+     展开走卷帘式裁切（clip-path），与桌面悬停面板同一套缓动；
+     按下时浅灰一闪，触屏不残留 hover 灰块。 */
   body.nav-open .nav-links{
+    box-sizing:border-box;
     position:absolute;top:100%;left:0;right:0;z-index:60;
-    display:flex;flex-direction:column;align-items:stretch;gap:2px;
-    background:#FFFFFF;border-bottom:1px solid #EEEEEE;
-    padding:8px 12px 12px;margin:0;
-    max-height:calc(100vh - 55px);max-height:calc(100dvh - 55px);
-    overflow-y:auto;
+    display:flex;flex-direction:column;align-items:stretch;gap:0;
+    background:#FFFFFF;
+    padding:8px 0 max(20px,env(safe-area-inset-bottom));margin:0;
+    height:calc(100dvh - var(--nav-h));max-height:calc(100dvh - var(--nav-h));
+    overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    animation:nav-sheet .42s cubic-bezier(.32,.72,0,1) both;
+  }
+  @keyframes nav-sheet{
+    from{clip-path:inset(0 0 100% 0);}
+    to{clip-path:inset(0 0 0 0);}
   }
   body.nav-open .nav-links > *{display:flex;}
   body.nav-open .nav-links > a,
-  body.nav-open .nav-drop > a{width:100%;height:40px;font-size:14px;padding:0 12px;}
+  body.nav-open .nav-drop > a{
+    width:100%;height:58px;font-size:24px;font-weight:500;letter-spacing:.01em;
+    color:#1D1D1F;padding:0 22px;border-radius:0;background:transparent;
+  }
+  body.nav-open .nav-links > a:active,
+  body.nav-open .nav-drop > a:active{background:#F5F5F7;}
   body.nav-open .nav-links > a.here,
-  body.nav-open .nav-drop > a.here{background:#F4F4F4;color:#171A20;}
+  body.nav-open .nav-drop > a.here{background:transparent;color:#86868B;}
   body.nav-open .nav-drop{display:block;width:100%;}
-  body.nav-open .nav-drop > a::after{content:"▾";margin-left:auto;font-size:11px;color:#8E8E8E;transition:transform .33s;}
-  body.nav-open .nav-drop.expanded > a::after{transform:rotate(180deg);}
+  body.nav-open .nav-drop > a::after{
+    content:"";flex:none;width:8px;height:8px;margin-left:auto;
+    border-right:1.5px solid #86868B;border-bottom:1.5px solid #86868B;
+    transform:rotate(45deg);position:relative;top:-2px;
+    transition:transform .32s cubic-bezier(.32,.72,0,1),top .32s;
+  }
+  body.nav-open .nav-drop.expanded > a::after{transform:rotate(225deg);top:2px;}
   /* 窄屏恢复手风琴列表：解除桌面端满幅磨砂面板的固定定位/胶囊排布/入场动画 */
   body.nav-open .nav-drop .menu{
-    position:static;display:none;width:auto;min-width:0;margin:2px 0 4px 14px;padding:0 0 2px;
-    background:transparent;border:none;border-left:2px solid #EEEEEE;border-radius:0;
+    position:static;display:none;width:auto;min-width:0;margin:0;padding:0 0 10px;
+    background:transparent;border:none;border-radius:0;
     -webkit-backdrop-filter:none;backdrop-filter:none;
     box-shadow:none;opacity:1;visibility:visible;transform:none;
   }
   body.nav-open .nav-drop.expanded .menu{display:block;}
   body.nav-open .menu a{
-    height:38px;font-size:13px;padding:0 8px 0 12px;margin:0;border-radius:4px;
-    display:flex;align-items:center;background:transparent;opacity:1;transform:none;transition:none;
+    height:46px;font-size:16px;padding:0 22px 0 40px;margin:0;border-radius:0;
+    color:#6E6E73;
+    display:flex;align-items:center;background:transparent;opacity:1;transform:none;
+    transition:background-color .15s ease,color .15s ease;
   }
-  body.nav-open .menu a:hover{background:#F4F4F4;}
+  body.nav-open .menu a:active{background:#F5F5F7;color:#1D1D1F;}
+}
+@media (prefers-reduced-motion: reduce){
+  body.nav-open .nav-links{animation:none;}
 }
 /* —— 手机宽度：品牌 + 前 3 项 + 汉堡按钮约需 500px，≤560px 视口放不下时
    整栏被撑宽、页面出现横向滑动，汉堡按钮被推出屏幕右缘（需左滑才能看到）。
