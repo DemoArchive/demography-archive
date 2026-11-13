@@ -70,7 +70,7 @@
 
   /* —— 双栏骨架：目录 + 正文（与“正在来临的危险”一致） —— */
   .page-grid{
-    max-width:1200px;margin:60px auto 0;padding:0 32px;
+    max-width:var(--page-max,1200px);margin:60px auto 0;padding:0 32px;
     display:grid;grid-template-columns:220px minmax(0,1fr);gap:52px;align-items:start;
   }
   .toc{position:sticky;top:84px;}
@@ -92,11 +92,12 @@
   /* 首项以全角标点「开头：标点悬挂进左侧空档（-1em=全角标点宽度），
      各条目标题文字自同一起点排布——左缘对齐由布局保证，不依赖首字符字形 */
   .toc a:first-of-type{text-indent:-1em;}
-  .content{min-width:0;max-width:840px;}
+  .content{min-width:0;}
 
   /* —— 开篇引言 —— */
-  .article{padding:0 0 8px;}
+  .article{padding:0;}
   .article p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:18px;}
+  .article p:last-child{margin-bottom:0;}
   .article p b{color:var(--ink);}
 
   .divider{
@@ -107,8 +108,12 @@
   /* —— 争论卡片 —— */
   .debate{
     border-top:1px solid var(--line);
-    padding:34px 0 30px;margin-top:34px;
+    padding:28px 0 0;margin-top:28px;
   }
+  .debate > :last-child{margin-bottom:0;}
+  .debate .reply-list li:last-child,
+  .debate .arg:last-child li:last-child{padding-bottom:0;}
+  .debate .arg:last-child > :last-child{margin-bottom:0;}
   .d-head{margin-bottom:22px;}
   .debate h2{
     font-family:var(--serif);font-weight:500;
@@ -155,14 +160,13 @@
   .arg li b{color:var(--ink);}
 
   .smallnote{
-    margin:0;padding:24px 0 0;border-top:1px solid var(--line);
+    margin:28px 0 0;padding:24px 0 0;border-top:1px solid var(--line);
     font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
   }
-  .debate:last-of-type{padding-bottom:18px;}
   .smallnote h3{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--muted);margin:14px 0 8px;}
   .smallnote h3:first-child{margin-top:0;}
   footer{border-top:1px solid var(--line);margin-top:60px;padding:30px 32px 44px;}
-  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
 
   @media (max-width:960px){
     .hero{padding:56px 20px 0;}
@@ -180,7 +184,8 @@
     .toc a.grp{margin-top:8px;}
     .toc a:first-of-type{margin-top:0;}
     .toc a.on{color:var(--accent);background:none;}
-    .debate{padding:24px 0;}
+    .debate{padding:24px 0 0;margin-top:24px;}
+    .smallnote{margin-top:24px;}
     .claim{padding:14px 18px;}
     .divider{margin:48px 0 24px;}
     footer .foot-inner{padding:0 20px;}
@@ -191,7 +196,7 @@
   .tl-track,.tl-fill{position:absolute;left:-25px;width:2px;pointer-events:none;}
   .tl-track{background:var(--line);}
   .tl-fill{background:var(--accent);}
-  .debate{position:relative;--dot:54px;}
+  .debate{position:relative;--dot:48px;}
   .debate::after{
     content:"";position:absolute;left:-24px;top:var(--dot,54px);width:11px;height:11px;border-radius:50%;
     background:#fff;border:2px solid #D0D1D2;transform:translate(-50%,-50%);
@@ -207,7 +212,7 @@
     .debate{--dot:40px;padding-left:22px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=55">
+  <link rel="stylesheet" href="../nav.css?v=58">
 </head>
 <body>
 <script>
@@ -407,7 +412,8 @@
 <div class="divider" id="art-top">「人口辩论场」</div>
 
 <main class="article">
-  <p>关于人口，我们总能听见一些熟悉的声音。在事实与理性前，这些问题早已拥有清晰的答案。然而在舆论场上，基于直觉的误解，却让它们沦为无休止的“永恒争论”。偏见不会改变客观规律，但认清事实，能让我们免于为幻觉买单。</p>
+  <p>关于人口，我们总能听见一些熟悉的声音。在事实与理性前，这些问题早已拥有清晰的答案。然而在舆论场上，基于直觉的误解，却让它们沦为无休止的“永恒争论”。</p>
+  <p>偏见不会改变客观规律，但认清事实，能让我们免于为幻觉买单。</p>
 </main>
 
 <section class="debate" id="d1">
@@ -454,7 +460,8 @@
   </div>
   <div class="tag tag-reply">回应</div>
   <ul class="reply-list">
-    <li>经济循环的终点是人：市场经济的底层飞轮是“有效需求”。机器人不需要买房、点外卖、交学费或购买新能源车。失去广阔的人口基座，AI生产出的巨量过剩物资将无处售卖，技术本身的商业化闭环也将瓦解</li>
+    <li>经济循环的终点是人：市场经济的底层飞轮是“有效需求”。机器人不需要买房、点外卖、交学费或购买新能源车。失去广阔的人口基座，AI生产出的巨量过剩物资将无处售卖，技术本身的商业化闭环也将瓦解。</li>
+    <li>在未来，AI 与机器人的规模化产出能力越强，作为最终消费者的人类，反而越是不可替代的核心角色。</li>
     <li>生育是二十年后才见效的事，不能押注一项还没到来的技术。</li>
     <li>即便未来人工智能和机器人技术给人类社会带来极端风险，人口规模仍然是应对未知挑战的重要基础。更多的人口，意味着更大的创新能力、更强的恢复能力，也意味着面对危机时更多的选择。</li>
   </ul>
@@ -527,6 +534,8 @@
 <div class="smallnote">
   <h3>本文发布时间</h3>
   <p>2026年10月11日</p>
+  <h3>本文修改时间</h3>
+  <p>2026年11月13日</p>
 </div>
 
 </div>

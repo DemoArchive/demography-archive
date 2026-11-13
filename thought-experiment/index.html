@@ -69,7 +69,7 @@
 
   /* ---------- 布局：侧栏目录 + 正文 ---------- */
   .page-grid{
-    max-width:1200px;margin:0 auto;padding:48px 32px 0;
+    max-width:var(--page-max,1200px);margin:0 auto;padding:48px 32px 0;
     display:grid;grid-template-columns:232px minmax(0,1fr);gap:52px;align-items:start;
   }
   .toc{position:sticky;top:84px;}
@@ -90,13 +90,14 @@
   .toc a.grp{font-weight:500;color:var(--ink);margin-top:16px;text-indent:-1em;}
   .toc a.grp:first-of-type{margin-top:2px;}
   .toc a.grp.on{color:var(--accent);}
-  .content{min-width:0;max-width:780px;}
+  .content{min-width:0;}
 
   /* ---------- 正文 ---------- */
   .article p{font-size:15px;line-height:2;color:var(--body-c);margin-bottom:20px;}
   .article p b{color:var(--ink);}
 
-  .exp-head{margin:10px 0 36px;padding-top:36px;border-top:1px solid var(--line);}
+  .exp-head{margin:28px 0 36px;padding-top:28px;border-top:1px solid var(--line);}
+  .exp-head:first-child{margin-top:10px;}
   .exp-title{
     font-family:var(--serif);font-weight:500;
     font-size:clamp(24px,3vw,32px);letter-spacing:normal;line-height:1.4;
@@ -104,13 +105,13 @@
 
   /* 囚徒困境：收益图 */
   .figure{margin:26px 0 30px;}
-  .figure img{display:block;width:100%;height:auto;}
+  .figure img{display:block;width:100%;max-width:780px;height:auto;}
   .figure figcaption{
     font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
     margin-top:10px;
   }
-  /* 收益图（博弈树）：缩至栏宽一半并居中 */
-  .figure.half img{width:50%;margin:0 auto;}
+  /* 收益图（博弈树）：适中宽度居中，与正文栏协调 */
+  .figure.half img{width:min(560px,100%);margin:0 auto;}
   .sec-t{
     font-family:var(--serif);font-weight:500;
     font-size:clamp(19px,2.3vw,23px);letter-spacing:normal;line-height:1.6;
@@ -176,7 +177,7 @@
 
   /* 注脚 + 页脚 */
   .smallnote{
-    margin:32px 0 0;padding:24px 0 0;
+    margin:28px 0 0;padding:24px 0 0;
     border-top:1px solid var(--line);
     font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
   }
@@ -184,7 +185,7 @@
   .smallnote h3{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--muted);margin:14px 0 8px;}
   footer{padding:40px 32px 56px;}
   .foot-inner{
-    max-width:1160px;margin:0 auto;
+    max-width:var(--page-max,1200px);margin:0 auto;
     display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     font-size:11.5px;color:var(--faint);letter-spacing:normal;
   }
@@ -207,14 +208,16 @@
     .toc a.on,.toc a.grp.on{color:var(--accent);background:none;}
     /* 过长的子项（如「个人的理性选择，社会的错误未来」）独占整行，避免双列下换行挤压 */
     .toc a.wide{grid-column:1/-1;}
-    .smallnote{padding:24px 0 0;}
+    .exp-head{margin:24px 0 30px;padding-top:24px;}
+    .exp-head:first-child{margin-top:10px;}
+    .smallnote{margin-top:24px;padding:24px 0 0;}
 .tl-track,.tl-fill{left:5px;}
     .exp-title::after,.sec-t::after{left:-16px;}
     .article,.smallnote{padding-left:22px;padding-right:22px;}
     footer .foot-inner{padding:0 22px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=55">
+  <link rel="stylesheet" href="../nav.css?v=58">
 </head>
 <body>
 <script>
@@ -429,7 +432,7 @@
       <p>假设有两个家庭 A 和 B，他们都面临两个选择：生育，或者不生育。</p>
       <p>下图展示了双方不同选择组合下的结果。</p>
       <figure class="figure half">
-        <img src="../images/prisoners-dilemma.png" alt="生育博弈收益图：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy">
+        <img src="../images/prisoners-dilemma.png" alt="生育博弈收益图：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1320" height="728" loading="lazy">
         <figcaption>模型假设：数字代表双方相对收益。双方生育获得（4，4）；一方不生育可获得最大个人收益（8），另一方承担成本（-8）；双方不生育则共同承担低生育带来的长期损失（-4，-4）。</figcaption>
       </figure>
       <p class="before-list">从博弈结果来看：</p>
@@ -527,6 +530,8 @@
       说明：本页收录两篇思想实验——《少子化的囚徒困境》与《博士与母亲》。文中的人物、数值与年份均为假设性推演设定，用于呈现人口结构与养老保障之间的机制关系，而非对具体年份的预测，也不构成任何理财或养老建议。本站立场详见<a href="../other/index.html#about">关于本站</a>。
       <h3>本文发布时间</h3>
       <p>2026年10月11日</p>
+      <h3>本文修改时间</h3>
+      <p>2026年11月13日</p>
     </div>
   </div>
 </div>

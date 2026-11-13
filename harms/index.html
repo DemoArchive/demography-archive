@@ -72,7 +72,7 @@
   .article h2{
     font-family:var(--serif);font-weight:500;
     font-size:clamp(21px,2.6vw,27px);letter-spacing:normal;line-height:1.5;
-    margin:52px 0 22px;padding-top:26px;border-top:1px solid var(--line);
+    margin:28px 0 22px;padding-top:28px;border-top:1px solid var(--line);
   }
   .finale{
     font-family:var(--serif);font-weight:500;
@@ -88,9 +88,9 @@
   .smallnote li{padding:2px 0;}
   .smallnote .note{display:grid;grid-template-columns:auto 1fr;column-gap:.3em;}
   footer{border-top:1px solid var(--line);margin-top:60px;padding:30px 32px 44px;}
-  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
   .page-grid{
-    max-width:1200px;margin:0 auto;padding:56px 32px 0;
+    max-width:var(--page-max,1200px);margin:0 auto;padding:56px 32px 0;
     display:grid;grid-template-columns:220px minmax(0,1fr);gap:52px;align-items:start;
   }
   .toc{position:sticky;top:84px;}
@@ -108,9 +108,10 @@
   /* 首项以全角标点「开头：标点悬挂进左侧空档（-1em=全角标点宽度），
      各条目标题文字自同一起点排布——左缘对齐由布局保证，不依赖首字符字形 */
   .toc a:first-of-type{text-indent:-1em;}
-  .content{min-width:0;max-width:840px;}
-  .content .article{max-width:none;margin:0;padding:0 0 8px;}
-  .content .smallnote{max-width:none;margin:0;padding:24px 0 0;}
+  .content{min-width:0;}
+  .content .article{max-width:none;margin:0;padding:0;}
+  .content .article p:last-child{margin-bottom:0;}
+  .content .smallnote{max-width:none;margin:28px 0 0;padding:24px 0 0;}
   @media (max-width:960px){
     .hero{padding:60px 22px 8px;}
     .page-grid{grid-template-columns:1fr;padding:36px 20px 0;gap:24px;}
@@ -125,6 +126,8 @@
     .toc a.grp{margin-top:8px;}
     .toc a:first-of-type{margin-top:0;}
     .toc a.on{color:var(--accent);background:none;}
+    .article h2{margin-top:24px;padding-top:24px;}
+    .content .smallnote{margin-top:24px;}
     .article,.smallnote{padding-left:22px;padding-right:22px;}
     footer .foot-inner{padding:0 20px;}
   }
@@ -135,7 +138,7 @@
   .tl-track{background:var(--line);}
   .tl-fill{background:var(--accent);}
   .article h2[id],.finale{position:relative;}
-  .article h2[id]{--dot:46px;}
+  .article h2[id]{--dot:48px;}
   .finale{--dot:20px;}
   .article h2[id]::after,.finale::after{
     content:"";position:absolute;left:-24px;top:var(--dot,20px);width:11px;height:11px;border-radius:50%;
@@ -149,13 +152,13 @@
   @media (max-width:960px){
     .tl-track,.tl-fill{left:5px;}
     .article h2[id]::after,.finale::after{left:6px;}
-    .article h2[id]{--dot:43px;}
+    .article h2[id]{--dot:41px;}
     .finale{--dot:17px;}
     .content .article h2[id],
     .content .article h2[id] ~ p{padding-left:22px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=55">
+  <link rel="stylesheet" href="../nav.css?v=58">
 </head>
 <body>
 <script>

@@ -15,6 +15,9 @@
    过渡（展开 .46s / 收起 .34s，cubic-bezier(.32,.72,0,1)），内容随壳缘被
    裁出/收回，不做 scaleY 压扁与整体位移。
    ============================================================ */
+:root{
+  --page-max:clamp(1200px,85vw,1680px);
+}
 html{
   overflow-y:scroll;
   /* 本站只有浅色主题：显式声明 only light，避免 Chrome/Edge 移动端
@@ -22,7 +25,7 @@ html{
      导致文字与图形消失）。 */
   color-scheme:only light;
   /* --nav-h 由 nav.js 写入 = 顶栏高度，供固定定位的面板贴住顶栏下缘。 */
-  --nav-h:58px;
+  --nav-h:60px;
 }
 @media (max-width:960px){html{--nav-h:54px;}}
 .nav{
@@ -35,19 +38,19 @@ html{
 ::view-transition-old(site-nav),::view-transition-new(site-nav){animation:none;height:100%;}
 [id]{scroll-margin-top:78px;}
 .nav-inner{
-  max-width:1200px;margin:0 auto;padding:0 24px;
-  height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  max-width:var(--page-max,1200px);margin:0 auto;padding:0 24px;
+  height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px;
 }
 .brand{display:flex;align-items:baseline;gap:10px;white-space:nowrap;text-decoration:none;}
 .brand .zh{
   font-family:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
-  font-weight:500;font-size:20px;letter-spacing:.1em;color:#171A20;
+  font-weight:500;font-size:23px;letter-spacing:.1em;color:#171A20;
 }
 .nav-links{display:flex;gap:2px;align-items:center;}
 .nav-links > a,.nav-drop > a{
   font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
-  font-size:13px;font-weight:500;color:#171A20;
-  padding:0 10px;height:32px;display:inline-flex;align-items:center;
+  font-size:16px;font-weight:500;color:#171A20;
+  padding:0 12px;height:36px;display:inline-flex;align-items:center;
   border-radius:4px;white-space:nowrap;text-decoration:none;
   transition:color .33s,background-color .33s;
 }
@@ -375,7 +378,7 @@ html{
 }
 @media (hover:hover){.nav-github:hover{background:#F4F4F4;}}
 .nav-github:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
-.nav-github svg{width:19px;height:19px;display:block;fill:currentColor;}
+.nav-github svg{width:20px;height:20px;display:block;fill:currentColor;}
 
 /* —— 汉堡按钮（窄屏显示，桌面隐藏） —— */
 .nav-burger{
@@ -408,13 +411,28 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   /* 末项内边距 12px：-20 使「其他」二字右缘正好落到内容栏右缘（32px） */
   .nav-github{margin-left:-20px;}
 }
+@media (min-width:1441px){
+  .brand .zh{font-size:clamp(23px,1.3vw,25px);}
+  .nav-links{gap:clamp(4px,5vw - 70px,32px);}
+  .nav-links > a,.nav-drop > a{font-size:clamp(16px,.9vw,17.5px);}
+}
+@media (min-width:1600px){
+  .nav-links > a,.nav-drop > a{padding:0 14px;}
+  /* 末项内边距 14px：-22 使「其他」二字右缘正好落到内容栏右缘（32px） */
+  .nav-github{margin-left:-22px;}
+}
+@media (min-width:1800px){
+  .nav-links > a,.nav-drop > a{padding:0 16px;}
+  /* 末项内边距 16px：-24 使「其他」二字右缘正好落到内容栏右缘（32px） */
+  .nav-github{margin-left:-24px;}
+}
 @media (max-width:1320px){
-  .nav-links > a,.nav-drop > a{font-size:12.5px;}
+  .nav-links > a,.nav-drop > a{font-size:15px;}
   .tp-lead{font-size:18px;}
 }
 @media (max-width:1240px){
   .nav-inner{gap:8px;padding:0 16px;}
-  .nav-links > a,.nav-drop > a{font-size:11.5px;padding:0 6px;}
+  .nav-links > a,.nav-drop > a{font-size:14px;padding:0 6px;}
   .tp-inner{padding-top:20px;padding-bottom:24px;}
   .tp-body{gap:28px;}
   .tp-cardgrid{gap:22px;}
@@ -432,8 +450,9 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .menu.tl-panel{display:none;}
   .nav-burger{display:flex;}
   .nav-github{margin-left:auto;}
+  .brand .zh{font-size:21px;}
   .nav-links{gap:2px;padding:0;border-radius:0;background:transparent;}
-  .nav-links > a,.nav-drop > a{font-size:12.5px;padding:0 8px;height:auto;}
+  .nav-links > a,.nav-drop > a{font-size:15px;padding:0 8px;height:auto;}
   .nav-links > *:nth-child(n+4){display:none;}
   /* —— 点开汉堡后的整页菜单（Apple 官网移动端同款）——
      白色覆盖到视口底部，条目 24px 左对齐、无胶囊底纹，右侧细箭头；

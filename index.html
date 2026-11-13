@@ -5,14 +5,14 @@
 <meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>人口档案馆</title>
-<meta name="description" content="1963 年，每分钟出生 56 人；2025 年，每分钟出生 15 人。寂静的产房。中国出生人口观察：数据、危害、争论与思想实验。">
+<meta name="description" content="1963 年，每分钟出生 56 人；2025 年，每分钟出生 15 人。正在缩小的起点。中国出生人口观察：数据、危害、争论与思想实验。">
 <meta property="og:title" content="人口档案馆">
 <meta property="og:description" content="1963 年每分钟出生 56 人，2025 年每分钟出生 15 人。未来，已从产房的寂静中悄然启程……">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFFFFF'/%3E%3Cpath d='M4 10 L14 12 L24 26' stroke='%233E6AE1' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.loli.net">
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
-<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 /* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
    避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
@@ -95,13 +95,7 @@
   .statement-inline .dim{color:var(--muted);font-size:clamp(14px,1.4vw,17px);}
 
   /* ---------- 出生摆钟 ---------- */
-  .clocks{max-width:1200px;margin:0 auto;padding:22px 32px 44px;}
-  .clock-hint{
-    text-align:center;
-    font-size:12.5px;color:var(--muted);letter-spacing:normal;
-    margin-bottom:16px;
-  }
-  .clock-hint b{font-weight:500;}
+  .clocks{max-width:var(--page-max,1200px);margin:0 auto;padding:22px 32px 44px;}
   .clock-grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
   }
@@ -238,7 +232,7 @@
      （原为 112 + 44 = 156px，末块与版权行之间显得过空） */
   footer{padding:32px 32px 56px;}
   .foot-inner{
-    max-width:1200px;margin:0 auto;
+    max-width:var(--page-max,1200px);margin:0 auto;
     display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     font-size:12px;color:var(--faint);letter-spacing:normal;
   }
@@ -255,7 +249,7 @@
   .story{
     display:grid;
     grid-template-columns:1fr minmax(360px,42%);
-    max-width:1200px;margin:0 auto;
+    max-width:var(--page-max,1200px);margin:0 auto;
   }
   .stage-col{grid-column:1;grid-row:1;position:relative;}
   .steps{grid-column:2;grid-row:1;padding:0 32px 0 36px;position:relative;}
@@ -267,7 +261,7 @@
   /* 淡化只作用于文字内容，不含轴节点圆点——否则半透明圆点会让线条透过来 */
   .step-inner > *{opacity:.24;transition:opacity .55s ease;}
   .step.on .step-inner > *{opacity:1;}
-  .step-inner{max-width:460px;padding:28px 24px 28px 8px;}
+  .step-inner{max-width:540px;padding:28px 24px 28px 8px;}
   .step .s-kicker{
     font-family:var(--serif);font-weight:500;letter-spacing:normal;
     font-size:clamp(24px,2.4vw,30px);line-height:1.4;
@@ -288,6 +282,11 @@
   .stat .num small{font-size:.42em;font-weight:500;margin-left:6px;color:var(--muted);}
   .stat .cap{margin-top:10px;font-size:13px;color:var(--muted);letter-spacing:normal;}
   .step .stat + .stat{margin-top:14px;}
+  .stat-row{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start;
+    margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+  }
+  .step .stat-row .stat{margin-top:0;padding-top:0;border-top:none;}
   .stat-more{
     font-family:var(--serif);font-weight:500;
     font-size:clamp(24px,2.6vw,32px);line-height:1;
@@ -324,7 +323,7 @@
     display:flex;align-items:center;justify-content:center;
     padding:20px 12px 20px 32px;
   }
-  .chart-wrap{position:relative;width:100%;max-width:760px;}
+  .chart-wrap{position:relative;width:100%;max-width:900px;}
   .chart-wrap svg{width:100%;height:auto;display:block;}
   .readout{position:absolute;top:2px;left:6px;pointer-events:none;}
   .readout .r-year{
@@ -375,194 +374,254 @@
   @keyframes headPulse{0%{transform:scale(1);opacity:.5;}75%{transform:scale(2.5);opacity:0;}100%{transform:scale(2.5);opacity:0;}}
   @media (prefers-reduced-motion:reduce){#headHalo{animation:none;opacity:0;}}
 
-  /* ---------- 探索卡片（首页卡片区） ----------
-     依 DESIGN.md：Light Ash 浅灰卡面 / 无边框无投影 / 12px 圆角 / Electric Blue 仅用于主 CTA
-     / 字重只用 400-500 / 过渡统一 0.33s / 悬停仅变色，无位移缩放
-     卡内四段节奏统一：标题 → 两行导语（预留 40px 等高）→ 图形区（占满余量、居中）→ CTA 贴底，
-     使 7 个矩形块内部间距分布均匀、基线一致 */
-  /* 卡片区宽度与生育时钟一致：同为 max-width 1200 + 32px 内边距，
-     矩形块左右缘正好落在时钟卡片的两侧边缘上 */
-  .tiles{max-width:1200px;margin:0 auto;padding:112px 32px 64px;}
-  .tiles-wrap{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
-  .tile{
-    --tile-bg:#F4F4F4;
-    position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
-    background:var(--tile-bg);border:0;border-radius:12px;overflow:hidden;color:var(--ink);
-    transition:background-color .33s cubic-bezier(.5,0,0,.75),opacity .33s ease;
+  /* ---------- 探索卡片（首页卡片区 · 统一 Apple 纯白极简风格） ----------
+     7 个矩形块采用完全统一的视觉与动效语言：
+     #FFFFFF 纯白卡面 + 24px 大圆角 + #E8E8ED 极细外框与柔和阴影 /
+     卡内一律无嵌套方框，多项内容以 #EFEFF4 发丝分隔线直接呈现在纯白卡面上 /
+     SF Pro & PingFang SC 显示字体（#1D1D1F 主墨、#6E6E73 次灰）/ 胶囊形 Apple Blue 主按钮（#0071E3）/
+     全站一致的 Apple 物理缓动（cubic-bezier(.32,.72,0,1)）：悬停整卡轻浮、内部图表/头像/条目联动微动 */
+  .tiles{
+    --apple-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+    --apple-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+    --apple-ink:#1D1D1F;
+    --apple-sub:#6E6E73;
+    --apple-hair:#EFEFF4;
+    --apple-blue:#0071E3;
+    --apple-blue-hover:#0077ED;
+    --apple-ease:cubic-bezier(.32,.72,0,1);
+    max-width:var(--page-max,1200px);margin:0 auto;padding:112px 32px 72px;
   }
-  .tile:hover{--tile-bg:#ECECEC;}
-  .tile:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .tile .t-title{font-family:var(--serif);font-weight:500;letter-spacing:normal;color:var(--ink);}
+  .tiles-wrap{max-width:var(--page-max,1200px);margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+  .tile{
+    --tile-bg:#FFFFFF;
+    position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:var(--tile-bg);
+    border:1px solid #E8E8ED;
+    border-radius:24px;overflow:hidden;color:var(--apple-ink);
+    box-shadow:0 4px 24px rgba(0,0,0,.045),0 1px 2px rgba(0,0,0,.025);
+    transition:transform .48s var(--apple-ease),box-shadow .48s var(--apple-ease),border-color .38s var(--apple-ease),opacity .6s var(--apple-ease);
+  }
+  @media (hover:hover){
+    .tile:hover,.tiles.js-reveal .tile.shown:hover{
+      transform:translateY(-4px);
+      border-color:#D2D2D7;
+      box-shadow:0 20px 44px rgba(0,0,0,.085),0 4px 12px rgba(0,0,0,.035);
+    }
+  }
+  .tile:active{transform:scale(.993);}
+  .tile:focus-visible{outline:2px solid var(--apple-blue);outline-offset:3px;}
+  .tile .t-title{
+    font-family:var(--apple-display);font-weight:600;
+    letter-spacing:-.015em;color:var(--apple-ink);
+  }
 
-  /* 2×3 网格卡片：导语统一恰好两行（40px 预留）、图形区吃满剩余高度，CTA 与图形区间距 34px */
-  .tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .tile-grid .tile{height:520px;padding:40px 40px 44px;}
-  .tile-grid .t-title{font-size:22px;line-height:1.35;}
-  .tile-grid .t-sub{margin-top:16px;font-size:14px;line-height:20px;color:var(--body-c);max-width:30em;text-wrap:pretty;min-height:40px;}
+  /* 2×3 网格卡片（按行自适应内容高度，上下留白对称） */
+  .tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .tile-grid .tile{height:100%;padding:38px 36px 36px;}
+  .tile-grid .t-title{font-size:24px;line-height:1.28;}
+  .tile-grid .t-sub{
+    margin-top:10px;font-family:var(--apple-text);font-size:14.5px;line-height:21px;
+    color:var(--apple-sub);max-width:28em;text-wrap:pretty;min-height:42px;
+  }
   .tile-grid .t-visual{
-    flex:1 1 auto;min-height:0;width:100%;margin:32px 0 34px;
+    flex:1 1 auto;min-height:0;width:100%;margin:24px 0;
     display:flex;align-items:center;justify-content:center;
   }
-  .tile-grid .t-visual img:not(.ava){
-    max-width:100%;max-height:244px;width:auto;height:auto;display:block;
+  .tile-grid .t-visual > img:not(.ava){
+    max-width:100%;max-height:236px;width:auto;height:auto;display:block;
+    filter:drop-shadow(0 10px 24px rgba(0,0,0,.075));
+    transition:transform .52s var(--apple-ease),filter .52s var(--apple-ease);
+  }
+  @media (hover:hover){
+    .tile-grid .tile:hover .t-visual > img:not(.ava){
+      transform:translateY(-3px) scale(1.032);
+      filter:drop-shadow(0 14px 30px rgba(0,0,0,.1));
+    }
   }
 
-  /* 完整内容 —— 主 CTA：4px 直角、40px 高、200px 宽、透明描边为聚焦环预留空间 */
+  /* 完整内容 —— Apple 胶囊形主按钮（CSS ::after 追加极简右箭头，不改文本内容） */
   .t-btn{
-    display:inline-flex;align-items:center;justify-content:center;flex:none;
-    min-width:200px;
-    height:40px;padding:0 28px;margin-top:24px;
-    border:3px solid transparent;border-radius:4px;
-    box-shadow:rgba(0,0,0,0) 0 0 0 2px inset;
-    background:var(--accent);color:#FFFFFF;
-    font-size:14px;font-weight:500;letter-spacing:normal;line-height:16.8px;white-space:nowrap;
-    transition:background-color .33s cubic-bezier(.5,0,0,.75);
+    display:inline-flex;align-items:center;justify-content:center;gap:5px;flex:none;
+    height:38px;padding:0 22px;margin-top:24px;
+    border:0;border-radius:980px;
+    background:var(--apple-blue);color:#FFFFFF;
+    font-family:var(--apple-text);font-size:14px;font-weight:500;letter-spacing:-.005em;line-height:1;white-space:nowrap;
+    box-shadow:0 2px 8px rgba(0,113,227,.2);
+    transition:background-color .28s var(--apple-ease),box-shadow .28s var(--apple-ease);
   }
-  .t-btn:hover{background:#2F55C0;}
+  .t-btn::after{
+    content:"›";font-size:16px;line-height:1;font-weight:400;margin-top:-1px;
+    transition:transform .28s var(--apple-ease);
+  }
+  @media (hover:hover){
+    .tile:hover .t-btn,.t-btn:hover{
+      background:var(--apple-blue-hover);
+      box-shadow:0 4px 14px rgba(0,113,227,.28);
+    }
+    .tile:hover .t-btn::after,.t-btn:hover::after{transform:translateX(2.5px);}
+  }
   .tile-grid .t-btn{margin-top:0;}
 
-  /* 长矩形 · 正在来临的危险 —— 三栏展台：左「标题 / 导语」、中「全国出生折线」、右「各省降幅前 9」，
-     右侧两图共用图注底线并沉底，CTA 沉底且底边与图注底边对齐；
-     左「标题 / 导语」一组偏上排布（距卡顶 26px，与 CTA 之间留白呼吸）；卡内上下留白对等（64px）；
-     折线用 Carbon Dark 单色（与上方故事折线同一语言），2025 终点值沿用全站「危险」红色（#E13D3D）；
-     条形数据取自「近十年各省出生人口降幅排序」前 9 位（2016→2025，按降幅排序）；
-     依 DESIGN.md：无边框无投影 / 字重 400-500 / 过渡 0.33s */
-  .tile-lead{padding:64px 72px;}
+  /* 长矩形 · 正在来临的危险 —— 与 2×3 卡片同一纯白无内框语言，两图间以发丝线分隔 */
+  .tile-lead{padding:46px 52px;}
   .tile-lead .lead-grid{
     width:100%;
-    display:grid;grid-template-columns:minmax(240px,13fr) 24fr;
-    grid-template-rows:1fr auto;gap:0 48px;
+    display:grid;grid-template-columns:minmax(240px,11fr) 24fr;
+    grid-template-rows:auto auto;gap:24px 44px;
     grid-template-areas:"copy charts" "cta charts";
-    align-items:end;
+    align-content:center;align-items:center;
   }
-  .tile-lead .lead-copy{grid-area:copy;text-align:center;align-self:start;padding-top:26px;}
+  .tile-lead .lead-copy{grid-area:copy;text-align:left;align-self:end;padding-top:0;}
   .tile-lead .lead-charts{grid-area:charts;display:flex;gap:32px;align-items:flex-end;min-width:0;}
-  .tile-lead .lead-chart{min-width:0;display:flex;flex-direction:column;justify-content:flex-end;}
+  .tile-lead .lead-chart{
+    min-width:0;display:flex;flex-direction:column;justify-content:flex-end;
+    transition:transform .48s var(--apple-ease);
+  }
   .tile-lead .lead-line{flex:10 1 0;}
-  .tile-lead .lead-bars{flex:7 1 0;}
-  .tile-lead .lead-cta{grid-area:cta;justify-self:center;}
-  .tile-lead .t-title{font-size:34px;line-height:1.3;color:var(--ink);}
-  .tile-lead .t-sub{margin:22px auto 0;font-size:15px;line-height:1.9;color:var(--body-c);max-width:24em;text-wrap:pretty;}
+  .tile-lead .lead-bars{flex:7 1 0;padding-left:32px;border-left:1px solid var(--apple-hair);transition-delay:40ms;}
+  @media (hover:hover){
+    .tile-lead:hover .lead-chart{transform:translateY(-3px) scale(1.018);}
+    .tile-lead:hover .c-halo{transform:scale(1.45);opacity:.75;}
+  }
+  .tile-lead .lead-cta{grid-area:cta;justify-self:start;align-self:start;}
+  .tile-lead .t-title{font-size:clamp(26px,2.5vw,32px);line-height:1.25;color:var(--apple-ink);}
+  .tile-lead .t-sub{
+    margin:10px 0 0;font-family:var(--apple-text);font-size:14.5px;line-height:1.7;
+    color:var(--apple-sub);max-width:22em;text-wrap:pretty;
+  }
   .tile-lead .t-btn{margin-top:0;}
   .tile-lead .t-curve{width:100%;}
   .tile-lead .t-curve svg{width:100%;height:auto;display:block;}
-  .tile-lead .t-cap{margin-top:20px;font-size:12px;letter-spacing:normal;color:var(--muted);text-align:center;}
-  .tile-lead .c-grid{stroke:var(--line);stroke-width:1;}
-  .tile-lead .c-base{stroke:#D0D1D2;stroke-width:1;}
-  .tile-lead .c-area{fill:rgba(23,26,32,.05);}
-  .tile-lead .c-line{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
-  .tile-lead .c-halo{fill:rgba(23,26,32,.08);}
-  .tile-lead .c-dot{fill:var(--ink);}
-  .tile-lead .c-val{font-family:var(--serif);font-weight:500;font-size:26px;letter-spacing:normal;fill:var(--ink);font-variant-numeric:tabular-nums;}
+  .tile-lead .t-cap{margin-top:16px;font-size:12px;font-weight:500;letter-spacing:normal;color:var(--apple-sub);text-align:center;}
+  .tile-lead .c-grid{stroke:#F0F0F3;stroke-width:1;}
+  .tile-lead .c-base{stroke:#D2D2D7;stroke-width:1;}
+  .tile-lead .c-area{fill:rgba(29,29,31,.045);}
+  .tile-lead .c-line{fill:none;stroke:var(--apple-ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+  .tile-lead .c-halo{fill:rgba(29,29,31,.08);transform-box:fill-box;transform-origin:center;transition:transform .48s var(--apple-ease),opacity .48s var(--apple-ease);}
+  .tile-lead .c-dot{fill:var(--apple-ink);}
+  .tile-lead .c-val{font-family:var(--apple-display);font-weight:600;font-size:26px;letter-spacing:-.01em;fill:var(--apple-ink);font-variant-numeric:tabular-nums;}
   .tile-lead .c-val.red{fill:#E13D3D;}
-  .tile-lead .c-unit{font-size:16px;letter-spacing:normal;}
-  .tile-lead .c-yr{font-size:18px;letter-spacing:normal;fill:var(--faint);font-variant-numeric:tabular-nums;}
-  .tile-lead .b-axis{stroke:#D0D1D2;stroke-width:1;}
-  .tile-lead .b-name{font-size:11.5px;letter-spacing:normal;fill:var(--body-c);}
-  .tile-lead .b-bar{fill:#CDD0D4;}
-  .tile-lead .b-val{font-size:10.5px;letter-spacing:normal;fill:var(--muted);font-variant-numeric:tabular-nums;}
+  .tile-lead .c-unit{font-size:15.5px;font-weight:500;letter-spacing:normal;}
+  .tile-lead .c-yr{font-size:18px;letter-spacing:normal;fill:#86868B;font-variant-numeric:tabular-nums;}
+  .tile-lead .b-axis{stroke:#D2D2D7;stroke-width:1;}
+  .tile-lead .b-name{font-size:11.5px;font-weight:500;letter-spacing:normal;fill:var(--apple-ink);}
+  .tile-lead .b-bar{fill:#C7C7CC;}
+  .tile-lead .b-val{font-size:10.5px;letter-spacing:normal;fill:var(--apple-sub);font-variant-numeric:tabular-nums;}
 
   /* 窄桌面（≤1200）：两图上下堆叠，卡片转单列居中 */
   @media (max-width:1200px){
+    .tile-lead{padding:44px 36px;}
     .tile-lead .lead-grid{
       grid-template-columns:1fr;grid-template-rows:auto;gap:0;
       grid-template-areas:"copy" "charts" "cta";
     }
-    .tile-lead .lead-copy{text-align:center;padding-top:0;}
-    .tile-lead .lead-charts{flex-direction:column;align-items:center;gap:18px;}
-    .tile-lead .lead-line{width:100%;max-width:500px;}
-    .tile-lead .lead-bars{width:100%;max-width:350px;}
-    .tile-lead .t-cap{margin-top:10px;text-align:center;}
-    .tile-lead .lead-cta{justify-self:center;margin-top:26px;}
+    .tile-lead .lead-copy{text-align:center;align-self:auto;}
+    .tile-lead .t-sub{margin:10px auto 0;}
+    .tile-lead .lead-charts{flex-direction:column;align-items:center;gap:22px;margin-top:28px;}
+    .tile-lead .lead-line{width:100%;max-width:520px;}
+    .tile-lead .lead-bars{width:100%;max-width:380px;padding-left:0;border-left:0;padding-top:22px;border-top:1px solid var(--apple-hair);}
+    .tile-lead .t-cap{margin-top:12px;text-align:center;}
+    .tile-lead .lead-cta{justify-self:center;align-self:auto;margin-top:26px;}
   }
 
-  /* 永恒的争论 · 六场辩论：目录式两列三行（每格 = 辩题 + 一句常见主张）——
-     无卡片、无外框、无投影，1px Cloud Gray 行线在 Light Ash 卡底上切出三行（DESIGN.md：留白与分区代替边框）；
-     层级只有两级：辩题 Carbon Dark 500 / 17px（明显小于卡片标题 22px，避免同级抢读），其下主张 Tertiary Pewter 400 / 12px 单行不折，
-     主张取自 debates 页各节「观点」原文片段，仅作预览、不加标点外的修饰；
-     列间给 16px 呼吸位，避免两列引语相撞；行高可用，六格等宽等高铺满图形区；
-     条目本身无悬停态（卡片整体悬停才变色，避免块内出现二级交互） */
+  /* 永恒的争论 · 六场辩论：无外框，以 1px 发丝行线切分，悬停逐条轻浮与单格高亮 */
   .t-visual.t-db{align-items:stretch;}
   .t-debates{
     list-style:none;width:100%;margin:0;padding:0;
     display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);
-    column-gap:16px;
+    column-gap:20px;
   }
   .t-debates li{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-    padding:8px 10px;
-    text-align:center;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    padding:12px 10px;text-align:center;border-radius:12px;
+    transition:transform .42s var(--apple-ease),background-color .28s var(--apple-ease);
   }
-  .t-debates li:nth-child(n+3){border-top:1px solid var(--line);}
+  .t-debates li:nth-child(n+3){border-top:1px solid var(--apple-hair);border-top-left-radius:0;border-top-right-radius:0;}
+  .t-debates li:nth-child(2){transition-delay:25ms;}
+  .t-debates li:nth-child(3){transition-delay:50ms;}
+  .t-debates li:nth-child(4){transition-delay:75ms;}
+  .t-debates li:nth-child(5){transition-delay:100ms;}
+  .t-debates li:nth-child(6){transition-delay:125ms;}
+  @media (hover:hover){
+    .tile:hover .t-debates li{transform:translateY(-2px);}
+    .tile:hover .t-debates li:hover{background:#F5F5F7;border-radius:12px;transform:translateY(-3px);}
+  }
   .t-debates .db-t{
-    font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.3;
-    letter-spacing:normal;color:var(--ink);
+    font-family:var(--apple-display);font-weight:600;font-size:16.5px;line-height:1.3;
+    letter-spacing:-.01em;color:var(--apple-ink);
   }
   .t-debates .db-q{
-    font-size:12px;line-height:1.5;letter-spacing:normal;color:var(--muted);
+    font-size:12px;line-height:1.45;letter-spacing:normal;color:var(--apple-sub);
     white-space:nowrap;
   }
-  /* 窄桌面：卡内净宽收窄，两级文字同步降档，保证每句主张仍是单行 */
   @media (max-width:1240px){
-    .t-debates .db-t{font-size:16px;}
-    .t-debates .db-q{font-size:11px;}
+    .t-debates .db-t{font-size:15.5px;}
+    .t-debates .db-q{font-size:11px;white-space:normal;text-wrap:balance;}
   }
   @media (max-width:1080px){
     .t-debates .db-t{font-size:15px;}
     .t-debates .db-q{font-size:10.5px;}
   }
 
-  /* 未来人口预测 · 四联折线矩阵（2×2）——
-     提取自「未来人口预测」页的四张指标折线图（总人口 / 出生人口 / 死亡人口 / 年减少人数 · 2026~2100），
-     以 1px 发丝内分隔线在 Light Ash 卡底划分四格（与「永恒的争论」目录矩阵同一语言），
-     每格上图下注（指标 · 单位），矩阵下方一行三色情景图例（高预测灰 / 中预测 Electric Blue / 低预测危险红）；
-     白底图以 multiply 融入卡面（同「思想实验」树图，悬停卡面变色时同步融入）；
-     依 DESIGN.md：无描边无投影 / 字重 400-500 / 过渡仅变色 */
-  .t-visual.t-fc{flex-direction:column;justify-content:center;gap:10px;margin:18px 0 22px;}
+  /* 未来人口预测 · 2×2 发丝十字分隔矩阵 + 极简图例，悬停四图错峰轻浮 */
+  .t-visual.t-fc{flex-direction:column;justify-content:center;gap:14px;}
   .t-fc .fc-grid{
     width:100%;display:grid;grid-template-columns:1fr 1fr;
   }
   .t-fc .fc-grid figure{
     margin:0;min-width:0;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-    padding:8px 12px 9px;
+    padding:9px 12px 10px;
   }
-  .t-fc .fc-grid figure:nth-child(2n){border-left:1px solid var(--line);}
-  .t-fc .fc-grid figure:nth-child(n+3){border-top:1px solid var(--line);}
+  .t-fc .fc-grid figure:nth-child(2n){border-left:1px solid var(--apple-hair);}
+  .t-fc .fc-grid figure:nth-child(n+3){border-top:1px solid var(--apple-hair);}
   .t-visual.t-fc .fc-grid img{
-    max-width:100%;max-height:88px;width:auto;height:auto;display:block;
-    mix-blend-mode:multiply;
+    max-width:100%;max-height:82px;width:auto;height:auto;display:block;
+    transition:transform .46s var(--apple-ease);
+  }
+  .t-fc .fc-grid figure:nth-child(2) img{transition-delay:35ms;}
+  .t-fc .fc-grid figure:nth-child(3) img{transition-delay:70ms;}
+  .t-fc .fc-grid figure:nth-child(4) img{transition-delay:105ms;}
+  @media (hover:hover){
+    .tile:hover .t-fc .fc-grid img{transform:translateY(-2px) scale(1.032);}
+    .tile:hover .t-fc .fc-grid figure:hover img{transform:translateY(-4px) scale(1.06);}
   }
   .t-fc .fc-grid figcaption{
-    font-size:11px;line-height:1;letter-spacing:normal;color:var(--muted);
+    font-size:11px;font-weight:500;line-height:1;letter-spacing:normal;color:var(--apple-sub);
     font-variant-numeric:tabular-nums;
   }
-  .t-fc .fc-legend{display:flex;justify-content:center;align-items:center;gap:16px;}
+  .t-fc .fc-legend{
+    display:inline-flex;justify-content:center;align-items:center;gap:16px;
+  }
   .t-fc .fc-legend span{
     display:inline-flex;align-items:center;gap:6px;
-    font-size:11px;line-height:1;letter-spacing:normal;color:var(--muted);
+    font-size:11px;font-weight:500;line-height:1;letter-spacing:normal;color:var(--apple-sub);
   }
   .t-fc .fc-legend .sw{width:12px;height:2px;border-radius:1px;background:#8E8E8E;flex:none;}
   .t-fc .fc-legend .mid .sw{background:#3E6AE1;}
   .t-fc .fc-legend .low .sw{background:#E13D3D;}
 
-  /* ≤1200：窄卡四格随宽收缩，图高上限同步下调，格位边距收窄让位给折线 */
   @media (max-width:1200px){
-    .t-visual.t-fc .fc-grid img{max-height:78px;}
-    .t-fc .fc-grid figure{padding:7px 10px 8px;}
+    .t-visual.t-fc .fc-grid img{max-height:74px;}
+    .t-fc .fc-grid figure{padding:8px 10px;}
   }
 
-  /* 各方观点 · 六人头像一字排开（后一张压前一张，描边随卡面变色）；
-     可视区内上下留白与人名间距三段均分（space-evenly），人名单行居中列于头像之下 */
-  .t-visual.t-avatars{flex-direction:column;justify-content:space-evenly;}
+  /* 各方观点 · 纯白描边头像叠层 + 人名（悬停整卡散开 + 单头像悬停浮起） */
+  .t-visual.t-avatars{flex-direction:column;justify-content:center;gap:22px;}
   .t-avatars .ava-row{display:flex;align-items:center;justify-content:center;}
   .t-avatars img.ava{
-    --ava:clamp(58px, calc(10.2vw - 32px), 100px);
+    --ava:clamp(64px, calc(10.2vw - 24px), 108px);
     position:relative;flex:none;width:var(--ava);height:var(--ava);border-radius:50%;object-fit:cover;
-    border:3px solid var(--tile-bg);background:var(--tile-bg);
-    transition:border-color .33s cubic-bezier(.5,0,0,.75);
+    border:3.5px solid #FFFFFF;background:#FFFFFF;
+    box-shadow:0 6px 18px rgba(0,0,0,.1);
+    transition:margin-left .42s var(--apple-ease),box-shadow .42s var(--apple-ease),transform .42s var(--apple-ease);
   }
   .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.22);}
+  @media (hover:hover){
+    .tile:hover .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.16);}
+    .tile:hover .t-avatars img.ava{box-shadow:0 10px 24px rgba(0,0,0,.13);}
+    .tile:hover .t-avatars img.ava:hover{transform:translateY(-6px) scale(1.07);z-index:10;box-shadow:0 14px 28px rgba(0,0,0,.18);}
+  }
   .t-avatars img.ava:nth-child(1){z-index:6;}
   .t-avatars img.ava:nth-child(2){z-index:5;}
   .t-avatars img.ava:nth-child(3){z-index:4;}
@@ -570,53 +629,58 @@
   .t-avatars img.ava:nth-child(5){z-index:2;}
   .t-avatars img.ava:nth-child(6){z-index:1;}
   .t-avatars .ava-names{
-    font-size:13px;line-height:1.5;letter-spacing:normal;color:var(--muted);
+    font-size:13.5px;line-height:1.6;letter-spacing:normal;color:#86868B;
     text-align:center;text-wrap:balance;
   }
-  .t-avatars .ava-names span{white-space:nowrap;}
+  .t-avatars .ava-names span{white-space:nowrap;color:var(--apple-ink);font-weight:500;}
 
-  /* 思想实验 · 双图展台：两张作品卡并排，各为「图区 + 名称行」（与导航面板同构）。
-     图区等高（--im-h），两行名称落在同一基线、图片底边对齐；
-     白底博弈树图以 multiply 融入 Light Ash 卡面（悬停变色时同步融入），
-     竖版插画为满幅彩色图，不做混合。
-     依 DESIGN.md：无描边无投影 / 字重 400-500 */
-  .t-visual.t-expv{gap:28px;align-items:stretch;}
-  .t-expv{--im-h:200px;}
+  /* 思想实验 · 双图展台（无内框，上下留白均衡、悬停轻浮与单图微放） */
+  .t-visual.t-expv{gap:28px;align-items:center;}
+  .t-expv{--im-h:176px;}
   .t-expv .exp-card{
     flex:1 1 0;min-width:0;
-    display:flex;flex-direction:column;justify-content:flex-end;gap:14px;
+    display:flex;flex-direction:column;justify-content:center;gap:12px;
   }
   .t-expv .exp-im{
     height:var(--im-h);width:100%;
     display:flex;align-items:center;justify-content:center;
   }
-  /* 提高优先级以压过上方 .tile-grid .t-visual img:not(.ava) 的 max-height:244px 全局约束 */
   .tile-grid .t-visual.t-expv .exp-im img{
     max-width:100%;max-height:100%;width:auto;height:auto;display:block;
+    transition:transform .48s var(--apple-ease),box-shadow .48s var(--apple-ease);
   }
-  .t-expv .exp-im img.blend{mix-blend-mode:multiply;}
-  /* 竖版插画再收一档并加 12px 圆角（与站内图片一致），居中留白更透气（博弈树不受影响） */
-  .tile-grid .t-visual.t-expv .exp-im img.portrait{max-height:80%;border-radius:12px;}
+  .t-expv .exp-card:nth-child(2) .exp-im img{transition-delay:45ms;}
+  .tile-grid .t-visual.t-expv .exp-im img.portrait{
+    max-height:92%;border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.09);
+  }
+  @media (hover:hover){
+    .tile:hover .t-expv .exp-im img{transform:translateY(-3px) scale(1.028);}
+    .tile:hover .t-expv .exp-card:hover .exp-im img{transform:translateY(-5px) scale(1.045);}
+    .tile:hover .t-expv .exp-im img.portrait{box-shadow:0 12px 28px rgba(0,0,0,.13);}
+  }
   .t-expv .exp-name{
-    font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.4;
-    letter-spacing:normal;color:var(--ink);text-align:center;
+    font-family:var(--apple-display);font-weight:600;font-size:16px;line-height:1.35;
+    letter-spacing:-.01em;color:var(--apple-ink);text-align:center;
   }
 
-  /* 窄桌面（≤1080）：图区降为 170，名称 15px */
   @media (max-width:1080px){
-    .t-expv{--im-h:170px;}
+    .t-expv{--im-h:154px;}
     .t-expv .exp-name{font-size:15px;}
   }
 
-  /* 卡片入场：滚动到视口内逐块淡入（.js-reveal 由脚本添加，无 JS / 减少动态时不隐藏） */
-  .tiles.js-reveal .tile{opacity:0;}
-  .tiles.js-reveal .tile.shown{opacity:1;}
+  /* 卡片入场：滚动到视口内逐块淡入上浮（.js-reveal 由脚本添加，无 JS / 减少动态时不隐藏） */
+  .tiles.js-reveal .tile{opacity:0;transform:translateY(18px);}
+  .tiles.js-reveal .tile.shown{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){
+    .tiles.js-reveal .tile{opacity:1;transform:none;}
+    .tile,.t-btn,.t-btn::after,.tile-lead .lead-chart,.tile-lead .c-halo,.tile-grid .t-visual > img:not(.ava),.t-debates li,.t-visual.t-fc .fc-grid img,.t-avatars img.ava,.tile-grid .t-visual.t-expv .exp-im img{transition:none;}
+  }
 
   /* ---------- 移动端 ---------- */
   @media (max-width:960px){
     .hero{padding:40px 22px 0;}
     .clocks{padding:16px 18px 34px;}
-    .clock-hint{margin-bottom:18px;}
     .clock-grid{grid-template-columns:1fr;gap:14px;}
     .clock-card{padding:24px 22px 20px;}
     .c-note{padding:0 4px;}
@@ -646,42 +710,46 @@
     .step{min-height:0;align-items:flex-end;padding-bottom:72px;}
     .step-inner{max-width:none;padding:24px 0 0;}
     .step-inner::after{top:var(--dot-y,41px);}
+    .stat-row{gap:14px;}
+    .stat-row .stat .num{font-size:clamp(24px,6.5vw,32px);}
     .tl-track,.tl-fill{left:19px;}
     .anno .a-txt{font-size:25px;}
     .anno .a-sub{font-size:19px;}
     .x-label,.ax-label{font-size:19px;}
     /* 事件标签字数多、又在淡化色上，移动端按 SVG 缩放后过小，故比刻度文字再大一档 */
     .e-txt{font-size:26px;}
-    .tiles{padding:64px 18px 52px;}
-    .tile-grid{grid-template-columns:1fr;gap:16px;}
-    .tile-grid .tile{height:auto;min-height:420px;padding:32px 26px 34px;}
-    .tile-grid .t-title{font-size:21px;}
-    .tile-grid .t-visual{margin:26px 0 28px;}
-    .tile-lead{padding:44px 24px 48px;}
-    .tile-lead .t-title{font-size:24px;}
-    .tile-lead .t-sub{margin-top:16px;}
-    .tile-lead .lead-charts{margin-top:36px;}
-    .tile-lead .t-cap{margin-top:14px;text-align:center;}
-    .tile-lead .lead-cta{justify-self:center;margin-top:36px;}
-    .t-btn{height:38px;padding:0 24px;}
-    .t-debates .db-t{font-size:17px;}
-    /* 移动端格位仅 ~149px 宽，主张允许折行（列表自己也随行高撑开，不会被 1fr 裁掉） */
+    .tiles{padding:64px 18px 56px;}
+    .tiles-wrap,.tile-grid{grid-template-columns:1fr;gap:16px;}
+    .tile{border-radius:20px;}
+    .tile-grid .tile{height:auto;min-height:0;padding:30px 20px;}
+    .tile-grid .t-title{font-size:22px;}
+    .tile-grid .t-sub{font-size:14px;min-height:0;}
+    .tile-grid .t-visual{margin:22px 0;}
+    .tile-lead{padding:36px 20px 34px;}
+    .tile-lead .t-title{font-size:25px;}
+    .tile-lead .t-sub{margin-top:10px;font-size:14.5px;}
+    .tile-lead .lead-charts{margin-top:26px;gap:20px;width:100%;}
+    .tile-lead .lead-bars{padding-top:20px;}
+    .tile-lead .t-cap{margin-top:12px;text-align:center;}
+    .tile-lead .lead-cta{justify-self:center;margin-top:24px;}
+    .t-btn{height:36px;padding:0 20px;font-size:13.5px;}
     .t-debates{column-gap:10px;}
+    .t-debates li{padding:10px 6px;}
+    .t-debates .db-t{font-size:15.5px;}
     .t-debates .db-q{font-size:10.5px;line-height:1.4;white-space:normal;}
-    .t-avatars img.ava{--ava:58px;}
-    .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.29);}
+    .t-avatars img.ava{--ava:56px;border-width:3px;}
+    .t-avatars img.ava + img.ava{margin-left:calc(var(--ava) * -0.27);}
     .t-avatars .ava-names{font-size:12px;}
-    /* 移动端：两卡并排收窄，图区降为 140，名称 14px */
     .t-expv{--im-h:140px;}
     .t-visual.t-expv{gap:18px;}
     .t-expv .exp-name{font-size:14px;}
-    .t-visual.t-fc{margin:20px 0 24px;gap:10px;}
-    .t-visual.t-fc .fc-grid img{max-height:110px;}
+    .t-visual.t-fc{margin:20px 0;gap:12px;}
     .t-fc .fc-grid figure{padding:8px 10px 9px;}
+    .t-visual.t-fc .fc-grid img{max-height:104px;}
     .t-fc .fc-legend{gap:14px;}
   }
 </style>
-  <link rel="stylesheet" href="nav.css?v=55">
+  <link rel="stylesheet" href="nav.css?v=58">
 </head>
 <body>
 <script>
@@ -859,7 +927,7 @@
 <!-- ================= NAV ================= -->
 <!-- ================= HERO ================= -->
 <header class="hero">
-  <h1>寂静的产房</h1>
+  <h1>正在缩小的起点</h1>
   <div class="statement-inline">
     <p class="dim">当社会还在争论当下的内卷与房价时，未来已在产房的寂静中悄然启程</p>
   </div>
@@ -867,7 +935,6 @@
 
 <!-- ================= 三个出生摆钟 ================= -->
 <section class="clocks" id="clock">
-  <div class="clock-hint">三个摆钟的钟摆按<b>真实的出生间隔</b>摆动 —— 摆动的快慢，就是差距本身</div>
   <div class="clock-grid">
 
     <article class="clock-card" data-rate="0.94346" style="--rev:1.06s">
@@ -1069,13 +1136,15 @@
         <div class="s-kicker">现在</div>
         <h2>下坠的，不只是出生人口</h2>
         <p>2025 年，全国<b>总人口连续第四年负增长</b>。幼儿园在关闭，产科在收缩——曲线还没有见底，后果已经开始到来。</p>
-        <div class="stat red">
-          <div class="num">−339<small>万人</small></div>
-          <div class="cap">2025 年，全国总人口减少数量</div>
-        </div>
-        <div class="stat red">
-          <div class="num">−2.14<small>万所</small></div>
-          <div class="cap">2025 年一年，幼儿园关停数量</div>
+        <div class="stat-row">
+          <div class="stat red">
+            <div class="num">−339<small>万人</small></div>
+            <div class="cap">2025 年，全国总人口减少数量</div>
+          </div>
+          <div class="stat red">
+            <div class="num">−2.14<small>万所</small></div>
+            <div class="cap">2025 年，幼儿园关停数量</div>
+          </div>
         </div>
         <p class="finale"><b>未来，已从产房的寂静中悄然启程</b><span class="stat-more">……</span></p>
       </div>
@@ -1278,7 +1347,7 @@
         <div class="t-visual t-expv">
           <!-- 双图展台：左博弈树（提取自《少子化的囚徒困境》页内收益图），右竖版插画（博士与母亲） -->
           <span class="exp-card">
-            <span class="exp-im"><img class="blend" src="images/prisoners-dilemma.png" alt="生育博弈树：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1060" height="531" loading="lazy"></span>
+            <span class="exp-im"><img class="blend" src="images/prisoners-dilemma.png" alt="生育博弈树：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1320" height="728" loading="lazy"></span>
             <span class="exp-name">少子化的囚徒困境</span>
           </span>
           <span class="exp-card">

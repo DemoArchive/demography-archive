@@ -61,12 +61,12 @@
 
 
   /* 标题与下方正文左对齐：目录列 220px + 栏间距 44px + 区块内边距 32px */
-  .head{max-width:1200px;margin:0 auto;padding:30px 32px 0 296px;}
+  .head{max-width:var(--page-max,1200px);margin:0 auto;padding:30px 32px 0 296px;}
   .kicker{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--accent);margin-bottom:16px;}
   .kicker::before{content:"";display:inline-block;width:22px;height:1px;background:var(--accent);vertical-align:middle;margin-right:12px;}
   .head h1{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);letter-spacing:normal;}
 
-  section.block{max-width:1200px;margin:0 auto;padding:52px 32px 0;}
+  section.block{max-width:var(--page-max,1200px);margin:0 auto;padding:52px 32px 0;}
   .b-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
   .b-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(20px,2.4vw,27px);letter-spacing:normal;margin-bottom:10px;}
   .b-head .d{font-size:14px;color:var(--ink);line-height:1.7;letter-spacing:normal;}
@@ -78,7 +78,7 @@
   }
   .dl:hover{border-color:#171A20;color:#171A20;}
   .chart-box{height:320px;}
-  .sec-note{max-width:1200px;margin:12px auto 0;padding:0 2px;font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;}
+  .sec-note{max-width:var(--page-max,1200px);margin:12px auto 0;padding:0 2px;font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;}
   /* 双源说明：按数据源分栏，左标签右内容，避免多句堆叠成一团 */
   .src-note{margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;align-items:start;}
   .src-h{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink);letter-spacing:normal;margin-bottom:6px;}
@@ -121,10 +121,10 @@
   .decline-grid .dc-c{width:100%;min-width:0;}
 
   footer{border-top:1px solid var(--line);margin-top:56px;padding:30px 32px 44px;}
-  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
 
   .page-grid{
-    max-width:1200px;margin:0 auto;padding:0;
+    max-width:var(--page-max,1200px);margin:0 auto;padding:0;
     display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;align-items:start;
   }
   .toc{position:sticky;top:84px;}
@@ -174,7 +174,7 @@
     footer .foot-inner{padding:0 20px;}
   }
 </style>
-  <link rel="stylesheet" href="../nav.css?v=55">
+  <link rel="stylesheet" href="../nav.css?v=58">
 </head>
 <body>
 <script>

@@ -28,7 +28,7 @@
 
   /* ---------- 页头 ---------- */
   .head{
-    max-width:1200px;margin:0 auto;padding:30px 32px 0;
+    max-width:var(--page-max,1200px);margin:0 auto;padding:30px 32px 0;
     display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
   }
   .head-l h1{
@@ -52,7 +52,7 @@
 
   /* ---------- 章节（一页两节，上下排列） ---------- */
   .sec + .sec{border-top:1px solid var(--line);margin-top:38px;}
-  .sec-head{max-width:1200px;margin:0 auto;padding:0 32px;}
+  .sec-head{max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;}
   .sec-head h2{
     font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);
     letter-spacing:normal;line-height:1.2;margin-top:30px;
@@ -68,7 +68,7 @@
 
   /* ---------- 主板 ---------- */
   .board{
-    max-width:1200px;margin:22px auto 0;padding:0 32px;
+    max-width:var(--page-max,1200px);margin:22px auto 0;padding:0 32px;
     display:grid;grid-template-columns:1fr 396px;
     height:clamp(560px,calc(100vh - 170px),920px);
   }
@@ -283,7 +283,7 @@
   #toast .bad{color:#D9DBDE;}
 
   /* ---------- 完整数据表（样式同「各国生育补贴支出」页数据表） ---------- */
-  .block{max-width:1200px;margin:0 auto;padding:58px 32px 0;}
+  .block{max-width:var(--page-max,1200px);margin:0 auto;padding:58px 32px 0;}
   .b-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:16px;}
   .b-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(20px,2.4vw,27px);letter-spacing:normal;}
   .b-head .d{margin-top:6px;font-size:12.5px;color:var(--muted);letter-spacing:normal;}
@@ -329,12 +329,12 @@
   .tbl-scroll tbody tr:first-child:hover td:nth-child(2){background:rgba(225,61,61,.16);}
 
   .map-note{
-    max-width:1200px;margin:18px auto 0;padding:0 32px;
+    max-width:var(--page-max,1200px);margin:18px auto 0;padding:0 32px;
     font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;
   }
   footer{border-top:1px solid var(--line);margin-top:26px;padding:30px 32px 44px;}
   .foot-inner{
-    max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     font-size:11.5px;color:var(--faint);letter-spacing:normal;
   }
 
