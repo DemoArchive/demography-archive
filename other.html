@@ -44,8 +44,8 @@
     --bg:#FFFFFF; --bg-soft:#F5F5F7; --bg-elevated:#FBFBFD; --ink:#1D1D1F; --body-c:#424245;
     --muted:#6E6E73; --faint:#86868B; --line:#E5E5EA; --hair:rgba(0,0,0,.08); --accent:#0071E3; --accent-wash:rgba(0,113,227,.08);
     --ease:cubic-bezier(.32,.72,0,1);
-    --serif:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --serif:"SF Pro Display","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+    --sans:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:600;}
   html{scroll-behavior:smooth;overflow-y:scroll;}
@@ -219,7 +219,7 @@
     .contact-card{grid-template-columns:1fr;gap:15px;padding:18px 20px;}
   }
 </style>
-  <link rel="stylesheet" href="nav.css?v=61">
+  <link rel="stylesheet" href="nav.css?v=62">
 <script>(function(d){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("ap-preload");setTimeout(function(){d.classList.remove("ap-preload");},4000);})(document.documentElement);</script>
 </head>
 <body>
@@ -238,7 +238,7 @@
   var body = d.body;
   if (!body) return;
 
-  var css = '.da-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#fff;opacity:1;transition:opacity .45s ease;font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;}'
+  var css = '.da-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#fff;opacity:1;transition:opacity .45s ease;font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;}'
     + '.da-loader.is-done{opacity:0;pointer-events:none;}'
     + '.da-loader .ld-in{display:flex;flex-direction:column;align-items:center;}'
     + '.da-loader .ld-spin{position:relative;width:44px;height:44px;}'

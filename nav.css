@@ -51,7 +51,7 @@ html{
 .brand:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
 .nav-links{display:flex;gap:2px;align-items:center;}
 .nav-links > a,.nav-drop > a{
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
   font-size:16px;font-weight:500;color:#171A20;
   padding:0 12px;height:36px;display:inline-flex;align-items:center;
   border-radius:4px;white-space:nowrap;text-decoration:none;
@@ -166,15 +166,15 @@ html{
 .tp-head{margin:0 0 18px;}
 .tp-kicker{
   margin:0 0 7px;font-size:12px;font-weight:500;letter-spacing:.14em;color:#3E6AE1;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 .tp-lead{
   margin:0;font-size:19px;font-weight:600;letter-spacing:.015em;color:#1D1D1F;line-height:1.45;
-  font-family:"Universal Sans Display","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Display","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 .tp-sub{
   margin:7px 0 0;font-size:13px;color:#86868B;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 /* 「正在减少的中国」面板删去导语后，副题升为头部首行，不再留顶距 */
 .tp-head .tp-sub:first-child{margin-top:0;}
@@ -185,7 +185,7 @@ html{
    同字重、同灰度、同字族，不加粗不放大 */
 .tp-head.inline .tp-lead{
   font-size:13px;font-weight:400;letter-spacing:normal;color:#86868B;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 .tp-body{display:flex;gap:40px;align-items:center;}
 .tp-body > *{min-width:0;}
@@ -195,7 +195,7 @@ html{
   display:flex;align-items:center;gap:10px;min-width:0;
   font-size:14px;font-weight:400;color:#171A20;text-decoration:none;
   padding:9px 10px;margin:0 -10px;border-radius:6px;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
   transition:color .2s,background-color .2s;
 }
 .tp-row:hover{background:#F4F4F4;color:#171A20;}
@@ -279,7 +279,7 @@ html{
 .tp-card .cap{
   display:flex;align-items:baseline;justify-content:center;gap:10px;
   font-size:13px;font-weight:500;color:#171A20;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 /* 名称随图形居中：行尾「›」占据的宽度会把文字挤偏，行首放一个等宽的
    隐形镜像占位（同字符、同字体、同字号）抵消，让名称本身几何居中 */
@@ -326,7 +326,7 @@ html{
 .tp-group.grow{flex:0 1 auto;}
 .tp-group-h{
   margin:0 0 8px;font-size:12px;font-weight:500;color:#8E8E8E;letter-spacing:.02em;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
 /* 导语 + 行动按钮（正在减少的中国） */
@@ -335,13 +335,13 @@ html{
 .tp-cta .tp-aside{flex:0 0 300px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;}
 .tp-note{
   margin:0;font-size:13px;color:#86868B;line-height:1.8;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
 }
 .tp-btn{
   display:inline-flex;align-items:center;gap:7px;
   font-size:13px;font-weight:500;color:#3E6AE1;text-decoration:none;
   padding:8px 16px;border:1px solid #C7C7CC;border-radius:980px;
-  font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
   transition:color .33s,background-color .33s,border-color .33s;
 }
 .tp-btn::after{content:"›";font-size:15px;line-height:1;transition:transform .33s;}
@@ -406,7 +406,9 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .nav-github{margin-left:-5.5px;}
 }
 @media (min-width:1241px){
-  /* 本区间末项内边距 8px：左边距 -16 = 抵消 flex 间距 16 + 末项内边距 8 的差值 */
+  /* 左端品牌图标对齐 --page-max 外缘（与右侧 GitHub 图标对称）；
+     末项内边距 8px：左边距 -16 = 抵消 flex 间距 16 + 末项内边距 8 的差值 */
+  .brand{margin-left:-31px;}
   .nav-github{margin-left:-16px;margin-right:-34px;}
 }
 @media (min-width:1321px){
