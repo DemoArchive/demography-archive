@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="only light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思想实验 - 人口档案馆</title>
+<meta name="description" content="三场关于人口与文明演化的思想实验：《少子化的囚徒困境》、《博士与母亲》与《核武器、毒品与避孕套》。一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
+<meta property="og:title" content="思想实验 - 人口档案馆">
+<meta property="og:description" content="一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量。">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16.2 5.0 C15.2 14.2 11.4 20.8 5.6 26.2' stroke='%231D1D1F' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M18.2 17.2 C19.1 19.1 20.2 20.6 21.5 22.0' stroke='%230071E3' stroke-width='3.0' stroke-linecap='round'/%3E%3Ccircle cx='25.8' cy='25.8' r='2.2' fill='%23E13D3D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+/* 带 #hash 进入本页：先隐去页面，目标小节一进 DOM 就瞬间落位再显示——
+   避免先见页顶、再滑/跳到小节；nav.js 在 load 后会再校准一次并恢复平滑滚动。
+   无 JS 或不支持 MutationObserver 时直接跳过，页面照常显示 */
+(function () {
+  if (!location.hash || !window.MutationObserver) return;
+  var de = document.documentElement;
+  de.style.scrollBehavior = "auto";
+  var id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { id = location.hash.slice(1); }
+  if (!id) return;
+  var done = false;
+  var mo = new MutationObserver(function () {
+    var el = document.getElementById(id);
+    if (!el || done) return;
+    done = true;
+    mo.disconnect();
+    try { el.scrollIntoView(); } catch (err) {}
+    de.style.visibility = "";
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!done) { mo.disconnect(); de.style.visibility = ""; }
+  }, { once: true });
+  de.style.visibility = "hidden";
+})();
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#F5F5F7; --bg-elevated:#FBFBFD; --ink:#1D1D1F; --body-c:#424245;
+    --muted:#6E6E73; --faint:#86868B; --line:#E5E5EA; --hair:rgba(0,0,0,.08); --accent:#0071E3; --accent-wash:rgba(0,113,227,.08);
+    --ease:cubic-bezier(.32,.72,0,1);
+    --serif:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}b,strong{font-weight:600;}
+  html{scroll-behavior:smooth;overflow-y:scroll;}
+  @view-transition{navigation:auto;}
+  ::view-transition-old(root){animation:vt-out .33s ease both;}
+  ::view-transition-new(root){animation:vt-in .33s ease both;}
+  @keyframes vt-out{to{opacity:0;transform:translateY(-10px);}}
+  @keyframes vt-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  ::selection{background:rgba(0,113,227,.14);}
+  a{color:inherit;text-decoration:none;}
+  [id]{scroll-margin-top:78px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    max-width:var(--page-max,1200px);margin:0 auto;padding:68px 32px 42px;text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  .hero h1{
+    font-family:var(--serif);font-weight:600;font-size:clamp(30px,4vw,42px);
+    letter-spacing:-.022em;line-height:1.18;margin-bottom:14px;color:var(--ink);
+  }
+  .hero .lede{
+    font-family:var(--sans);font-weight:400;max-width:820px;margin:0 auto;
+    font-size:clamp(15px,1.7vw,17.5px);line-height:1.85;color:var(--muted);letter-spacing:normal;
+  }
+
+  /* ---------- 布局：侧栏目录 + 正文 ---------- */
+  .page-grid{
+    max-width:var(--page-max,1200px);margin:0 auto;padding:52px 32px 0;
+    display:grid;grid-template-columns:232px minmax(0,1fr);gap:52px;align-items:start;
+  }
+  .toc{
+    position:sticky;top:84px;max-height:calc(100vh - 120px);overflow-y:auto;scrollbar-width:thin;
+    background:#FFFFFF;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:12px 8px;
+  }
+  /* 「目录」小标题：Apple 侧栏分组眉标样式 */
+  .toc-t{
+    font-family:var(--sans);font-weight:600;font-size:11.5px;color:var(--faint);
+    letter-spacing:.06em;padding:2px 12px 8px;margin-bottom:4px;border-bottom:1px solid rgba(0,0,0,.06);
+  }
+  .toc a{
+    display:block;font-size:13px;color:var(--muted);padding:7px 12px;margin-bottom:2px;
+    border-radius:9px;letter-spacing:normal;line-height:1.5;
+    transition:color .2s var(--ease),background-color .2s var(--ease),box-shadow .2s var(--ease);
+  }
+  .toc a:last-child{margin-bottom:0;}
+  .toc a:hover{color:var(--ink);background:rgba(0,0,0,.03);}
+  .toc a.on{color:var(--accent);font-weight:500;background:var(--bg-soft);}
+  /* 组标题以全角标点「《开头：补偿半个全角空档（-.5em）使「内收于圆角胶囊内，同时文字与下级条目对齐 */
+  .toc a.grp{font-weight:600;color:var(--ink);margin-top:10px;padding-left:14px;text-indent:-.5em;}
+  .toc a.grp:first-of-type{margin-top:0;}
+  .toc a.grp.on{color:var(--accent);}
+  .toc a.sub{padding-left:20px;font-size:12.5px;}
+  .content{min-width:0;}
+
+  /* ---------- 正文 ---------- */
+  .article p{font-size:15.5px;line-height:1.95;color:var(--body-c);margin-bottom:18px;}
+  .article p b{color:var(--ink);}
+
+  .exp-head{margin:40px 0 30px;padding-top:32px;border-top:1px solid var(--line);}
+  .exp-head:first-child{margin-top:0;padding-top:0;border-top:none;}
+  .exp-title{
+    font-family:var(--serif);font-weight:600;color:var(--ink);
+    font-size:clamp(24px,3vw,32px);letter-spacing:-.02em;line-height:1.35;
+  }
+
+  /* 图谱展示卡 */
+  .figure{
+    margin:26px 0 30px;padding:18px 20px;
+    background:#FFFFFF;border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 2px 12px rgba(0,0,0,.03);
+  }
+  .figure img{display:block;width:100%;max-width:780px;height:auto;}
+  .figure figcaption{
+    font-size:12.5px;line-height:1.85;color:var(--muted);letter-spacing:normal;
+    margin-top:14px;padding-top:12px;border-top:1px solid #F0F0F4;
+  }
+  /* 收益图（博弈树）：适中宽度居中，与正文栏协调 */
+  .figure.half img{width:min(560px,100%);margin:0 auto;}
+  .sec-t{
+    font-family:var(--serif);font-weight:600;color:var(--ink);
+    font-size:clamp(19px,2.2vw,23px);letter-spacing:-.015em;line-height:1.5;
+    margin:42px 0 18px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-t::before{content:"";width:3px;height:1em;background:var(--ink);flex:none;border-radius:1.5px;transition:background .33s;}
+  /* —— 左侧滚动轴（与“永恒的争论”等页一致）：节点随滚动点亮，进度线端点跟随屏幕中线 —— */
+  .content{position:relative;}
+  .tl-track,.tl-fill{position:absolute;left:-25px;width:2px;pointer-events:none;}
+  .tl-track{background:var(--line);}
+  .tl-fill{background:var(--accent);}
+  .exp-title,.sec-t{position:relative;transition:color .33s;}
+  .exp-title::after,.sec-t::after{
+    content:"";position:absolute;left:-24px;top:50%;width:11px;height:11px;border-radius:50%;
+    background:#fff;border:2px solid #D2D2D7;transform:translate(-50%,-50%);
+    transition:box-shadow .33s,border-color .33s,background-color .33s;z-index:1;
+  }
+  .exp-title.tl-on::after,.sec-t.tl-on::after{background:var(--accent);border-color:var(--accent);}
+  .exp-title.tl-now::after,.sec-t.tl-now::after{box-shadow:0 0 0 4px rgba(0,113,227,.16);}
+  .exp-title.tl-on,.sec-t.tl-on{color:var(--accent);}
+  .sec-t.tl-on::before{background:var(--accent);}
+
+  .article p.before-list{margin-bottom:14px;}
+  ul.mk{list-style:none;margin:4px 0 22px;padding-left:20px;}
+  ul.mk li{
+    position:relative;padding-left:20px;margin-bottom:10px;
+    font-size:15.5px;line-height:1.95;color:var(--body-c);
+  }
+  ul.mk li::before{
+    content:"";position:absolute;left:3px;top:.88em;
+    width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7;
+  }
+  ul.mk li b{color:var(--ink);}
+
+  /* 时间的账本：数字编号三点 */
+  ol.npts{list-style:none;counter-reset:np;margin:10px 0 10px;}
+  ol.npts>li{
+    counter-increment:np;
+    display:grid;grid-template-columns:40px 1fr;gap:6px 14px;
+    margin:0;padding:22px 0;border-top:1px solid var(--line);
+  }
+  ol.npts>li:first-child{border-top:none;padding-top:10px;}
+  ol.npts>li::before{
+    content:counter(np) ".";
+    font-family:var(--serif);font-weight:600;font-size:17px;line-height:1.55;
+    color:var(--accent);text-align:right;font-variant-numeric:tabular-nums;
+    grid-column:1;grid-row:1;
+  }
+  ol.npts h4{
+    font-family:var(--serif);font-weight:600;
+    font-size:16px;line-height:1.7;letter-spacing:-.01em;color:var(--ink);
+    margin:0;grid-column:2;grid-row:1;
+  }
+  ol.npts p{font-size:15.5px;line-height:1.95;color:var(--body-c);margin:0;grid-column:2;grid-row:2;}
+  ol.npts p b{color:var(--ink);}
+
+  /* 结语（Apple 社论式左对齐强调，顶部短蓝色强调条） */
+  .verdict{
+    position:relative;
+    margin:30px 0 10px;padding:16px 0 4px;
+  }
+  .verdict::before{
+    content:"";position:absolute;left:0;top:0;
+    width:28px;height:2.5px;border-radius:1.5px;background:var(--accent);
+  }
+  .verdict p{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(16px,1.7vw,17px);line-height:1.9;letter-spacing:-.012em;
+    color:var(--ink);margin:0 0 8px;
+  }
+  .verdict p:last-child{margin-bottom:0;}
+
+  /* 注脚 + 页脚 */
+  .article sup{font-size:11px;line-height:1;margin:0 1px;}
+  .article sup a{color:var(--accent);}
+  .article sup a:hover{text-decoration:underline;text-underline-offset:2px;}
+  .smallnote{
+    margin:28px 0 0;padding:24px 0 0;
+    border-top:1px solid var(--line);
+    font-size:12px;line-height:2;color:var(--faint);letter-spacing:normal;
+  }
+  .smallnote a{text-decoration:underline;text-underline-offset:3px;}
+  .smallnote h3{font-size:12px;font-weight:500;letter-spacing:normal;color:var(--muted);margin:14px 0 8px;}
+  .smallnote .note{display:grid;grid-template-columns:auto 1fr;column-gap:.4em;margin-bottom:4px;}
+  footer{border-top:1px solid var(--line);background:var(--bg-elevated);margin-top:40px;padding:12px 32px;}
+  .foot-inner{
+    max-width:var(--page-max,1200px);margin:0 auto;
+    display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;
+    font-size:12px;color:var(--faint);letter-spacing:normal;
+  }
+  .foot-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .foot-links a{color:var(--muted);transition:color .2s;}
+  .foot-links a:hover{color:var(--accent);}
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:960px){
+    .desk-br{display:none;}
+    .hero{padding:48px 20px 30px;}
+    .page-grid{grid-template-columns:1fr;padding:28px 20px 0;gap:24px;}
+    /* 移动端目录：双列平铺列表——组标题独占整行做主级，其下子项两列对齐排布 */
+    .toc{position:static;display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;align-items:start;max-height:none;overflow:visible;padding:12px 10px;border-radius:14px;background:#FFFFFF;border:1px solid rgba(0,0,0,.06);}
+    .toc-t{grid-column:1/-1;margin-bottom:4px;padding:2px 10px 8px;}
+    .toc a,.toc a.sub{
+      display:block;min-width:0;font-size:13px;color:var(--muted);line-height:1.5;
+      padding:7px 10px;margin:0;border-radius:8px;
+    }
+    .toc a:hover{background:none;}
+    .toc a:first-of-type,.toc a.grp{grid-column:1/-1;font-weight:600;color:var(--ink);padding-left:12px;text-indent:-.5em;}
+    .toc a.grp{margin-top:6px;}
+    .toc a:first-of-type{margin-top:0;}
+    .toc a.on,.toc a.grp.on{color:var(--accent);background:var(--bg-soft);}
+    /* 过长的子项（如「个人的理性选择，社会的错误未来」）独占整行，避免双列下换行挤压 */
+    .toc a.wide{grid-column:1/-1;}
+    .exp-head{margin:28px 0 24px;padding-top:24px;}
+    .exp-head:first-child{margin-top:0;padding-top:0;}
+    .figure{padding:14px 14px;}
+    .verdict{margin:24px 0 8px;padding:14px 0 4px;}
+    .smallnote{margin-top:24px;padding:24px 0 0;}
+    .tl-track,.tl-fill{left:5px;}
+    .exp-title::after,.sec-t::after{left:-16px;}
+    .article{padding-left:22px;padding-right:4px;}
+    footer .foot-inner{padding:0 20px;}
+  }
+</style>
+  <link rel="stylesheet" href="nav.css?v=61">
+<script>(function(d){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("ap-preload");setTimeout(function(){d.classList.remove("ap-preload");},4000);})(document.documentElement);</script>
+</head>
+<body>
+<script>
+/* 首次进入：Apple 风格的活动指示器（12 根径向刻度依次渐隐，形成转圈）作为全屏加载层。
+   同一会话只显示一次；页面结构就绪后淡出。样式与刻度全部内联，避免额外请求。 */
+(function () {
+  "use strict";
+  var KEY = "da-intro-seen";
+  try {
+    if (sessionStorage.getItem(KEY)) return;
+    sessionStorage.setItem(KEY, "1");
+  } catch (e) { return; }
+
+  var d = document;
+  var body = d.body;
+  if (!body) return;
+
+  var css = '.da-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#fff;opacity:1;transition:opacity .45s ease;font-family:"Universal Sans Text","Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;}'
+    + '.da-loader.is-done{opacity:0;pointer-events:none;}'
+    + '.da-loader .ld-in{display:flex;flex-direction:column;align-items:center;}'
+    + '.da-loader .ld-spin{position:relative;width:44px;height:44px;}'
+    + '.da-loader .ld-spin i{position:absolute;left:calc(50% - 1.25px);top:0;width:2.5px;height:11px;border-radius:1.25px;background:#171A20;transform-origin:50% 22px;animation:da-tick 1s linear infinite;}'
+    + '@keyframes da-tick{0%{opacity:1}100%{opacity:.14}}'
+    + '.da-loader .ld-brand{margin-top:24px;font-size:11px;letter-spacing:.22em;color:#8E8E8E;line-height:1;}'
+    + '.da-loader .da-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}'
+    + '@media (prefers-reduced-motion: reduce){.da-loader .ld-spin i{animation:none;opacity:.5;}.da-loader{transition:none;}}';
+
+  var style = d.createElement("style");
+  style.textContent = css;
+  (d.head || d.documentElement).appendChild(style);
+
+  var bars = "";
+  for (var k = 0; k < 12; k++) {
+    bars += '<i style="transform:rotate(' + (k * 30) + 'deg);animation-delay:' + (-(1 - k / 12)).toFixed(3) + 's"></i>';
+  }
+
+  var loader = d.createElement("div");
+  loader.className = "da-loader";
+  loader.setAttribute("role", "status");
+  loader.setAttribute("aria-live", "polite");
+  loader.innerHTML = '<span class="da-sr">页面正在加载</span>'
+    + '<div class="ld-in" aria-hidden="true">'
+    + '<div class="ld-spin">' + bars + '</div>'
+    + '<div class="ld-brand">人口档案馆</div>'
+    + '</div>';
+  body.insertBefore(loader, body.firstChild);
+
+  var MIN = 500, start = Date.now(), done = false;
+  function reveal() {
+    if (done) return;
+    done = true;
+    setTimeout(function () {
+      loader.classList.add("is-done");
+      setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 520);
+    }, Math.max(0, MIN - (Date.now() - start)));
+  }
+  function afterDom() { setTimeout(reveal, 600); }
+  if (d.readyState === "complete") reveal();
+  else {
+    if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", afterDom, { once: true });
+    else afterDom();
+    window.addEventListener("load", reveal, { once: true });
+  }
+  setTimeout(reveal, 8000);
+})();
+</script>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="./" aria-label="人口档案馆" title="人口档案馆">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16.2 5.0 C15.2 14.2 11.4 20.8 5.6 26.2" stroke="#1D1D1F" stroke-width="3.2" stroke-linecap="round"/><path d="M18.2 17.2 C19.1 19.1 20.2 20.6 21.5 22.0" stroke="#0071E3" stroke-width="3.0" stroke-linecap="round"/><circle cx="25.8" cy="25.8" r="2.2" fill="#E13D3D"/></svg>
+    </a>
+    <div class="nav-links">
+      <div class="nav-drop">
+        <a href="harms.html">正在来临的危险</a>
+        <div class="menu">
+          <a href="harms.html#s1">幼儿园</a>
+          <a href="harms.html#s2">中学</a>
+          <a href="harms.html#s3">高等教育</a>
+          <a href="harms.html#s4">日常消费品</a>
+          <a href="harms.html#s5">公务员、事业编</a>
+          <a href="harms.html#s6">房地产及上下游</a>
+          <a href="harms.html#s7">互联网巨头</a>
+          <a href="harms.html#s8">电力和医院</a>
+          <a href="harms.html#fin">未来正在到来</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="map.html">各省生育地图</a>
+        <div class="menu">
+          <a href="map.html#years">各省历年生育地图</a>
+          <a href="map.html#decline">近十年各省出生人口降幅排序</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="forecast.html">未来人口预测</a>
+        <div class="menu">
+          <a href="forecast.html#pop">总人口预测</a>
+          <a href="forecast.html#births">出生人口预测</a>
+          <a href="forecast.html#death">死亡人口预测</a>
+          <a href="forecast.html#dec">年减少人数预测</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="world.html">各国生育率与生育支持</a>
+        <div class="menu">
+          <a href="world.html#tfr">各国生育率</a>
+          <a href="world.html#support">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="debates.html">永恒的争论</a>
+        <div class="menu">
+          <a href="debates.html#d1">人口过多论</a>
+          <a href="debates.html#d2">收缩红利论</a>
+          <a href="debates.html#d3">机器替代论</a>
+          <a href="debates.html#d4">内卷降低论</a>
+          <a href="debates.html#d5">少生优生论</a>
+          <a href="debates.html#d6">补贴无用论</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="viewpoints.html">各方观点</a>
+        <div class="menu">
+          <a href="viewpoints.html#p1">普京（俄罗斯）</a>
+          <a href="viewpoints.html#p2">李光耀（新加坡）</a>
+          <a href="viewpoints.html#p3">马斯克（美国）</a>
+          <a href="viewpoints.html#p4">李显龙（新加坡）</a>
+          <a href="viewpoints.html#p5">梁建章（中国）</a>
+          <a href="viewpoints.html#p6">黄文政（中国）</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="here" href="thought-experiment.html">思想实验</a>
+        <div class="menu">
+          <a href="thought-experiment.html#exp1">《少子化的囚徒困境》</a>
+          <a href="thought-experiment.html#exp2">《博士与母亲》</a>
+          <a href="thought-experiment.html#exp3">《核武器、毒品与避孕套》</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="datacenter.html">数据中心</a>
+        <div class="menu align-right">
+          <a href="datacenter.html#secNat">全国历年出生人口</a>
+          <a href="datacenter.html#secCensus">七普回溯出生人口</a>
+          <a href="datacenter.html#secDec">各年代年均出生人口</a>
+          <a href="datacenter.html#secFc">未来人口预测</a>
+          <a href="datacenter.html#secProv">各省历年出生数据</a>
+          <a href="datacenter.html#secDecline">各省出生人口下降幅度</a>
+          <a href="datacenter.html#secWorld">各国生育率</a>
+          <a href="datacenter.html#secSupport">各国生育补贴支出</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a href="other.html">其他</a>
+        <div class="menu align-right">
+          <a href="other.html#g-pop">总人口</a>
+          <a href="other.html#g-births">出生人口</a>
+          <a href="other.html#g-cbr">出生率</a>
+          <a href="other.html#g-tfr">(总和) 生育率</a>
+          <a href="other.html#g-diff">出生率 ≠ 生育率</a>
+          <a href="other.html#g-replace">世代更替水平</a>
+          <a href="other.html#g-ageing">老龄化与少子化</a>
+          <a href="other.html#g-boom">婴儿潮与回声潮</a>
+          <a href="other.html#about">关于本站</a>
+          <a href="other.html#contact">联系方式</a>
+        </div>
+      </div>
+    </div>
+    <a class="nav-github" href="https://github.com/DemoArchive/demography-archive" target="_blank" rel="noopener" aria-label="GitHub 开源仓库" title="GitHub 开源仓库"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+    <button class="nav-burger" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>思想实验</h1>
+  <p class="lede">一个个看似微小的个人选择，在时间的长河中不断累积，最终汇聚成改变整个社会的力量</p>
+</header>
+
+<div class="page-grid">
+  <aside class="toc">
+    <div class="toc-t">目录</div>
+    <a class="grp" href="#exp1">「少子化的囚徒困境」</a>
+    <a class="sub wide" href="#t1">个人的理性选择，社会的错误未来</a>
+    <a class="sub" href="#t2">理性的选择</a>
+    <a class="sub" href="#t3">错误的未来</a>
+    <a class="grp" href="#exp2">「博士与母亲」</a>
+    <a class="sub" href="#t4">故事的起点</a>
+    <a class="sub" href="#t5">彼时的共识</a>
+    <a class="sub" href="#t6">历史的转向</a>
+    <a class="sub" href="#t7">时间的账本</a>
+    <a class="grp" href="#exp3">「核武器、毒品与避孕套」</a>
+    <a class="sub" href="#t8">被低估的发明</a>
+    <a class="sub wide" href="#t9">为什么连贩毒集团也禁毒</a>
+    <a class="sub" href="#t10">另一种“毒品”</a>
+    <a class="sub" href="#t11">无法阻挡的走向</a>
+    <a class="sub" href="#t12">寂静的终局</a>
+  </aside>
+
+  <div class="content">
+    <main class="article">
+
+      <!-- ============ 思想实验一：《少子化的囚徒困境》 ============ -->
+      <div class="exp-head" id="exp1">
+        <h2 class="exp-title">《少子化的囚徒困境》</h2>
+      </div>
+
+      <h3 class="sec-t" id="t1">个人的理性选择，社会的错误未来</h3>
+
+      <p>生育，是个人选择。</p>
+      <p>对一个家庭而言，选择不生育，可以减少养育成本，拥有更多时间和资源投入自身发展。选择生育，意味着家庭需要承担长期的时间、经济与精力投入。</p>
+      <p>但生育的特殊之处在于：家庭承担了养育过程中的大部分成本，而孩子成年后创造的劳动、税收、消费和社会价值，却会超越家庭边界，由整个社会共同享有。</p>
+      <p>于是，生育形成了一种特殊的不对称：</p>
+      <p>生育的成本，主要由家庭承担；人口延续的收益，却由整个社会共享。</p>
+      <p>当这种成本与收益无法匹配时，生育选择可能逐渐演变为一种类似“囚徒困境”的局面。</p>
+
+      <h3 class="sec-t" id="t2">理性的选择</h3>
+      <p>假设有两个家庭 A 和 B，他们都面临两个选择：生育，或者不生育。</p>
+      <p>下图展示了双方不同选择组合下的结果。</p>
+      <figure class="figure half">
+        <img src="images/prisoners-dilemma.png" alt="生育博弈收益图：家庭 A 与家庭 B 在生育与不生育四种组合下的相对收益" width="1320" height="728" loading="lazy">
+        <figcaption>模型假设：数字代表双方相对收益。双方生育获得（4，4）；一方不生育可获得最大个人收益（8），另一方承担成本（-8）；双方不生育则共同承担低生育带来的长期损失（-4，-4）。</figcaption>
+      </figure>
+      <p class="before-list">从博弈结果来看：</p>
+      <p class="before-list">当 A 选择生育时：</p>
+      <ul class="mk">
+        <li>B 选择生育，收益为 4；</li>
+        <li>B 选择不生育，收益为 8。</li>
+      </ul>
+      <p class="before-list">原因在于：</p>
+      <ul class="mk">
+        <li>如果 B 不生育，他可以避免承担养育成本，同时仍然能够享受到 A 的孩子未来创造的部分社会收益。</li>
+        <li>因此，对于 B 这个理性的个体而言，不生育似乎是更优选择。</li>
+      </ul>
+      <p class="before-list">当 A 选择不生育时：</p>
+      <ul class="mk">
+        <li>B 选择生育，收益为 -8；</li>
+        <li>B 选择不生育，收益为 -4。</li>
+      </ul>
+      <p>即使整个社会已经进入低生育状态，B 仍然会发现：相比承担养育成本，不生育带来的损失更小。</p>
+      <p>因此，无论 A 如何选择，B 都倾向于选择不生育。</p>
+      <p>A 面临同样的激励。</p>
+      <p>最终，双方都会走向：（-4，-4）。</p>
+      <p>也就是：双方都选择不生育，形成纳什均衡。</p>
+
+      <h3 class="sec-t" id="t3">错误的未来</h3>
+      <p>然而，问题在于：</p>
+      <p>在这个模型中，双方“不生育”的结果，并不是最优结果。</p>
+      <p>如果双方都选择生育：（4，4）</p>
+      <p>那么两个家庭都能获得更高收益，同时整个社会也能够从人口延续中获得更大的长期利益。</p>
+      <p>但现实中的困境在于：</p>
+      <p>对于单个家庭而言，不生育可能是一个理性的选择；</p>
+      <p>可是，当越来越多家庭同时作出同样的选择时，整个社会可能走向另一个方向：</p>
+      <ul class="mk">
+        <li>未来劳动者不断减少；</li>
+        <li>消费市场持续收缩；</li>
+        <li>养老与社会保障压力增加；</li>
+        <li>代际接续能力逐渐下降。</li>
+      </ul>
+      <p>最终：</p>
+      <div class="verdict">
+        <p>每个家庭都在追求自己的最优解，却可能共同走向一个更差的未来。</p>
+        <p>这正是少子化可能形成的“囚徒困境”。</p>
+      </div>
+
+      <!-- ============ 思想实验二：《博士与母亲》 ============ -->
+      <div class="exp-head" id="exp2">
+        <h2 class="exp-title">《博士与母亲》</h2>
+      </div>
+
+      <h3 class="sec-t" id="t4">故事的起点</h3>
+      <p class="before-list">S国，两个同为35岁的年轻人：</p>
+      <ul class="mk">
+        <li>青年 A：名校博士，尖端工程师，享有体面薪酬与社会声望。专注学业与事业，主张“少生优生”，计划至多要 1 个孩子。</li>
+        <li>青年 B：普通技校毕业，早早步入婚姻，35岁时已是 5 个孩子的母亲。</li>
+      </ul>
+
+      <h3 class="sec-t" id="t5">彼时的共识</h3>
+      <p class="before-list">在当时的社会共识中：</p>
+      <ul class="mk">
+        <li>A 是社会的顶梁柱：代表先进生产力，为国家缴纳丰厚税收，推动技术进步，实现了完美的个人价值；</li>
+        <li>B 是被惋惜的掉队者：过早放弃自我提升，陷入家务与育儿的琐碎泥潭，被视为不值得效仿的例子。</li>
+      </ul>
+
+      <h3 class="sec-t" id="t6">历史的转向</h3>
+      <p class="before-list">三十年后，S 国每年出生人口减少了60%，劳动力出现真空，评价体系整体逆转：</p>
+      <ul class="mk">
+        <li>A的处境：国家调整税制，多子女家庭减免税负，A 这样的少子女家庭，相对要多交税。在公共住房、大宗消费品配给中，少子家庭也排在后面，生活成本明显上升。</li>
+        <li>B的处境：此时已是 8 个孩子的母亲，被授予“英雄母亲”勋章，享受国家津贴、全额免税以及大户型住房优先配给权。</li>
+      </ul>
+
+      <h3 class="sec-t" id="t7">时间的账本</h3>
+      <p>三十年里，两个人做的事几乎没变。A 一直在从事高端工作，B 一直在抚养孩子。但社会已然改变。</p>
+      <figure class="figure half">
+        <img src="images/phd-and-mother.png" alt="《博士与母亲》关系图：博士 A 与母亲 B 在当下（35岁）与三十年后的社会评价与代际跨期结算" width="1320" height="728" loading="lazy">
+        <figcaption>模型推演：当下被视为“顶梁柱”的即期产出与被轻视的育儿投入，在三十年后因出生人口锐减形成跨期逆转；两者彼此依赖，只是账期不同。</figcaption>
+      </figure>
+      <ol class="npts">
+        <li>
+          <h4>即期产出 vs. 远期底座</h4>
+          <p>A 生产的是“当下的技术与税收”，而 B 生产的是“未来运转的基石”。A 的科研工作成果固然卓越，但若是三十年后没有足够的新生劳动力去维护电网、操作产线、运转医院，没有足够的新生消费者去激活内需、消化产能、承接资产，A 所积累的全部财富与技术，都将在物理层面迅速沦为废墟。</p>
+        </li>
+        <li>
+          <h4>代际之间的跨期结算</h4>
+          <p>A 缴的税，支撑着 B 的孩子上学。B 的孩子，三十年后会成为医生、护工和纳税人，支撑 A 的晚年。两人互相依赖，只是账期不同：A 的付出在今天，B 的付出在三十年后。</p>
+        </li>
+        <li>
+          <h4>社会评价的盲区</h4>
+          <p>当一个社会把赞美、资源和晋升通道都给了“即期创造价值”的人，却把养育下一代看成纯粹的家庭私事，它实际上是在鼓励所有人把成本推给未来。</p>
+        </li>
+      </ol>
+      <div class="verdict">
+        <p>对整个社会来说，A 与 B 都不可或缺</p>
+        <p>但没有 B 承担的“人口再生产”，A 创造的辉煌甚至连一个世代都无法维系</p>
+      </div>
+
+      <!-- ============ 思想实验三：《核武器、毒品与避孕套》 ============ -->
+      <div class="exp-head" id="exp3">
+        <h2 class="exp-title">《核武器、毒品与避孕套》</h2>
+      </div>
+
+      <h3 class="sec-t" id="t8">被低估的发明</h3>
+      <p>如果向不同领域的人提问：“谁是人类历史上影响最深远的人？”你会得到一份高度重合的名单——发现万有引力的牛顿、重塑时空观的爱因斯坦、创立世界性宗教的耶稣与穆罕穆德，或许还会加上开启 AI 时代的奥尔特曼。</p>
+      <p>这些答案在今天看来无懈可击。但如果把时间轴拉长，站在五百年后的废墟或新世界里回望人类文明的轨迹，这份名单里极有可能会挤进一个如今看来显得有些荒诞的名字：康德姆（Condom）——在 17 世纪晚期为英国国王查理二世发明避孕套的御医。</p>
+      <p>要理解为什么一个小小的乳胶制品足以与牛顿力学和核裂变并列，我们需要先从一个看似毫不相干的问题说起：为什么人类历史上所有的组织，都对毒品深恶痛绝？</p>
+
+      <h3 class="sec-t" id="t9">为什么连贩毒集团也禁毒</h3>
+      <p>无论是蒙昧时代的原始部落、横跨欧亚的古典帝国，还是戒律森严的宗教团体、高度理性的现代国家与商业公司，在许多议题上都立场各异，却在“禁毒”这件事上达成了惊人的共识。甚至连以制毒、贩毒为生的跨国犯罪集团，其内部帮规的第一条往往也是“严禁成员吸毒”。</p>
+      <p>人们常用健康损害、家庭破碎与社会治安来解释这种禁令——这些当然都是不容忽视的现实原因。但在演化的底层逻辑里，还有一个同样关键的机制：毒品篡改了大脑的薪酬体系。</p>
+      <p>在长达数百万年的自然演化中，快乐——也就是多巴胺、内啡肽等神经递质的释放——从来不是免费的礼物，而是大脑发给身体的“工资”。为了赚取这一点点微薄的快感，人类必须付出极高的现实成本：顶着烈日和严寒去狩猎、在贫瘠的土地上弯腰耕种、冒着生命危险去战斗，或是耗费数十年寒窗苦读、在复杂的社会中竞争与合作。人类文明所有的宏伟建筑、科学定律与艺术杰作，本质上都是这具碳基肉身为了向大脑讨要“多巴胺工资”而顺带创造的副产品。</p>
+      <p>毒品的致命之处，在于它绕过了所有的现实努力，直接用化学钥匙撬开了大脑的奖赏回路。当一个群体里的人发现，只需付出微不足道的代价，就能获得比建功立业、发财致富强烈十倍的巅峰快感时，整个社会的激励机制就会从根基上瓦解。</p>
+      <p>既然躺在角落里就能抵达极乐，还有谁愿意顶风冒雨去修筑水渠？还有谁愿意忍受枯燥去推演公式、保家卫国？在化学快感面前，一切现实世界的回报都显得既廉价又漫长。因此，任何不禁止毒品的组织，都会在短时间内丧失行动力与创造力，停止进步，最终在残酷的族群竞争中被彻底淘汰。禁毒，是人类组织为了维持自身存续而演化出的免疫反应。</p>
+
+      <h3 class="sec-t" id="t10">另一种“毒品”</h3>
+      <p>理解了毒品的运作机制，我们再来看避孕套。</p>
+      <p>对于任何一种生物而言，演化赋予它的最高使命只有两个字：繁衍。上帝<sup><a href="#fn1">[1]</a></sup>在设计人类时深知这一点——由于人类拥有高度发达的大脑，足以计算利弊得失，如果繁衍只意味着漫长的痛苦与沉重的负担，理性的人类很快就会放弃这项使命。</p>
+      <p>于是，上帝在创造人类的同时，签下了一份严苛的“捆绑契约”：他在繁衍的入口处——也就是性爱之中——注入了自然界最强烈、最令人沉醉的感官快乐；但与此同时，他在快乐的背面牢牢绑定了沉重的代价：怀孕与养育。即便在物质文明高度发达的今天，孕育和抚养一个新生命对男女双方而言依然是一场漫长而高昂的消耗，而在现代医学诞生之前，每一次分娩更是一场生死考验。</p>
+      <p>在数百万年的演化史中，繁衍与死亡，是人类社会最确定的两件事。你可以逃避劳作，可以逃避战争，但只要遵循本能去追逐欢愉，就大概率要承担起延续物种的责任。</p>
+      <p>直到 17 世纪晚期，御医康德姆发明了避孕套（以及随后两个世纪现代工业将其彻底普及）<sup><a href="#fn2">[2]</a></sup>。这层薄薄的屏障，以一种近乎魔法的方式，撕毁了上帝签下的那份百万年契约——它将性爱的奖赏与繁衍的代价彻底解绑。人类第一次得以在享受完整演化红利的同时，将原本附带的沉重成本压缩到几乎为零。</p>
+      <p>读到这里，你是否觉得这一幕有些似曾相识？</p>
+      <p>没错，这正是“毒品”的逻辑。避孕套与毒品发挥着完全相同的作用——它们都是人类用智慧制造出的工具，都是绕过演化预设的漫长代价、直接获取快感奖赏的“快捷键”。</p>
+
+      <h3 class="sec-t" id="t11">无法阻挡的走向</h3>
+      <p>然而，两者的历史命运却截然相反。</p>
+      <p>毒品遭到了全人类最严厉的围剿，而避孕套从未被真正成功地禁止过。事实上，人类社会并非没有察觉到这种“解绑”带来的危险。19 世纪晚期至 20 世纪中叶，包括美国和法国在内的多个西方国家，都曾通过立法严厉禁止避孕器具的销售与宣传，法国甚至在第一次世界大战人口锐减后出台过极为严苛的反避孕法案。但无一例外，这些禁令在执行数十年后全部以失败告终，最终在社会浪潮中土崩瓦解。</p>
+      <p>毫无疑问，在现代社会中，禁止避孕套或任何避孕工具显然是错误的。历史已经反复证明，强行禁止避孕不仅无法真正扭转生育意愿，反而会带来严重的公共卫生危机与社会问题——非意愿妊娠激增、地下非法堕胎泛滥、疾病传播加剧，其造成的现实危害远远大于它试图挽回的收益。更重要的是，提供和使用避孕工具是现代社会发展的大势所趋，是现实本身的走向，既不应该去阻挡，也没有人能够阻挡。</p>
+
+      <h3 class="sec-t" id="t12">寂静的终局</h3>
+      <p>而这，恰恰构成了人类文明最深邃、也最无解的悖论。</p>
+      <p>自 1945 年广岛升起蘑菇云以来，人类对文明终结的想象，始终围绕着核战争这类剧烈的灾难展开——我们在军控谈判、科幻小说和末日电影里反复演练核冬天、小行星撞击、超级瘟疫和失控的气候变化，总以为如果人类有一天走向消亡，一定伴随着惊天动地的火光与崩塌。</p>
+      <p>在未来，现实的走向可能恰恰相反。</p>
+      <p>核武器之所以至今没有毁灭人类，正是因为它的面目太过狰狞。每一枚核弹头都散发着直观的死亡气息，痛苦与毁灭清晰可见，这种极致的恐惧反而催生了“相互保证毁灭”的理性克制，让所有人的手指都远离了发射按钮。毒品之所以没有毁灭人类，是因为它对个体健康与社会秩序的破坏立竿见影，迫使每一个组织都本能地启动了排异机制。</p>
+      <p>唯独避孕套——以及它所代表的“低成本剥离演化代价”的技术——既不像核武器那样带来血肉横飞的恐怖，也不像毒品那样摧毁个体的理智与健康。恰恰相反，它是温和的、卫生的、理性的，甚至是充满人文关怀的。它保护了无数人的健康，让每一次亲密接触都变得安全而体面，也将一代又一代女性从生育的负担中解放出来。</p>
+      <figure class="figure half">
+        <img src="images/condom-paradox.png" alt="核武器、毒品与避孕套比较图：核武器因恐怖引发克制，毒品因危害触发围剿，避孕套因温和理性而无法阻挡" width="1320" height="728" loading="lazy">
+        <figcaption>机制对比：核武器与毒品分别因“直观恐惧”和“立竿见影的破坏”被人类遏制或禁绝；唯有避孕套以温和、理性的方式剥离了演化代价，成为最难逆转的力量。</figcaption>
+      </figure>
+      <p>没有任何人会因为使用避孕套而感到痛苦，也没有任何政府能够、或者应该去剥夺人们手中的这层保护。它让每一个普通人都能更从容地掌控当下的生活，却也在不知不觉中，削弱了整个物种代际延续的根基。</p>
+      <p>事实上，人口下行的趋势已经在全球范围内显现。在经济压力、生活方式转变与避孕普及等多重因素的共同作用下，如今全球总和生育率已经跌破了 2.1 的世代更替水平。如果这一趋势长期无法逆转，每一代人都比上一代人更少，人口规模就会在漫长的时间里持续萎缩。人类走向消亡，不会在这一代人发生，也不会在下一代人发生，但它迟早会发生。</p>
+      <div class="verdict">
+        <p>如果数百年后，人类文明真的在寂静中走向萎缩乃至消亡，我相信，在导致这一结局的众多原因里，无论是核战争、气候变化还是大规模流行病，任何一个单一因素的破坏力，都远不及这层薄薄的乳胶。或许，避孕套并非导致人口雪崩的唯一原因——现代社会的组织方式与年轻一代观念的转变同样在起作用，它甚至未必是其中最大的原因——但至少，在决定人类命运的最终天平上，它几乎肯定是一股比核武器更加强大、也更加不可逆转的力量。</p>
+      </div>
+
+    </main>
+
+    <div class="smallnote">
+      <h3>注释（《核武器、毒品与避孕套》）</h3>
+      <p class="note" id="fn1"><span>[1]</span><span>关于“上帝”的说明：文中的“上帝”既可以作宗教或哲学意义上的具象理解，也可以将其视作“自然演化（Evolution）”的拟人化代称——在长达数十亿年的试错中，自然选择如同一位盲眼钟表匠，为所有得以幸存的物种编写了趋利避害的底层代码。</span></p>
+      <p class="note" id="fn2"><span>[2]</span><span>关于“康德姆”的注记：历史上关于“查理二世御医康德姆（Condom）发明避孕套”的说法多被视为 18 世纪流传的民间掌故；亚麻与动物肠衣制成的早期避孕工具在此前便已零星出现，而真正让避孕套走向现代大规模普及的，是 1844 年查尔斯·固特异（Charles Goodyear）发明硫化橡胶技术后的工业化生产。</span></p>
+      <h3>说明</h3>
+      <p>本页收录三篇思想实验——《少子化的囚徒困境》、《博士与母亲》与《核武器、毒品与避孕套》。文中的人物、数值与推演均为假设性思考框架，用于呈现人口结构、社会激励与文明延续之间的机制关系，而非对具体年份的预测，也不构成任何理财或养老建议。本站立场详见<a href="other.html#about">关于本站</a>。</p>
+      <h3>本文发布时间</h3>
+      <p>2026年10月11日</p>
+      <h3>本文修改时间</h3>
+      <p>2026年11月18日</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>人口档案馆 © 2026</span>
+    <div class="foot-links">
+      <a href="other.html#about">关于本站</a>
+      <a href="https://github.com/DemoArchive/demography-archive" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var els = Object.keys(map).map(function(id){ return document.getElementById(id); })
+    .filter(Boolean)
+    .sort(function(a, b){
+      return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+    });
+  /* 判定线须高于点击分组标题后的落点（约78px+标题高度），且低于首个小节标题的位置 */
+  var LINE = 120;
+  function update(){
+    var current = null;
+    for (var i = 0; i < els.length; i++){
+      if (els[i].getBoundingClientRect().top <= LINE) current = els[i];
+      else break;
+    }
+    links.forEach(function(a){ a.classList.remove('on'); });
+    if (current) map[current.id].classList.add('on');
+  }
+  var ticking = false;
+  function request(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; update(); });
+  }
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request, { passive: true });
+  window.addEventListener('hashchange', function(){ setTimeout(update, 80); });
+  update();
+})();
+</script>
+<script>
+/* 滚动轴：节点随滚动点亮（判定线与左侧目录一致：标题顶达 120px 即进入该节，目录亮哪节轴亮哪节）；
+   进度线端点跟随同一条判定线（与点亮同源：线触及圆点的瞬间即点亮，绝不压在未点亮圆点上），
+   圆心在判定线下方时以最后点亮圆心兜底，下一未点亮圆心封顶 */
+(function(){
+  var content = document.querySelector('.content');
+  var items = Array.prototype.slice.call(document.querySelectorAll('.article .exp-title, .article .sec-t'));
+  if (!content || !items.length) return;
+  var track = document.createElement('i');
+  track.className = 'tl-track';
+  var fill = document.createElement('i');
+  fill.className = 'tl-fill';
+  content.appendChild(track);
+  content.appendChild(fill);
+  function dotY(el){ return el.offsetHeight / 2; }
+  /* 与目录高亮同线同元素（目录脚本同为 LINE=120）：实验大标题按所在 .exp-head 计，小节标题按自身计 */
+  var LINE = 120;
+  var triggers = items.map(function(el){ return el.closest('.exp-head') || el; });
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var cTop = content.getBoundingClientRect().top;
+    var vTops = items.map(function(el){ return el.getBoundingClientRect().top + dotY(el); });
+    var lastIdx = -1;
+    items.forEach(function(el, i){
+      var lit = triggers[i].getBoundingClientRect().top <= LINE;
+      el.classList.toggle('tl-on', lit);
+      if (lit) lastIdx = i;
+    });
+    items.forEach(function(el, i){ el.classList.toggle('tl-now', i === lastIdx); });
+    var tops = vTops.map(function(t){ return t - cTop; });
+    var cap = lastIdx + 1 < tops.length ? tops[lastIdx + 1] : tops[tops.length - 1];
+    /* 端点=判定线在内容坐标中的位置（与点亮同源，线到点即亮）；
+       实验大标题按 .exp-head 顶部点亮、圆心尚在判定线下方时用最后点亮圆心兜底，保证线盖住所有已点亮圆点 */
+    var floor = lastIdx >= 0 ? tops[lastIdx] : tops[0];
+    var end = Math.min(Math.max(LINE - cTop, floor), cap);
+    track.style.top = tops[0] + 'px';
+    track.style.height = Math.max(0, tops[tops.length - 1] - tops[0]) + 'px';
+    fill.style.top = tops[0] + 'px';
+    fill.style.height = Math.max(0, end - tops[0]) + 'px';
+  }
+  function onScroll(){
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+  <script src="nav.js?v=49"></script>
+</body>
+</html>

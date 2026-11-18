@@ -162,15 +162,15 @@
     de.style.setProperty("--panel-right", (de.clientWidth - rightEdge) + "px");
   }
 
-  /* 站点根路径：由品牌链接的相对路径推导（首页为 ""，子页为 "../"），
+  /* 站点根路径：由品牌链接的相对路径推导（根页面 "./" 或 ""，子目录页面 "../"），
      面板内的缩略图、头像等固定资源一律按根路径引用 */
   var ROOT = (function () {
-    var href = brand ? (brand.getAttribute("href") || "index.html") : "index.html";
-    return href.replace(/index\.html[\s\S]*$/, "");
+    var href = brand ? (brand.getAttribute("href") || "./") : "./";
+    return href.split("#")[0].split("?")[0].replace(/index\.html$/, "");
   })();
 
   /* 各栏目悬停面板的内容定义。
-     key = 栏目链接路径的最后两段（首页为 "index.html"），与所在页面无关；
+     key = 栏目名（如 "harms.html"、首页 "index.html"），与所在页面无关；
      src 一律相对站点根目录；links 相关面板的条目克隆自原生 .menu。 */
   var PANELS = {
     "index.html": {
@@ -180,7 +180,7 @@
       note: "人口是时间的慢变量。七十余年的出生人口曲线，既是历史数据，也是未来底稿。",
       cta: "阅读完整故事"
     },
-    "harms/index.html": {
+    "harms.html": {
       mode: "numbered", cols: 3, grid3x3: true,
       listTitle: "出生人口减少对不同行业的冲击",
       /* 每个行业的两行式说明（与「永恒的争论」条目同样式）：第二行灰色小字。
@@ -197,14 +197,14 @@
         fin: "行业规模将随出生人口一同收缩"
       }
     },
-    "map/index.html": {
+    "map.html": {
       mode: "cards",
       cards: [
         { hash: "#decline", src: "images/nav/map-decline.png", label: "近十年各省出生人口降幅排序", alt: "近十年各省出生人口降幅排序地图" },
         { hash: "#years", src: "images/nav/map-years.png", label: "各省历年生育地图", alt: "各省历年生育地图" }
       ]
     },
-    "forecast/index.html": {
+    "forecast.html": {
       mode: "cards",
       headInline: true,
       lead: "2026~2100 年",
@@ -218,14 +218,14 @@
         { hash: "#dec", src: "images/nav/fc-dec.svg?v=4", label: "年减少人数预测", alt: "2026~2100 年中国年减少人数高、中、低三种情景预测折线图" }
       ]
     },
-    "world/index.html": {
+    "world.html": {
       mode: "cards",
       cards: [
         { hash: "#tfr", src: "images/home/preview-world-map.webp", label: "各国生育率", alt: "世界各国（总和）生育率地图，2024 年" },
         { hash: "#support", src: "images/home/preview-spending.webp", label: "各国生育补贴支出", alt: "2022 年各国生育补贴支出比较" }
       ]
     },
-    "debates/index.html": {
+    "debates.html": {
       mode: "quotes",
       listTitle: "围绕低生育率的主要争议",
       quotes: {
@@ -237,7 +237,7 @@
         d6: "别的国家花了那么多钱也没用"
       }
     },
-    "viewpoints/index.html": {
+    "viewpoints.html": {
       mode: "people",
       listTitle: "不同人物对低生育率的看法",
       people: [
@@ -249,21 +249,22 @@
         { hash: "#p6", name: "黄文政", country: "中国", img: "viewpoints/avatars/huang-wenzheng.png" }
       ]
     },
-    "thought-experiment/index.html": {
+    "thought-experiment.html": {
       mode: "cards",
       cardFlat: true,
-      listTitle: "两个思想实验",
-      /* 两张作品卡：博弈树（《少子化的囚徒困境》）+ 竖版插画（《博士与母亲》缩略图） */
+      listTitle: "三个思想实验",
+      /* 三张作品卡：统一采用白底三角结构图谱 */
       cards: [
         { hash: "#exp1", src: "images/prisoners-dilemma.png", label: "少子化的囚徒困境", alt: "少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育" },
-        { hash: "#exp2", src: "images/nav/phd-mother-thumb.webp", label: "博士与母亲", alt: "《博士与母亲》插图：身着博士服的青年与怀抱幼儿的母亲背靠背而立，眺望远方的城市" }
+        { hash: "#exp2", src: "images/phd-and-mother.png", label: "博士与母亲", alt: "《博士与母亲》关系图：博士 A 与母亲 B 在当下与三十年后的评价逆转与跨期结算" },
+        { hash: "#exp3", src: "images/condom-paradox.png", label: "核武器、毒品与避孕套", alt: "《核武器、毒品与避孕套》比较图：核武器因恐惧克制，毒品被集体禁绝，避孕套温和不可阻挡" }
       ]
     },
-    "datacenter/index.html": {
+    "datacenter.html": {
       mode: "numbered", cols: 2,
       listTitle: "数据查看和下载"
     },
-    "other/index.html": {
+    "other.html": {
       mode: "groups"
     }
   };
@@ -274,14 +275,16 @@
     if (text != null) n.textContent = text;
     return n;
   }
-  /* 栏目 key：栏目链接路径的最后两段（"harms/index.html"、首页 "index.html"） */
+  /* 栏目 key：支持 "harms.html" 与兼容路径 "harms/index.html"，首页归一为 "index.html" */
   function keyOf(item) {
     var a = item.tagName === "A" ? item : item.querySelector(":scope > a");
     if (!a) return null;
     var href = (a.getAttribute("href") || "").split("#")[0].split("?")[0];
     var parts = href.split("/").filter(function (s) { return s && s !== "." && s !== ".."; });
-    if (!parts.length) return null;
-    return parts.slice(-2).join("/");
+    if (!parts.length) return "index.html";
+    var last = parts[parts.length - 1];
+    if (last === "index.html" && parts.length >= 2) return parts[parts.length - 2] + ".html";
+    return last;
   }
   function hashOf(a) {
     var href = a.getAttribute("href") || "";
@@ -366,7 +369,7 @@
       body.appendChild(grid);
 
     } else if (cfg.mode === "cards") {
-      var cards = el("div", "tp-cardgrid" + (cfg.cards.length > 2 ? " cards4" : ""));
+      var cards = el("div", "tp-cardgrid" + (cfg.cards.length === 3 ? " cards3" : cfg.cards.length > 2 ? " cards4" : ""));
       i = 0;
       cfg.cards.forEach(function (c) {
         var href = base + (c.hash || "");
@@ -719,5 +722,314 @@
     /* 视口宽度变化会改变内容排版高度，进行中的高度过渡直接落定到新的自然高度 */
     if (morphTimer) { clearTimeout(morphTimer); morphTimer = null; }
     if (shell) shell.style.height = "";
+  });
+})();
+
+/* ============================================================
+   Apple /mac/ 风格统一整块内容加载动效
+   页面载入与滚动均采用「整块由下至上、同排从左向右」依次显现，每次刷新均触发
+   ============================================================ */
+(function () {
+  "use strict";
+  var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var revealFlushFn = function () {};
+
+  function groupAndOrderRows(records) {
+    if (!records || !records.length) return [];
+    records.sort(function (a, b) {
+      return a.top !== b.top ? (a.top - b.top) : (a.left - b.left);
+    });
+    var rows = [];
+    var curRow = [];
+    var anchorTop = null;
+    for (var i = 0; i < records.length; i++) {
+      var rec = records[i];
+      if (anchorTop === null || Math.abs(rec.top - anchorTop) <= 44) {
+        curRow.push(rec);
+        if (anchorTop === null) anchorTop = rec.top;
+      } else {
+        curRow.sort(function (a, b) { return a.left - b.left; });
+        rows.push(curRow);
+        curRow = [rec];
+        anchorTop = rec.top;
+      }
+    }
+    if (curRow.length) {
+      curRow.sort(function (a, b) { return a.left - b.left; });
+      rows.push(curRow);
+    }
+    return rows;
+  }
+
+  function staggerReenter(nodes) {
+    if (prefersReduced || !nodes || !nodes.length) return;
+    var curH = window.innerHeight || 900;
+    var records = [];
+    Array.prototype.forEach.call(nodes, function (el) {
+      if (!el || el.hidden || el.style.display === "none") return;
+      el.classList.remove("ap-anim-wait", "ap-anim-in", "ap-anim-fade", "ap-rise-in");
+      el.classList.add("ap-anim-done");
+      var r = el.getBoundingClientRect();
+      if (r.height > 0 && r.bottom > 0 && r.top < curH * 1.15) {
+        records.push({ el: el, top: r.top, left: r.left });
+      }
+    });
+    var rows = groupAndOrderRows(records);
+    var rowStart = 0;
+    rows.forEach(function (row) {
+      row.forEach(function (rec, colIdx) {
+        var delayMs = Math.min(rowStart + colIdx * 75, 480);
+        var el = rec.el;
+        el.style.setProperty("--ap-delay", delayMs + "ms");
+        void el.offsetWidth;
+        el.classList.add("ap-rise-in");
+        setTimeout(function () {
+          el.classList.remove("ap-rise-in");
+          el.style.removeProperty("--ap-delay");
+        }, delayMs + 860);
+      });
+      rowStart += row.length === 1 ? 60 : Math.min(row.length * 50, 165);
+    });
+  }
+  window.__apStaggerReenter = staggerReenter;
+  window.__apFlushReveals = function () { revealFlushFn(); };
+
+  function initAppleContentMotion() {
+    if (prefersReduced) {
+      document.documentElement.classList.remove("ap-preload");
+      return;
+    }
+    var vh = window.innerHeight || 900;
+    var initSy = window.scrollY || window.pageYOffset || 0;
+    var initDocH = document.documentElement ? document.documentElement.scrollHeight : 0;
+    var atBottomInitial = initDocH > 0 && (initSy + vh >= initDocH - 48);
+
+    function cleanupWait(el, delayMs) {
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        el.classList.remove("ap-anim-wait", "ap-anim-in", "ap-anim-fade");
+        el.classList.add("ap-anim-done");
+        el.style.removeProperty("--ap-delay");
+      }
+      el.addEventListener("transitionend", function onEnd(e) {
+        if (e.target !== el || (e.propertyName !== "transform" && e.propertyName !== "opacity")) return;
+        el.removeEventListener("transitionend", onEnd);
+        finish();
+      });
+      setTimeout(finish, (delayMs || 0) + 650);
+    }
+
+    var fadeOnlySelector = ".article h2[id], .article p.finale, .article .exp-head, .article .sec-t";
+
+    /* 整块级联目标清单：矩形卡片/图文块整体作为一个单元显现，不拆分内部结构 */
+    var blockSelectors = [
+      ".hero > h1", ".hero > .statement-inline", ".hero > .lede", ".hero > .sub",
+      ".head > h1", ".head > .head-row", ".head > .sub",
+      ".sec-head", ".sec > .lead", ".story-sec .story-head",
+      ".page-grid > .toc",
+      ".clocks .clock-card", ".clocks .c-note",
+      ".story .chart-wrap",
+      ".tiles .tile-wide", ".tiles .tile-grid .tile",
+      ".content .article > p:not(.finale)", ".content .article > h2[id]", ".content .article > p.finale",
+      ".content .divider",
+      ".debate > .d-head", ".debate > .tag", ".debate > .claim", ".debate > .reply-p", ".debate > .reply-list", ".debate > .args > .arg",
+      ".voice > .v-head",
+      ".voice > .q > .q-date", ".voice > .q > .lbl-say", ".voice > .q > .say", ".voice > .q > .lbl", ".voice > .q > .orig", ".voice > .q > p",
+      ".article > .exp-head", ".article > .sec-t", ".article > figure.figure", ".article > ul.mk", ".article > ol.npts > li", ".article > .verdict",
+      ".content .smallnote",
+      ".controls",
+      ".board > .map-area", ".board > .bar-area", ".board > .chart-box", ".board > .side",
+      ".board > .stat-col > .stat",
+      ".sec > .map-note", ".notes > .note-card", ".page-note",
+      ".block > .b-head", ".block > .chart-box", ".block > .src-note", ".block > .sec-note",
+      ".block > .mini-grid > .mini", ".block > .prov-grid > a",
+      ".block > .dc-cap", ".block > .decline-grid", ".block > .tbl-scroll",
+      ".part > .part-head", ".part .list > .item", ".part > .stance", ".part > .ack", ".part > .contact",
+      "footer .foot-inner"
+    ];
+
+    var allWaiting = [];
+    var initialVisible = [];
+    var belowFold = [];
+    var registered = typeof WeakSet === "function" ? new WeakSet() : null;
+
+    function markSeen(el) {
+      if (registered) {
+        if (registered.has(el)) return false;
+        registered.add(el);
+        return true;
+      }
+      if (el.dataset && el.dataset.apBlockWait) return false;
+      if (el.dataset) el.dataset.apBlockWait = "1";
+      return true;
+    }
+
+    function isHiddenOrNested(el) {
+      if (el.closest(".nav, .tl-panel, .nav-veil, .da-loader")) return true;
+      if (el.hidden || el.style.display === "none") return true;
+      if (el.parentElement && el.parentElement.closest(".ap-anim-wait")) return true;
+      return false;
+    }
+
+    blockSelectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        if (isHiddenOrNested(el)) return;
+        var r = el.getBoundingClientRect();
+        /* 已向上滚出视口的旧内容保持可见，不重放以免回滚闪屏 */
+        if (r.bottom <= 4) return;
+        var isFirstHero = el.matches(".hero > h1, .head > h1, .head > .head-row, .sec-head");
+        if (r.height <= 0 && !isFirstHero) return;
+        if (!markSeen(el)) return;
+
+        el.classList.add("ap-anim-wait");
+        if (el.matches(fadeOnlySelector)) el.classList.add("ap-anim-fade");
+        var item = { el: el, revealed: false };
+        allWaiting.push(item);
+
+        if (r.top < vh * 0.96 || (atBottomInitial && r.top < vh)) {
+          initialVisible.push({ item: item, top: r.top, left: r.left });
+        } else {
+          belowFold.push(item);
+        }
+      });
+    });
+
+    function revealBatch(records) {
+      if (!records || !records.length) return;
+      var pending = records.filter(function (rec) {
+        if (!rec.item || rec.item.revealed) return false;
+        rec.item.revealed = true;
+        return true;
+      });
+      if (!pending.length) return;
+      var rows = groupAndOrderRows(pending);
+      var rowStart = 0;
+      rows.forEach(function (row) {
+        var isDenseGrid = row.length >= 3 && row[0].item.el.closest(".prov-grid");
+        var colStep = isDenseGrid ? 50 : 75;
+        var maxCap = isDenseGrid ? 520 : 540;
+        row.forEach(function (rec, colIdx) {
+          var el = rec.item.el;
+          var delayMs = Math.min(rowStart + colIdx * colStep, maxCap);
+          el.style.setProperty("--ap-delay", delayMs + "ms");
+          el.classList.add("ap-anim-in");
+          cleanupWait(el, delayMs);
+        });
+        rowStart += isDenseGrid ? 75 : (row.length === 1 ? 65 : Math.min(row.length * 52, 175));
+      });
+    }
+
+    function triggerInitial() {
+      if (!initialVisible.length) return;
+      void (document.body && document.body.offsetHeight);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          revealBatch(initialVisible);
+        });
+      });
+    }
+
+    /* 首屏元素触发：若存在首次进入全屏加载指示器，待其开始淡出后再依次显现首屏内容 */
+    var activeLoader = document.querySelector(".da-loader:not(.is-done)");
+    if (activeLoader && initialVisible.length) {
+      var initialFired = false;
+      var fireOnce = function () {
+        if (initialFired) return;
+        initialFired = true;
+        triggerInitial();
+      };
+      if (window.MutationObserver) {
+        var lmo = new MutationObserver(function () {
+          if (!document.body.contains(activeLoader) || activeLoader.classList.contains("is-done")) {
+            lmo.disconnect();
+            fireOnce();
+          }
+        });
+        lmo.observe(activeLoader, { attributes: true, attributeFilter: ["class"] });
+      }
+      setTimeout(fireOnce, 1800);
+    } else {
+      triggerInitial();
+    }
+
+    var ioReveal = null;
+    if ("IntersectionObserver" in window && belowFold.length) {
+      ioReveal = new IntersectionObserver(function (entries) {
+        var batch = [];
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          for (var i = 0; i < belowFold.length; i++) {
+            var item = belowFold[i];
+            if (!item.revealed && item.el === entry.target) {
+              batch.push({ item: item, top: entry.boundingClientRect.top, left: entry.boundingClientRect.left });
+              ioReveal.unobserve(entry.target);
+              break;
+            }
+          }
+        });
+        if (batch.length) {
+          requestAnimationFrame(function () { revealBatch(batch); });
+        }
+      }, { threshold: 0.01, rootMargin: "0px 0px -48px 0px" });
+
+      belowFold.forEach(function (item) { ioReveal.observe(item.el); });
+    } else {
+      belowFold.forEach(function (item) {
+        item.el.classList.remove("ap-anim-wait", "ap-anim-fade");
+        item.el.classList.add("ap-anim-done");
+        item.revealed = true;
+      });
+    }
+
+    revealFlushFn = function () {
+      var curH = window.innerHeight || vh;
+      var sy = window.scrollY || window.pageYOffset || 0;
+      var docH = document.documentElement ? document.documentElement.scrollHeight : 0;
+      var atBottom = docH > 0 && (sy + curH >= docH - 48);
+      var batch = [];
+      allWaiting.forEach(function (item) {
+        if (item.revealed) return;
+        if (item.el.hidden || item.el.style.display === "none") return;
+        var r = item.el.getBoundingClientRect();
+        if (atBottom || (r.height > 0 && r.top <= curH - 36)) {
+          batch.push({ item: item, top: r.top, left: r.left });
+          if (ioReveal) ioReveal.unobserve(item.el);
+        }
+      });
+      if (batch.length) {
+        requestAnimationFrame(function () { revealBatch(batch); });
+      }
+    };
+
+    var scrollRaf = 0;
+    function onScrollFrame() {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(function () {
+        scrollRaf = 0;
+        revealFlushFn();
+      });
+    }
+    window.addEventListener("scroll", onScrollFrame, { passive: true });
+    window.addEventListener("resize", function () {
+      vh = window.innerHeight || vh;
+      onScrollFrame();
+    }, { passive: true });
+    window.addEventListener("load", revealFlushFn);
+    window.addEventListener("hashchange", function () {
+      setTimeout(revealFlushFn, 60);
+    });
+    document.documentElement.classList.remove("ap-preload");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAppleContentMotion, { once: true });
+  } else {
+    initAppleContentMotion();
+  }
+  window.addEventListener("pageshow", function () {
+    revealFlushFn();
+    document.documentElement.classList.remove("ap-preload");
   });
 })();

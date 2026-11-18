@@ -111,9 +111,20 @@
 
 ### 7. [思想实验](https://demoarchive.net/thought-experiment/)
 
-<p align="center">
-  <a href="https://demoarchive.net/thought-experiment/#exp1"><img src="images/prisoners-dilemma.png" width="420" alt="少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育"><br><strong>《囚徒困境》博弈树 ›</strong></a>
-</p>
+<table align="center">
+  <tbody>
+    <tr>
+      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment/#exp1"><img src="images/prisoners-dilemma.png" width="260" alt="少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育"></a></td>
+      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment/#exp2"><img src="images/phd-and-mother.png" width="260" alt="《博士与母亲》关系图：博士 A 与母亲 B 在当下与三十年后的评价逆转与跨期结算"></a></td>
+      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment/#exp3"><img src="images/condom-paradox.png" width="260" alt="《核武器、毒品与避孕套》比较图：核武器因恐惧克制，毒品被集体禁绝，避孕套温和不可阻挡"></a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment/#exp1">《少子化的囚徒困境》 ›</a></strong></td>
+      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment/#exp2">《博士与母亲》 ›</a></strong></td>
+      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment/#exp3">《核武器、毒品与避孕套》 ›</a></strong></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 数据下载
 

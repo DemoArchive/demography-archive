@@ -247,7 +247,7 @@ button{font-family:var(--sans);}
   background:var(--ink);transform:translateX(-50%) rotate(45deg);border-radius:1.5px;
 }
 .term-hint:hover .tip,.term-hint:focus .tip{opacity:1;visibility:visible;transform:translate(-50%,0);}
-footer{border-top:1px solid var(--line);margin-top:26px;padding:30px 32px 44px;}
+footer{border-top:1px solid var(--line);margin-top:26px;padding:12px 32px;}
 .foot-inner{
   max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   font-size:11.5px;color:var(--faint);letter-spacing:normal;
