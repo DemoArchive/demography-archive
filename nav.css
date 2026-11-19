@@ -43,7 +43,7 @@ html{
 }
 .brand{
   flex:none;display:inline-flex;align-items:center;justify-content:center;
-  width:34px;height:34px;margin-left:-4px;border-radius:8px;
+  width:34px;height:34px;margin-left:.75px;border-radius:8px;
   text-decoration:none;transition:background-color .33s,opacity .25s;
 }
 .brand svg{width:26px;height:26px;display:block;}
@@ -406,9 +406,9 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .nav-github{margin-left:-5.5px;}
 }
 @media (min-width:1241px){
-  /* 左端品牌图标对齐 --page-max 外缘（与右侧 GitHub 图标对称）；
+  /* 右端 GitHub 图标挂到「其他」右侧（--page-max 外缘），左侧品牌图标左缘对齐内容左缘（32px）；
      末项内边距 8px：左边距 -16 = 抵消 flex 间距 16 + 末项内边距 8 的差值 */
-  .brand{margin-left:-31px;}
+  .brand{margin-left:.75px;}
   .nav-github{margin-left:-16px;margin-right:-34px;}
 }
 @media (min-width:1321px){
@@ -417,6 +417,7 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .nav-github{margin-left:-20px;}
 }
 @media (min-width:1441px){
+  .brand{margin-left:1.5px;}
   .brand svg{width:28px;height:28px;}
   .nav-links{gap:clamp(4px,5vw - 70px,32px);}
   .nav-links > a,.nav-drop > a{font-size:clamp(16px,.9vw,17.5px);}
@@ -437,6 +438,7 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 }
 @media (max-width:1240px){
   .nav-inner{gap:8px;padding:0 16px;}
+  .brand{margin-left:8.75px;}
   .nav-links > a,.nav-drop > a{font-size:14px;padding:0 6px;}
   .tp-inner{padding-top:20px;padding-bottom:24px;}
   .tp-body{gap:28px;}
@@ -447,14 +449,12 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .tp-groupwrap{gap:64px;}
   .tp-row{font-size:13px;padding:7px 10px;}
 }
-@media (max-width:960px){
-  .nav-inner{padding:0 14px;height:54px;}
-}
 /* —— 窄屏：顶栏保留前 3 项（纯文字、无底纹），其余收进汉堡面板（子目录手风琴） —— */
 @media (max-width:1080px){
   .menu.tl-panel{display:none;}
   .nav-burger{display:flex;}
   .nav-github{margin-left:auto;}
+  .brand{margin-left:8px;}
   .brand svg{width:24px;height:24px;}
   .nav-links{gap:2px;padding:0;border-radius:0;background:transparent;}
   .nav-links > a,.nav-drop > a{font-size:15px;padding:0 8px;height:auto;}
@@ -512,6 +512,10 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   }
   body.nav-open .menu a:active{background:#F5F5F7;color:#1D1D1F;}
 }
+@media (max-width:960px){
+  .nav-inner{padding:0 14px;height:54px;}
+  .brand{margin-left:-2px;}
+}
 @media (prefers-reduced-motion: reduce){
   body.nav-open .nav-links{animation:none;}
 }
@@ -524,7 +528,7 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 }
 @media (max-width:374px){
   .nav-inner{padding:0 8px;gap:8px;}
-  .brand{width:32px;height:32px;}
+  .brand{width:32px;height:32px;margin-left:4px;}
   .brand svg{width:22px;height:22px;}
   .nav-links > a,.nav-drop > a{font-size:11.5px;padding:0 6px;}
 }
