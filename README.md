@@ -18,128 +18,128 @@
 
 ## 网站内容
 
-### 1. [正在来临的危险](https://demoarchive.net/harms/)
+### 1. [正在来临的危险](https://demoarchive.net/harms.html)
 
 **出生人口减少对不同行业的冲击**
 
-- [幼儿园](https://demoarchive.net/harms/#s1)：「冲击已经发生，而且还没有触底」
-- [中学](https://demoarchive.net/harms/#s2)：「山顶就在眼前，山下是一道陡坡」
-- [高等教育](https://demoarchive.net/harms/#s3)：「当下的“巨大成就”，未来将毫无意义」
-- [日常消费品](https://demoarchive.net/harms/#s4)：「随消费者的消失一同消失」
-- [公务员、事业编](https://demoarchive.net/harms/#s5)：「服务对象都消失了，岗位存在的意义又在哪里呢」
-- [房地产及上下游](https://demoarchive.net/harms/#s6)：「2021年的下跌，只是风暴的预演」
-- [互联网巨头](https://demoarchive.net/harms/#s7)：「流量红利见顶之后，是存量萎缩」
-- [电力和医院](https://demoarchive.net/harms/#s8)：「可能是例外」
-- [未来正在到来](https://demoarchive.net/harms/#fin)：「行业规模将随出生人口一同收缩」
+- [幼儿园](https://demoarchive.net/harms.html#s1)：「冲击已经发生，而且还没有触底」
+- [中学](https://demoarchive.net/harms.html#s2)：「山顶就在眼前，山下是一道陡坡」
+- [高等教育](https://demoarchive.net/harms.html#s3)：「当下的“巨大成就”，未来将毫无意义」
+- [日常消费品](https://demoarchive.net/harms.html#s4)：「随消费者的消失一同消失」
+- [公务员、事业编](https://demoarchive.net/harms.html#s5)：「服务对象都消失了，岗位存在的意义又在哪里呢」
+- [房地产及上下游](https://demoarchive.net/harms.html#s6)：「2021年的下跌，只是风暴的预演」
+- [互联网巨头](https://demoarchive.net/harms.html#s7)：「流量红利见顶之后，是存量萎缩」
+- [电力和医院](https://demoarchive.net/harms.html#s8)：「可能是例外」
+- [未来正在到来](https://demoarchive.net/harms.html#fin)：「行业规模将随出生人口一同收缩」
 
-### 2. [各省生育地图](https://demoarchive.net/map/)
+### 2. [各省生育地图](https://demoarchive.net/map.html)
 
 <table>
   <tr>
-    <td align="center" valign="top"><a href="https://demoarchive.net/map/#decline"><img src="images/nav/map-decline.png" width="440" alt="近十年各省出生人口降幅排序地图"><br><strong>近十年各省出生人口降幅排序 ›</strong></a></td>
-    <td align="center" valign="top"><a href="https://demoarchive.net/map/#years"><img src="images/nav/map-years.png" width="440" alt="各省历年生育地图"><br><strong>各省历年生育地图 ›</strong></a></td>
+    <td align="center" valign="top"><a href="https://demoarchive.net/map.html#decline"><img src="images/nav/map-decline.png" width="440" alt="近十年各省出生人口降幅排序地图"><br><strong>近十年各省出生人口降幅排序 ›</strong></a></td>
+    <td align="center" valign="top"><a href="https://demoarchive.net/map.html#years"><img src="images/nav/map-years.png" width="440" alt="各省历年生育地图"><br><strong>各省历年生育地图 ›</strong></a></td>
   </tr>
 </table>
 
-### 3. [未来人口预测](https://demoarchive.net/forecast/)
+### 3. [未来人口预测](https://demoarchive.net/forecast.html)
 
 **2026\~2100 年**　高预测、中预测、低预测三种情景
 
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#pop"><img src="images/nav/fc-pop.svg" width="440" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a></td>
-      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#births"><img src="images/nav/fc-births.svg" width="440" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a></td>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast.html#pop"><img src="images/nav/fc-pop.svg" width="440" alt="2026~2100 年中国总人口高、中、低三种情景预测折线图"><br><strong>总人口预测 ›</strong></a></td>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast.html#births"><img src="images/nav/fc-births.svg" width="440" alt="2026~2100 年中国出生人口高、中、低三种情景预测折线图"><br><strong>出生人口预测 ›</strong></a></td>
     </tr>
   </tbody>
   <tbody>
     <tr>
-      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#death"><img src="images/nav/fc-death.svg" width="440" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a></td>
-      <td align="center" valign="top"><a href="https://demoarchive.net/forecast/#dec"><img src="images/nav/fc-dec.svg" width="440" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a></td>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast.html#death"><img src="images/nav/fc-death.svg" width="440" alt="2026~2100 年中国死亡人口高、中、低三种情景预测折线图"><br><strong>死亡人口预测 ›</strong></a></td>
+      <td align="center" valign="top"><a href="https://demoarchive.net/forecast.html#dec"><img src="images/nav/fc-dec.svg" width="440" alt="2026~2100 年中国年减少人数高、中、低三种情景预测折线图"><br><strong>年减少人数预测 ›</strong></a></td>
     </tr>
   </tbody>
 </table>
 
-### 4. [各国生育率与生育支持](https://demoarchive.net/world/)
+### 4. [各国生育率与生育支持](https://demoarchive.net/world.html)
 
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="bottom"><a href="https://demoarchive.net/world/#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"></a></td>
-      <td align="center" valign="bottom"><a href="https://demoarchive.net/world/#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"></a></td>
+      <td align="center" valign="bottom"><a href="https://demoarchive.net/world.html#tfr"><img src="images/home/preview-world-map.webp" width="440" alt="世界各国（总和）生育率地图，2024 年"></a></td>
+      <td align="center" valign="bottom"><a href="https://demoarchive.net/world.html#support"><img src="images/home/preview-spending.webp" width="440" alt="2022 年各国生育补贴支出比较"></a></td>
     </tr>
   </tbody>
   <tbody>
     <tr>
-      <td align="center"><strong><a href="https://demoarchive.net/world/#tfr">各国生育率 ›</a></strong></td>
-      <td align="center"><strong><a href="https://demoarchive.net/world/#support">各国生育补贴支出 ›</a></strong></td>
+      <td align="center"><strong><a href="https://demoarchive.net/world.html#tfr">各国生育率 ›</a></strong></td>
+      <td align="center"><strong><a href="https://demoarchive.net/world.html#support">各国生育补贴支出 ›</a></strong></td>
     </tr>
   </tbody>
 </table>
 
-### 5. [永恒的争论](https://demoarchive.net/debates/)
+### 5. [永恒的争论](https://demoarchive.net/debates.html)
 
 **围绕低生育率的主要争议**
 
-- [人口过多论](https://demoarchive.net/debates/#d1)：「中国人太多了，几亿人就够了」
-- [收缩红利论](https://demoarchive.net/debates/#d2)：「出生人口减少是好事」
-- [机器替代论](https://demoarchive.net/debates/#d3)：「未来AI和人形机器人会替代大部分工作」
-- [内卷降低论](https://demoarchive.net/debates/#d4)：「大家少生点，竞争就不卷了」
-- [少生优生论](https://demoarchive.net/debates/#d5)：「一个顶尖科学家顶一万个普通人」
-- [补贴无用论](https://demoarchive.net/debates/#d6)：「别的国家花了那么多钱也没用」
+- [人口过多论](https://demoarchive.net/debates.html#d1)：「中国人太多了，几亿人就够了」
+- [收缩红利论](https://demoarchive.net/debates.html#d2)：「出生人口减少是好事」
+- [机器替代论](https://demoarchive.net/debates.html#d3)：「未来AI和人形机器人会替代大部分工作」
+- [内卷降低论](https://demoarchive.net/debates.html#d4)：「大家少生点，竞争就不卷了」
+- [少生优生论](https://demoarchive.net/debates.html#d5)：「一个顶尖科学家顶一万个普通人」
+- [补贴无用论](https://demoarchive.net/debates.html#d6)：「别的国家花了那么多钱也没用」
 
-### 6. [各方观点](https://demoarchive.net/viewpoints/)
+### 6. [各方观点](https://demoarchive.net/viewpoints.html)
 
 **不同人物对低生育率的看法**
 
 <table>
   <tbody>
     <tr>
-      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p1"><img src="viewpoints/avatars/putin.jpg" width="120" alt="普京"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p1">普京</a></strong><br>俄罗斯</td>
-      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p2"><img src="viewpoints/avatars/lee-kuan-yew.jpg" width="120" alt="李光耀"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p2">李光耀</a></strong><br>新加坡</td>
-      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p3"><img src="viewpoints/avatars/musk.jpg" width="120" alt="马斯克"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p3">马斯克</a></strong><br>美国</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints.html#p1"><img src="viewpoints/avatars/putin.jpg" width="120" alt="普京"></a><br><strong><a href="https://demoarchive.net/viewpoints.html#p1">普京</a></strong><br>俄罗斯</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints.html#p2"><img src="viewpoints/avatars/lee-kuan-yew.jpg" width="120" alt="李光耀"></a><br><strong><a href="https://demoarchive.net/viewpoints.html#p2">李光耀</a></strong><br>新加坡</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints.html#p3"><img src="viewpoints/avatars/musk.jpg" width="120" alt="马斯克"></a><br><strong><a href="https://demoarchive.net/viewpoints.html#p3">马斯克</a></strong><br>美国</td>
     </tr>
   </tbody>
   <tbody>
     <tr>
-      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p4"><img src="viewpoints/avatars/lee-hsien-loong.jpg" width="120" alt="李显龙"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p4">李显龙</a></strong><br>新加坡</td>
-      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p5"><img src="viewpoints/avatars/liang-jianzhang.jpg" width="120" alt="梁建章"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p5">梁建章</a></strong><br>中国</td>
-      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints/#p6"><img src="viewpoints/avatars/huang-wenzheng.png" width="120" alt="黄文政"></a><br><strong><a href="https://demoarchive.net/viewpoints/#p6">黄文政</a></strong><br>中国</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints.html#p4"><img src="viewpoints/avatars/lee-hsien-loong.jpg" width="120" alt="李显龙"></a><br><strong><a href="https://demoarchive.net/viewpoints.html#p4">李显龙</a></strong><br>新加坡</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints.html#p5"><img src="viewpoints/avatars/liang-jianzhang.jpg" width="120" alt="梁建章"></a><br><strong><a href="https://demoarchive.net/viewpoints.html#p5">梁建章</a></strong><br>中国</td>
+      <td width="280" align="center" valign="top"><a href="https://demoarchive.net/viewpoints.html#p6"><img src="viewpoints/avatars/huang-wenzheng.png" width="120" alt="黄文政"></a><br><strong><a href="https://demoarchive.net/viewpoints.html#p6">黄文政</a></strong><br>中国</td>
     </tr>
   </tbody>
 </table>
 
-### 7. [思想实验](https://demoarchive.net/thought-experiment/)
+### 7. [思想实验](https://demoarchive.net/thought-experiment.html)
 
 <table align="center">
   <tbody>
     <tr>
-      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment/#exp1"><img src="images/prisoners-dilemma.png" width="260" alt="少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育"></a></td>
-      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment/#exp2"><img src="images/phd-and-mother.png" width="260" alt="《博士与母亲》关系图：博士 A 与母亲 B 在当下与三十年后的评价逆转与跨期结算"></a></td>
-      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment/#exp3"><img src="images/condom-paradox.png" width="260" alt="《核武器、毒品与避孕套》比较图：核武器因恐惧克制，毒品被集体禁绝，避孕套温和不可阻挡"></a></td>
+      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment.html#exp3"><img src="images/condom-paradox.png" width="260" alt="《核武器、毒品与避孕套》比较图：核武器因恐惧克制，毒品被集体禁绝，避孕套温和不可阻挡"></a></td>
+      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment.html#exp1"><img src="images/prisoners-dilemma.png" width="260" alt="少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育"></a></td>
+      <td width="280" align="center" valign="bottom"><a href="https://demoarchive.net/thought-experiment.html#exp2"><img src="images/phd-and-mother.png" width="260" alt="《博士与母亲》关系图：博士 A 与母亲 B 在当下与三十年后的评价逆转与跨期结算"></a></td>
     </tr>
     <tr>
-      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment/#exp1">《少子化的囚徒困境》 ›</a></strong></td>
-      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment/#exp2">《博士与母亲》 ›</a></strong></td>
-      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment/#exp3">《核武器、毒品与避孕套》 ›</a></strong></td>
+      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment.html#exp3">《核武器、毒品与避孕套》 ›</a></strong></td>
+      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment.html#exp1">《少子化的囚徒困境》 ›</a></strong></td>
+      <td align="center" valign="top"><strong><a href="https://demoarchive.net/thought-experiment.html#exp2">《博士与母亲》 ›</a></strong></td>
     </tr>
   </tbody>
 </table>
 
 ## 数据下载
 
-全部文件位于仓库 `data/` 目录，也可在[数据中心](https://demoarchive.net/datacenter/)逐项下载。
+全部文件位于仓库 `data/` 目录，也可在[数据中心](https://demoarchive.net/datacenter.html)逐项下载。
 
 | # | 数据组 | 文件 | 内容与说明 |
 | :---: | --- | --- | --- |
-| 1 | **[全国历年出生人口](https://demoarchive.net/datacenter/#secNat)** | [`nbs-national-data.xlsx`](data/nbs-national-data.xlsx)<br>[`yuwa-births-backcast.xlsx`](data/yuwa-births-backcast.xlsx) | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
-| 2 | **[七普回溯出生人口](https://demoarchive.net/datacenter/#secCensus)** | [`population-census-2020.xlsx`](data/population-census-2020.xlsx) | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
-| 3 | **[各年代年均出生人口](https://demoarchive.net/datacenter/#secDec)** | [`avg-births-by-decade.xlsx`](data/avg-births-by-decade.xlsx) | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
-| 4 | **[未来人口预测](https://demoarchive.net/datacenter/#secFc)** | [`forecast-all.xlsx`](data/forecast-all.xlsx)<br>[`forecast-population.xlsx`](data/forecast-population.xlsx)<br>[`forecast-births.xlsx`](data/forecast-births.xlsx)<br>[`forecast-deaths.xlsx`](data/forecast-deaths.xlsx)<br>[`forecast-decrease.xlsx`](data/forecast-decrease.xlsx) | 2026\~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
-| 5 | **[各省历年出生数据](https://demoarchive.net/datacenter/#secProv)** | [`provinces/*.xlsx`](data/provinces/)（34 份） | 34 个省级行政区历年出生人口及出生率数据。详细信息见[下表](#各省历年出生数据下载)。 |
-| 6 | **[各省出生人口下降幅度](https://demoarchive.net/datacenter/#secDecline)** | [`provincial-births-decline-2016-2025.xlsx`](data/provincial-births-decline-2016-2025.xlsx) | 各省 2016 与 2025 年出生人口及降幅（%）。 |
-| 7 | **[各国生育率](https://demoarchive.net/datacenter/#secWorld)** | [`wdi-tfr-by-country.xlsx`](data/wdi-tfr-by-country.xlsx) | 世界银行 WDI，1960\~2024 年各国（总和）生育率。 |
-| 8 | **[各国生育补贴支出](https://demoarchive.net/datacenter/#secSupport)** | [`public-family-spending-by-type-gdp-pct.xlsx`](data/public-family-spending-by-type-gdp-pct.xlsx) | OECD SOCX，2010\~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
+| 1 | **[全国历年出生人口](https://demoarchive.net/datacenter.html#secNat)** | [`nbs-national-data.xlsx`](data/nbs-national-data.xlsx)<br>[`yuwa-births-backcast.xlsx`](data/yuwa-births-backcast.xlsx) | 全国历年出生人口、出生率、年末总人口；国家统计局与育娲人口智库两套口径并列，便于对照。起始年份与口径见文件内说明。 |
+| 2 | **[七普回溯出生人口](https://demoarchive.net/datacenter.html#secCensus)** | [`population-census-2020.xlsx`](data/population-census-2020.xlsx) | 依据 2020 年第七次全国人口普查分年龄人口，回溯“当年出生、2020 年仍健在”的人数。 |
+| 3 | **[各年代年均出生人口](https://demoarchive.net/datacenter.html#secDec)** | [`avg-births-by-decade.xlsx`](data/avg-births-by-decade.xlsx) | 上世纪 50 年代以来各年代出生人口年均值；2025 年为当年出生人口。 |
+| 4 | **[未来人口预测](https://demoarchive.net/datacenter.html#secFc)** | [`forecast-all.xlsx`](data/forecast-all.xlsx)<br>[`forecast-population.xlsx`](data/forecast-population.xlsx)<br>[`forecast-births.xlsx`](data/forecast-births.xlsx)<br>[`forecast-deaths.xlsx`](data/forecast-deaths.xlsx)<br>[`forecast-decrease.xlsx`](data/forecast-decrease.xlsx) | 2026\~2100 年高、中、低三情景（总和生育率 1.3 / 1.0 / 0.8）；`forecast-all` 为完整数据，其余四份分别为总人口、出生人口、死亡人口、年减少人数，单位万人。 |
+| 5 | **[各省历年出生数据](https://demoarchive.net/datacenter.html#secProv)** | [`provinces/*.xlsx`](data/provinces/)（34 份） | 34 个省级行政区历年出生人口及出生率数据。详细信息见[下表](#各省历年出生数据下载)。 |
+| 6 | **[各省出生人口下降幅度](https://demoarchive.net/datacenter.html#secDecline)** | [`provincial-births-decline-2016-2025.xlsx`](data/provincial-births-decline-2016-2025.xlsx) | 各省 2016 与 2025 年出生人口及降幅（%）。 |
+| 7 | **[各国生育率](https://demoarchive.net/datacenter.html#secWorld)** | [`wdi-tfr-by-country.xlsx`](data/wdi-tfr-by-country.xlsx) | 世界银行 WDI，1960\~2024 年各国（总和）生育率。 |
+| 8 | **[各国生育补贴支出](https://demoarchive.net/datacenter.html#secSupport)** | [`public-family-spending-by-type-gdp-pct.xlsx`](data/public-family-spending-by-type-gdp-pct.xlsx) | OECD SOCX，2010\~2023 年各国家庭公共支出（现金及实物）占 GDP 比重。 |
 
 ### 各省历年出生数据下载
 

@@ -540,7 +540,7 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 :root{
   --ap-ease-enter:cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-html.ap-preload body > :not(.nav):not(.nav-veil):not(.tl-panel):not(.da-loader){
+html.ap-preload body > :not(.nav):not(.nav-veil):not(.tl-panel):not(.da-loader):not(.fn-popover){
   opacity:0 !important;
 }
 .ap-anim-wait{
@@ -576,4 +576,144 @@ html.ap-preload body > :not(.nav):not(.nav-veil):not(.tl-panel):not(.da-loader){
     animation:none !important;
     transition:none !important;
   }
+}
+
+/* ============================================================
+   统一角标与点击浮层（thought-experiment / harms 等正文页共用）
+   ============================================================ */
+sup:has(.fn-ref),
+.article sup{
+  font-size:11px;
+  line-height:0;
+  vertical-align:super;
+  margin:0 1.5px;
+}
+.fn-ref{
+  display:inline;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:11px;
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+  padding:1px 2px;
+  border-radius:3px;
+  color:var(--muted,#6E6E73);
+  background:transparent;
+  border:none;
+  text-decoration:none;
+  cursor:pointer;
+  vertical-align:baseline;
+  -webkit-tap-highlight-color:transparent;
+  transition:color .18s ease,background-color .18s ease;
+}
+@media (hover:hover){
+  .fn-ref:hover{
+    color:#0071E3;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+}
+.fn-ref:focus-visible{
+  outline:2px solid #0071E3;
+  outline-offset:1px;
+}
+.fn-ref.is-open,
+.fn-ref[aria-expanded="true"]{
+  color:#0071E3;
+  background:rgba(0,113,227,.1);
+}
+.fn-popover{
+  position:fixed;
+  z-index:80;
+  width:min(360px,calc(100vw - 24px));
+  background:rgba(255,255,255,.94);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(0,0,0,.09);
+  border-radius:14px;
+  box-shadow:0 16px 40px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.04);
+  padding:13px 15px 14px;
+  color:#1D1D1F;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(6px) scale(.98);
+  transition:opacity .2s cubic-bezier(.32,.72,0,1),transform .22s cubic-bezier(.32,.72,0,1),visibility .2s;
+  pointer-events:none;
+}
+.fn-popover[data-pos="bottom"]{
+  transform:translateY(-6px) scale(.98);
+}
+.fn-popover.is-open{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+.fn-pop-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+}
+.fn-pop-badge{
+  font-size:11.5px;
+  font-weight:600;
+  color:#0071E3;
+  letter-spacing:.02em;
+  font-variant-numeric:tabular-nums;
+}
+.fn-pop-close{
+  width:22px;
+  height:22px;
+  border:none;
+  border-radius:50%;
+  background:rgba(0,0,0,.05);
+  color:#6E6E73;
+  font-size:15px;
+  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:background-color .18s ease,color .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+@media (hover:hover){
+  .fn-pop-close:hover{background:rgba(0,0,0,.1);color:#1D1D1F;}
+}
+.fn-pop-close:focus-visible{outline:2px solid #0071E3;outline-offset:1px;}
+.fn-pop-body{
+  font-size:13px;
+  line-height:1.75;
+  color:#424245;
+  word-break:break-word;
+}
+.fn-pop-body a{
+  color:#0071E3;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.fn-pop-body a:hover{opacity:.85;}
+.fn-pop-arrow{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background:rgba(255,255,255,.96);
+  transform:rotate(45deg);
+  pointer-events:none;
+}
+.fn-popover[data-pos="top"] .fn-pop-arrow{
+  bottom:-5px;
+  border-right:1px solid rgba(0,0,0,.09);
+  border-bottom:1px solid rgba(0,0,0,.09);
+}
+.fn-popover[data-pos="bottom"] .fn-pop-arrow{
+  top:-5px;
+  border-left:1px solid rgba(0,0,0,.09);
+  border-top:1px solid rgba(0,0,0,.09);
+}
+@media (prefers-reduced-motion: reduce){
+  .fn-ref,.fn-popover{transition:none;}
 }

@@ -255,9 +255,9 @@
       listTitle: "三个思想实验",
       /* 三张作品卡：统一采用白底三角结构图谱 */
       cards: [
+        { hash: "#exp3", src: "images/condom-paradox.png", label: "核武器、毒品与避孕套", alt: "《核武器、毒品与避孕套》比较图：核武器因恐惧克制，毒品被集体禁绝，避孕套温和不可阻挡" },
         { hash: "#exp1", src: "images/prisoners-dilemma.png", label: "少子化的囚徒困境", alt: "少子化的囚徒困境博弈树：双方生育是社会最优，个体理性导致都不生育" },
-        { hash: "#exp2", src: "images/phd-and-mother.png", label: "博士与母亲", alt: "《博士与母亲》关系图：博士 A 与母亲 B 在当下与三十年后的评价逆转与跨期结算" },
-        { hash: "#exp3", src: "images/condom-paradox.png", label: "核武器、毒品与避孕套", alt: "《核武器、毒品与避孕套》比较图：核武器因恐惧克制，毒品被集体禁绝，避孕套温和不可阻挡" }
+        { hash: "#exp2", src: "images/phd-and-mother.png", label: "博士与母亲", alt: "《博士与母亲》关系图：博士 A 与母亲 B 在当下与三十年后的评价逆转与跨期结算" }
       ]
     },
     "datacenter.html": {
@@ -1032,4 +1032,184 @@
     revealFlushFn();
     document.documentElement.classList.remove("ap-preload");
   });
+})();
+
+/* ============================================================
+   统一角标点击浮层（点击 [1]/[2]/[3] 就地显示注释，不再跳转到页底）
+   ============================================================ */
+(function () {
+  "use strict";
+  var pop = null;
+  var badgeEl = null;
+  var bodyEl = null;
+  var arrowEl = null;
+  var activeTrigger = null;
+
+  function ensurePopover() {
+    if (pop) return pop;
+    pop = document.createElement("div");
+    pop.className = "fn-popover";
+    pop.setAttribute("role", "dialog");
+    pop.setAttribute("aria-modal", "false");
+    pop.setAttribute("aria-label", "注释内容");
+    pop.innerHTML =
+      '<div class="fn-pop-arrow" aria-hidden="true"></div>' +
+      '<div class="fn-pop-head">' +
+        '<span class="fn-pop-badge"></span>' +
+        '<button type="button" class="fn-pop-close" aria-label="关闭注释">&times;</button>' +
+      '</div>' +
+      '<div class="fn-pop-body"></div>';
+    document.body.appendChild(pop);
+    badgeEl = pop.querySelector(".fn-pop-badge");
+    bodyEl = pop.querySelector(".fn-pop-body");
+    arrowEl = pop.querySelector(".fn-pop-arrow");
+    pop.querySelector(".fn-pop-close").addEventListener("click", function () {
+      var prev = activeTrigger;
+      closePopover();
+      if (prev && typeof prev.focus === "function") prev.focus();
+    });
+    return pop;
+  }
+
+  function closePopover() {
+    if (!pop) return;
+    pop.classList.remove("is-open");
+    if (activeTrigger) {
+      activeTrigger.classList.remove("is-open");
+      activeTrigger.setAttribute("aria-expanded", "false");
+      activeTrigger = null;
+    }
+  }
+
+  function positionPopover() {
+    if (!pop || !activeTrigger) return;
+    var rect = activeTrigger.getBoundingClientRect();
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var nav = document.querySelector(".nav");
+    var navBottom = nav ? nav.getBoundingClientRect().bottom : 60;
+
+    if (rect.bottom < Math.max(navBottom, 0) || rect.top > vh) {
+      closePopover();
+      return;
+    }
+
+    var popW = pop.offsetWidth;
+    var popH = pop.offsetHeight;
+    var margin = 12;
+    var gap = 10;
+    var centerX = rect.left + rect.width / 2;
+    var left = Math.max(margin, Math.min(centerX - popW / 2, vw - popW - margin));
+
+    var minTop = Math.max(navBottom, 0) + 8;
+    var spaceAbove = rect.top - gap - minTop;
+    var spaceBelow = vh - rect.bottom - gap - 8;
+
+    var pos = "top";
+    var top = rect.top - popH - gap;
+    if (spaceAbove < popH && spaceBelow >= spaceAbove) {
+      pos = "bottom";
+      top = rect.bottom + gap;
+    }
+    top = Math.max(8, Math.min(top, vh - popH - 8));
+
+    pop.setAttribute("data-pos", pos);
+    pop.style.left = Math.round(left) + "px";
+    pop.style.top = Math.round(top) + "px";
+
+    var arrowLeft = Math.max(14, Math.min(centerX - left - 5, popW - 24));
+    arrowEl.style.left = Math.round(arrowLeft) + "px";
+  }
+
+  function resolveNote(trigger) {
+    var fnId = trigger.getAttribute("data-fn") || "";
+    if (!fnId) {
+      var href = trigger.getAttribute("href") || "";
+      if (href.charAt(0) === "#") fnId = href.slice(1);
+    }
+    var label = trigger.textContent.trim();
+    var html = "";
+    var noteEl = fnId ? document.getElementById(fnId) : null;
+    if (noteEl) {
+      var kids = noteEl.children;
+      if (kids && kids.length >= 2) {
+        label = kids[0].textContent.trim() || label;
+        html = kids[1].innerHTML;
+      } else {
+        html = noteEl.innerHTML;
+      }
+    } else if (trigger.getAttribute("data-note")) {
+      html = trigger.getAttribute("data-note");
+    }
+    return { label: label, html: html };
+  }
+
+  function openPopover(trigger) {
+    var note = resolveNote(trigger);
+    if (!note.html) return;
+    ensurePopover();
+    if (activeTrigger && activeTrigger !== trigger) {
+      activeTrigger.classList.remove("is-open");
+      activeTrigger.setAttribute("aria-expanded", "false");
+    }
+    activeTrigger = trigger;
+    trigger.classList.add("is-open");
+    trigger.setAttribute("aria-expanded", "true");
+    badgeEl.textContent = "注释 " + note.label;
+    bodyEl.innerHTML = note.html;
+    pop.classList.remove("is-open");
+    positionPopover();
+    requestAnimationFrame(function () {
+      if (activeTrigger === trigger) {
+        positionPopover();
+        pop.classList.add("is-open");
+      }
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    var trigger = e.target && e.target.closest ? e.target.closest(".fn-ref") : null;
+    if (trigger) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (activeTrigger === trigger && pop && pop.classList.contains("is-open")) {
+        closePopover();
+      } else {
+        openPopover(trigger);
+      }
+      return;
+    }
+    if (pop && pop.classList.contains("is-open")) {
+      if (!e.target.closest || !e.target.closest(".fn-popover")) {
+        closePopover();
+      }
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    var trigger = e.target && e.target.closest ? e.target.closest(".fn-ref") : null;
+    if (trigger && e.key === " ") {
+      e.preventDefault();
+      trigger.click();
+      return;
+    }
+    if (e.key === "Escape" && pop && pop.classList.contains("is-open")) {
+      var prev = activeTrigger;
+      closePopover();
+      if (prev && typeof prev.focus === "function") prev.focus();
+    }
+  });
+
+  var posRaf = 0;
+  function scheduleReposition() {
+    if (!pop || !pop.classList.contains("is-open") || !activeTrigger) return;
+    if (posRaf) return;
+    posRaf = requestAnimationFrame(function () {
+      posRaf = 0;
+      positionPopover();
+    });
+  }
+  window.addEventListener("scroll", scheduleReposition, { passive: true });
+  window.addEventListener("resize", scheduleReposition, { passive: true });
 })();

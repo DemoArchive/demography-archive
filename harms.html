@@ -87,7 +87,6 @@
     content:"";position:absolute;left:0;top:0;
     width:28px;height:2.5px;border-radius:1.5px;background:var(--accent);
   }
-  .article sup{font-size:11px;line-height:1;margin:0 1px;}
   .article h2{
     font-family:var(--serif);font-weight:600;color:var(--ink);
     font-size:clamp(21px,2.5vw,26px);letter-spacing:-.018em;line-height:1.45;
@@ -105,7 +104,7 @@
   .smallnote ul{list-style:none;}
   .smallnote li a{font-size:11px;color:var(--accent);text-decoration:underline;text-underline-offset:3px;margin-left:8px;}
   .smallnote li{padding:2px 0;}
-  .smallnote .note{display:grid;grid-template-columns:auto 1fr;column-gap:.3em;}
+  .smallnote .note{display:grid;grid-template-columns:auto 1fr;column-gap:.4em;margin-bottom:4px;}
   footer{border-top:1px solid var(--line);background:var(--bg-elevated);margin-top:40px;padding:12px 32px;}
   .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;font-size:12px;color:var(--faint);letter-spacing:normal;}
   .foot-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
@@ -187,7 +186,7 @@
     .content .article h2[id] ~ p{padding-left:22px;}
   }
 </style>
-  <link rel="stylesheet" href="nav.css?v=63">
+  <link rel="stylesheet" href="nav.css?v=65">
 <script>(function(d){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("ap-preload");setTimeout(function(){d.classList.remove("ap-preload");},4000);})(document.documentElement);</script>
 </head>
 <body>
@@ -324,9 +323,9 @@
       <div class="nav-drop">
         <a href="thought-experiment.html">思想实验</a>
         <div class="menu">
+          <a href="thought-experiment.html#exp3">《核武器、毒品与避孕套》</a>
           <a href="thought-experiment.html#exp1">《少子化的囚徒困境》</a>
           <a href="thought-experiment.html#exp2">《博士与母亲》</a>
-          <a href="thought-experiment.html#exp3">《核武器、毒品与避孕套》</a>
         </div>
       </div>
       <div class="nav-drop">
@@ -384,7 +383,7 @@
       <div class="content">
 <main class="article" id="art-top">
   <p><b>所有不具备海外市场的行业，规模减半只是时间问题，并且，不需要等到下一代人。</b></p>
-  <p>2016年，中国出生1883万人<sup>[1]</sup>；2025年，只剩792万人。十年间断崖式下跌57.9%，是1949年以来的最低值。</p>
+  <p>2016年，中国出生1883万人<sup><a class="fn-ref" href="#fn1" data-fn="fn1" role="button" aria-expanded="false">[1]</a></sup>；2025年，只剩792万人。十年间断崖式下跌57.9%，是1949年以来的最低值。</p>
   <p>每一个新生儿，都是一长串消费与服务的起点：先是奶粉、托育、幼儿园，然后是小学、中学、大学，再往后是就业、结婚、买房、养老。人口的缩减不会一次到位，而是沿着年龄阶梯逐级向上传导：幼儿园已经到了，小学在校人数已经于2023年见顶，初中、高中、高等教育学龄人口将分别于2026年、2029年和2032年相继触顶。每一级台阶上，都有一批行业在排队等待。</p>
 
   <h2 id="s1">1. 幼儿园：冲击已经发生，而且还没有触底</h2>
@@ -404,7 +403,7 @@
   <p>许多中小城市，以及许多行业，都将快速收缩，带有服务属性的公务员和事业编，也不可能独善其身：例如事业编里占比最大的教师岗位，就与学生人数直接挂钩。更要紧的是，留下来的人，收入也会下降：城市收缩，财政收入必然减少，而其中很大一部分，还要用于社会养老（以上海为例，2025年末，上海户籍人口1556万，其中60岁及以上老年人口584万，占比37.6%，也就是说，每8个上海人里，就有3个老人。不需要太久，每2个上海人中，就会有1个老年人）。因此，无论是烟草职工、事业编还是公务员，都不是能够一劳永逸、安享稳定的“铁饭碗”。无论过去、现在还是可预见的未来，世上从来不存在真正的“铁饭碗”。</p>
 
   <h2 id="s6">6. 房地产及上下游：2021年的下跌，只是风暴的预演</h2>
-  <p>国内房地产几乎没有外国买家，需求的源头是一个又一个新家庭的诞生。住房需求的主力，是30岁上下的首次置业人群。1980年代末出生的一代人，是中国出生人口最多的一代，每年约2300万至2500万。他们在2016年至2021年前后，集中走到了置业的年龄，托起了那一轮房地产的繁荣。而接棒的，是1990年代出生的人群：年出生人口已降到2000万上下，并逐年减少<sup>[2]</sup>。到了2021年前后，购房人群的规模，从扩张转入收缩，房地产失去了最大的需求支撑。此后总人口连年下降，房地产也一路下行。这仅仅只是预演：出生人口减半的影响，会在十余年之后，随着这一代人进入置业年龄，才真正到来。</p>
+  <p>国内房地产几乎没有外国买家，需求的源头是一个又一个新家庭的诞生。住房需求的主力，是30岁上下的首次置业人群。1980年代末出生的一代人，是中国出生人口最多的一代，每年约2300万至2500万。他们在2016年至2021年前后，集中走到了置业的年龄，托起了那一轮房地产的繁荣。而接棒的，是1990年代出生的人群：年出生人口已降到2000万上下，并逐年减少<sup><a class="fn-ref" href="#fn2" data-fn="fn2" role="button" aria-expanded="false">[2]</a></sup>。到了2021年前后，购房人群的规模，从扩张转入收缩，房地产失去了最大的需求支撑。此后总人口连年下降，房地产也一路下行。这仅仅只是预演：出生人口减半的影响，会在十余年之后，随着这一代人进入置业年龄，才真正到来。</p>
 
   <h2 id="s7">7. 互联网巨头：流量红利见顶之后，是存量萎缩</h2>
   <p>腾讯、阿里、京东等用户主要集中在国内的互联网巨头，增长的故事早已讲到尽头，接下来要面对的，是用户数的逐年衰减。更麻烦的是，企业减少的不只是用户总数，还有消费群体：年轻人，恰恰是游戏、短视频和电商的核心消费者。因此，未来年轻人的大量减少，势必对这类公司的规模和全球竞争能力，带来巨大冲击。</p>
@@ -418,8 +417,9 @@
 </main>
 
 <div class="smallnote">
-  <p class="note"><span>注：[1]</span>受统计口径差异影响，2016年出生人口数据存在多种版本（如1883万、1786万等）。本文采用国家统计局发布的1883万这一数据。</p>
-  <p class="note"><span style="padding-left:2em">[2]</span>国家统计局数据1990~1999年，年平均出生人口约2097万；但是2020年全国第七次人口普查，同一时间段的出生人口「21~30岁的人数」，平均每年只有1782万人。</p>
+  <h3>注释</h3>
+  <p class="note" id="fn1"><span>[1]</span><span>受统计口径差异影响，2016年出生人口数据存在多种版本（如1883万、1786万等）。本文采用国家统计局发布的1883万这一数据。</span></p>
+  <p class="note" id="fn2"><span>[2]</span><span>国家统计局数据1990~1999年，年平均出生人口约2097万；但是2020年全国第七次人口普查，同一时间段的出生人口「21~30岁的人数」，平均每年只有1782万人。</span></p>
   <h3>文章部分数据来源</h3>
   <ul>
     <li>2025年出生人口创新低（新浪财经）<a href="https://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/822566019858/index.phtml" target="_blank" rel="noopener">原文链接</a></li>
@@ -548,6 +548,6 @@
   update();
 })();
 </script>
-  <script src="nav.js?v=49"></script>
+  <script src="nav.js?v=50"></script>
 </body>
 </html>
