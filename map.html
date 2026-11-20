@@ -6,8 +6,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>各省生育地图 - 人口档案馆</title>
 <meta name="description" content="近十年（2016~2025）各省出生人口降幅排序，以及中国分省出生人口与出生率地图（1949~2025）。">
+<meta name="keywords" content="各省生育地图,各省出生人口,出生人口降幅,分省出生率,人口地图,中国人口数据,人口档案馆">
+<meta name="author" content="人口档案馆 (Demography Archive)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://demoarchive.net/map.html">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://demoarchive.net/sitemap.xml">
+<link rel="alternate" type="text/markdown" title="LLMs.txt" href="https://demoarchive.net/llms.txt">
+<meta itemprop="name" content="各省生育地图 - 人口档案馆">
+<meta itemprop="description" content="近十年（2016~2025）各省出生人口降幅排序，以及中国分省出生人口与出生率地图（1949~2025）。">
+<meta itemprop="image" content="https://demoarchive.net/images/nav/map-decline.png">
+<meta property="og:site_name" content="人口档案馆">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:title" content="各省生育地图 - 人口档案馆">
+<meta property="og:description" content="近十年（2016~2025）中国 34 个省级行政区出生人口降幅排序，以及 1949~2025 年分省出生人口与出生率交互地图。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://demoarchive.net/map.html">
+<meta property="og:image" content="https://demoarchive.net/images/nav/map-decline.png">
+<meta property="og:image:alt" content="近十年各省出生人口降幅排序地图 - 人口档案馆">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dataset",
+      "@id": "https://demoarchive.net/map.html#dataset",
+      "name": "中国各省历年出生人口与近十年降幅数据集（1949~2025）",
+      "description": "近十年（2016~2025）各省出生人口降幅排序，以及 1949~2025 年中国 34 个省级行政区出生人口与出生率数据。",
+      "url": "https://demoarchive.net/map.html",
+      "inLanguage": "zh-CN",
+      "temporalCoverage": "1949/2025",
+      "spatialCoverage": "China",
+      "creator": {
+        "@type": "Organization",
+        "name": "人口档案馆",
+        "url": "https://demoarchive.net/"
+      },
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "contentUrl": "https://demoarchive.net/data/provincial-births-decline-2016-2025.xlsx"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://demoarchive.net/" },
+        { "@type": "ListItem", "position": 2, "name": "各省生育地图", "item": "https://demoarchive.net/map.html" }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16.2 5.0 C15.2 14.2 11.4 20.8 5.6 26.2' stroke='%231D1D1F' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M18.2 17.2 C19.1 19.1 20.2 20.6 21.5 22.0' stroke='%230071E3' stroke-width='3.0' stroke-linecap='round'/%3E%3Ccircle cx='25.8' cy='25.8' r='2.2' fill='%23E13D3D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.loli.net">
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
@@ -39,7 +90,7 @@
   de.style.visibility = "hidden";
 })();
 </script>
-<link rel="stylesheet" href="map/map.css?v=29">
+<link rel="stylesheet" href="map/map.css?v=30">
   <link rel="stylesheet" href="nav.css?v=65">
 <script>(function(d){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("ap-preload");setTimeout(function(){d.classList.remove("ap-preload");},4000);})(document.documentElement);</script>
 </head>
@@ -218,6 +269,7 @@
 </nav>
 
 <main>
+<h1 class="sr-only">各省生育地图</h1>
 
 <!-- ================= 一、近十年各省出生人口降幅排序 ================= -->
 <section class="sec" id="decline">

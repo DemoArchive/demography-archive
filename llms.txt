@@ -1,0 +1,49 @@
+# 人口档案馆（Demography Archive）
+
+> 经济可以上行，也可以下行，但从长远来看，人口决定命运。
+> 「人口档案馆」是一个专注于中国与全球人口趋势的开源数据与思想档案库，通过数据图表、交互式地图、人口预测模型与专题文字，记录出生人口、生育率及未来人口推演，并整理围绕低生育率的主要争论、各方代表性观点与思想实验。本站不评判任何个体的生育选择，也无意为任何人做出选择。
+
+- **网站主页**: https://demoarchive.net/
+- **开源仓库**: https://github.com/DemoArchive/demography-archive
+- **完整知识文档**: https://demoarchive.net/llms-full.txt
+- **站点地图**: https://demoarchive.net/sitemap.xml
+- **内容许可**: 代码采用 MIT License；本站文字、图表与页面设计允许自由转载（© 2026 人口档案馆）；第三方原始数据遵循各自来源机构条款。
+
+## 核心页面导航
+
+- [首页 · 正在缩小的起点](https://demoarchive.net/): 生育时钟对比（1963 年历史峰值每分钟 56 人 / 2975 万，2016 年全面二孩每分钟 36 人 / 1883 万，2025 年历史新低每分钟 15 人 / 792 万）、1949~2025 年中国出生人口演变长卷（`#story`），以及全站核心板块概览。
+- [正在来临的危险](https://demoarchive.net/harms.html): 系统分析出生人口锐减如何沿年龄阶梯逐级传导至幼儿园（`#s1`）、中学（`#s2`）、高等教育（`#s3`）、日常消费品（`#s4`）、公务员与事业编（`#s5`）、房地产及上下游（`#s6`）、互联网巨头（`#s7`）、电力与医院（`#s8`）及各国内市场行业（`#fin`）。
+- [各省生育地图](https://demoarchive.net/map.html): 2016~2025 年近十年中国各省出生人口降幅排序地图与完整数据表（`#decline`、`#d-table`），以及 1949~2025 年 34 个省级行政区历年出生人口与出生率交互地图（`#years`）。
+- [未来人口预测](https://demoarchive.net/forecast.html): 基于队列要素法（Cohort-Component Method）的 2026~2100 年中国人口预测交互看板，涵盖总人口（`#pop`）、出生人口（`#births`）、死亡人口（`#death`）与年减少人数（`#dec`），包含高（TFR 1.3）、中（TFR 1.0）、低（TFR 0.8）三种情景与自定义生育率推算，并附完整数学模型说明。
+- [各国生育率与生育支持](https://demoarchive.net/world.html): 世界银行 WDI 口径下 1960~2024 年全球 215 个国家和地区总和生育率（TFR）演变地图（`#tfr`），以及 OECD SOCX 口径下 2010~2023 年各国家庭公共支出占 GDP 比重对比与排名（`#support`、`#sp-table`）。
+- [永恒的争论](https://demoarchive.net/debates.html): 拆解围绕低生育率的六大常见论调与事实回应——人口过多论（`#d1`）、收缩红利论（`#d2`）、机器替代论（`#d3`）、内卷降低论（`#d4`）、少生优生论（`#d5`）、补贴无用论（`#d6`）。
+- [各方观点](https://demoarchive.net/viewpoints.html): 收录普京（`#p1`）、李光耀（`#p2`）、马斯克（`#p3`）、李显龙（`#p4`）、梁建章（`#p5`）、黄文政（`#p6`）关于人口与低生育率问题的公开表述，共 74 条，按时间倒序排列并附原文出处链接。
+- [思想实验](https://demoarchive.net/thought-experiment.html): 三场关于人口与文明演化的思想实验——《核武器、毒品与避孕套》（`#exp3`）、《少子化的囚徒困境》（`#exp1`）与《博士与母亲》（`#exp2`）。
+- [数据中心](https://demoarchive.net/datacenter.html): 全站 8 组核心数据集在线可视化与 `.xlsx` 原始表格一键下载（涵盖全国、七普回溯、年代均值、未来预测、34 省历年数据、各省十年降幅、世界生育率、OECD 生育补贴支出）。
+- [概念解释与关于本站](https://demoarchive.net/other.html): 8 个核心人口统计概念解释（总人口、出生人口、出生率、总和生育率、出生率与生育率差异、世代更替水平 2.1、老龄化与少子化、婴儿潮与回声潮，见 `#concept`），以及本站立场、数据来源致谢与联系方式（`#about`、`#contact`）。
+
+## 开放数据集（`.xlsx` 直接下载）
+
+- [全国历年出生人口（国家统计局 1949~2025）](https://demoarchive.net/data/nbs-national-data.xlsx): 全国年末总人口、出生率与出生人口。
+- [中国百年出生人口回溯（育娲人口智库）](https://demoarchive.net/data/yuwa-births-backcast.xlsx): 育娲人口智库口径的历史出生人口回溯数据。
+- [七普回溯出生人口（2020 年第七次全国人口普查）](https://demoarchive.net/data/population-census-2020.xlsx): 基于七普表 3-1 分年龄人口推算的历年出生且 2020 年仍在世人数。
+- [各年代年均出生人口](https://demoarchive.net/data/avg-births-by-decade.xlsx): 上世纪 50 年代以来各年代年均出生人口及 2025 年当年数据。
+- [未来人口预测完整数据（2026~2100）](https://demoarchive.net/data/forecast-all.xlsx): 高、中、低三情景下的总人口、出生人口、死亡人口与年减少人数（另有分项表 `forecast-population.xlsx`、`forecast-births.xlsx`、`forecast-deaths.xlsx`、`forecast-decrease.xlsx`）。
+- [各省出生人口下降幅度（2016~2025）](https://demoarchive.net/data/provincial-births-decline-2016-2025.xlsx): 全国 34 个省级行政区 2016 年与 2025 年出生人口及降幅百分比。
+- [各省历年出生数据目录](https://demoarchive.net/datacenter.html#secProv): 34 个省级行政区（含港澳台）独立 `.xlsx` 数据文件（位于 `data/provinces/` 目录，例如 [北京市](https://demoarchive.net/data/provinces/beijing.xlsx)、[上海市](https://demoarchive.net/data/provinces/shanghai.xlsx)、[广东省](https://demoarchive.net/data/provinces/guangdong.xlsx) 等）。
+- [世界各国总和生育率（1960~2024）](https://demoarchive.net/data/wdi-tfr-by-country.xlsx): 世界银行 WDI 指标 `SP.DYN.TFRT.IN`。
+- [各国家庭公共支出占 GDP 比重（2010~2023）](https://demoarchive.net/data/public-family-spending-by-type-gdp-pct.xlsx): OECD SOCX 社会支出数据库。
+
+## 主要数据来源
+
+- **中国国家统计局**（https://data.stats.gov.cn/）及各省、自治区、直辖市统计局
+- **育娲人口智库**（《中国百年历史人口报告》）
+- **世界银行 World Development Indicators**（`SP.DYN.TFRT.IN`）
+- **经济合作与发展组织 OECD SOCX**（Social Expenditure Database）
+- **联合国《世界人口展望 2024》**（UN WPP 2024）
+
+## Optional
+
+- [完整站点文本与数据摘要（llms-full.txt）](https://demoarchive.net/llms-full.txt): 包含全站各栏目详细论点、关键统计数值、预测模型公式与全量文件索引。
+- [GitHub 开源仓库与 README](https://github.com/DemoArchive/demography-archive): 包含全部前端源码、静态数据及 Issues 反馈入口。
+- 联系作者：qidaoweb@outlook.com（四川省成都市）

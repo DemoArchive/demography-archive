@@ -4,11 +4,69 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人口档案馆</title>
+<title>人口档案馆 - 中国出生人口与全球生育率观察</title>
 <meta name="description" content="1963 年，每分钟出生 56 人；2025 年，每分钟出生 15 人。正在缩小的起点。中国出生人口观察：数据、危害、争论与思想实验。">
-<meta property="og:title" content="人口档案馆">
+<meta name="keywords" content="人口档案馆,Demography Archive,中国出生人口,生育率,总和生育率,少子化,人口预测,各省生育地图,人口结构">
+<meta name="author" content="人口档案馆 (Demography Archive)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://demoarchive.net/">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://demoarchive.net/sitemap.xml">
+<link rel="alternate" type="text/markdown" title="LLMs.txt" href="https://demoarchive.net/llms.txt">
+<meta itemprop="name" content="人口档案馆 - 中国出生人口与全球生育率观察">
+<meta itemprop="description" content="1963 年每分钟出生 56 人，2025 年每分钟出生 15 人。未来，已从产房的寂静中悄然启程……">
+<meta itemprop="image" content="https://demoarchive.net/images/nav/story-births.png">
+<meta property="og:site_name" content="人口档案馆">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="人口档案馆 - 中国出生人口与全球生育率观察">
 <meta property="og:description" content="1963 年每分钟出生 56 人，2025 年每分钟出生 15 人。未来，已从产房的寂静中悄然启程……">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://demoarchive.net/">
+<meta property="og:image" content="https://demoarchive.net/images/nav/story-births.png">
+<meta property="og:image:alt" content="1949~2025 年中国历年出生人口变化曲线 - 人口档案馆">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://demoarchive.net/#organization",
+      "name": "人口档案馆",
+      "alternateName": "Demography Archive",
+      "url": "https://demoarchive.net/",
+      "email": "qidaoweb@outlook.com",
+      "sameAs": [
+        "https://github.com/DemoArchive/demography-archive"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://demoarchive.net/#website",
+      "url": "https://demoarchive.net/",
+      "name": "人口档案馆",
+      "alternateName": "Demography Archive",
+      "description": "1963 年，每分钟出生 56 人；2025 年，每分钟出生 15 人。中国出生人口观察：历史数据、各省生育地图、未来人口预测、全球生育率对比、常见争论、各方观点与思想实验。",
+      "inLanguage": "zh-CN",
+      "publisher": {
+        "@id": "https://demoarchive.net/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://demoarchive.net/#webpage",
+      "url": "https://demoarchive.net/",
+      "name": "人口档案馆 - 中国出生人口与全球生育率观察",
+      "isPartOf": {
+        "@id": "https://demoarchive.net/#website"
+      },
+      "inLanguage": "zh-CN",
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://demoarchive.net/images/nav/story-births.png"
+      }
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16.2 5.0 C15.2 14.2 11.4 20.8 5.6 26.2' stroke='%231D1D1F' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M18.2 17.2 C19.1 19.1 20.2 20.6 21.5 22.0' stroke='%230071E3' stroke-width='3.0' stroke-linecap='round'/%3E%3Ccircle cx='25.8' cy='25.8' r='2.2' fill='%23E13D3D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.loli.net">
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
@@ -81,7 +139,8 @@
 
   /* ---------- HERO（一整页连续排版的起头） ---------- */
   .hero{
-    text-align:center;padding:42px 28px 0;
+    max-width:var(--page-max,1200px);margin:0 auto;
+    text-align:center;padding:42px 32px 0;
   }
   .hero h1{
     font-family:var(--serif);font-weight:600;
@@ -251,9 +310,9 @@
   .c-note a:hover{color:var(--accent);}
 
   /* ---------- 页脚 ---------- */
-  footer{background:var(--bg-soft);border-top:1px solid var(--line);padding:12px 32px;}
+  footer{background:var(--bg-soft);border-top:1px solid var(--line);padding:12px 0;}
   .foot-inner{
-    max-width:var(--page-max,1200px);margin:0 auto;
+    max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;
     display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;
     font-size:12px;color:var(--faint);letter-spacing:normal;
   }
@@ -262,7 +321,7 @@
   .foot-links a:hover{color:var(--accent);}
 
   /* ---------- 正在减少的中国（滚动叙事） ---------- */
-  .story-sec{padding:76px 28px 0;border-top:1px solid var(--line);}
+  .story-sec{padding:76px 32px 0;border-top:1px solid var(--line);}
   .story-head{max-width:760px;margin:0 auto;text-align:center;}
   .story-head h2{
     font-family:var(--serif);font-weight:600;
@@ -453,9 +512,9 @@
     --apple-ease:cubic-bezier(.32,.72,0,1);
     background:#F5F5F7;
     border-top:1px solid var(--line);
-    padding:76px 32px 52px;
+    padding:76px 0 52px;
   }
-  .tiles-wrap{max-width:var(--page-max,1200px);margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+  .tiles-wrap{max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;display:flex;flex-direction:column;gap:20px;}
   .tile{
     --tile-bg:#FFFFFF;
     position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
@@ -786,8 +845,8 @@
 
   /* ---------- 移动端 ---------- */
   @media (max-width:960px){
-    .hero{padding:40px 22px 0;}
-    .clocks{padding:16px 18px 34px;}
+    .hero{padding:40px 20px 0;}
+    .clocks{padding:16px 20px 34px;}
     .clock-grid{grid-template-columns:1fr;gap:14px;}
     .clock-card{padding:24px 22px 20px;}
     .c-note{padding:0 4px;}
@@ -797,7 +856,7 @@
     /* 图表区整体不透明：叙述文字滚动到图表下方后被白底遮挡，避免与标注/图注糊在一起；
        底部另加一道短渐变，让文字在上行到图表前自然淡出 */
     .stage{
-      top:54px;height:auto;padding:10px 18px 6px;
+      top:54px;height:auto;padding:10px 20px 6px;
       background:#FFFFFF;
     }
     .stage::after{
@@ -815,7 +874,7 @@
     .chart-foot{margin-top:8px;padding-top:8px;}
     .chart-src{font-size:10.5px;text-align:left;}
     .chart-src a{pointer-events:auto;}
-    .steps{padding:46vh 24px 0 45px;}
+    .steps{padding:46vh 20px 0 45px;}
     /* 移动端：每节改为「正文自身高度 + 固定段后留白」，节与节之间的空白在各机型上一致
        （原先固定 72vh 会让小屏挤、大屏空） */
     .step{min-height:0;align-items:flex-end;padding-bottom:72px;}
@@ -829,8 +888,10 @@
     .x-label,.ax-label{font-size:17px;}
     /* 事件标签字数多、又在淡化色上，移动端按 SVG 缩放后过小，故比刻度文字再大一档 */
     .event .e-txt{font-size:18px;}
-    .tiles{padding:52px 18px 38px;}
-    .tiles-wrap,.tile-grid{grid-template-columns:1fr;gap:16px;}
+    .tiles{padding:52px 0 38px;}
+    .tiles-wrap{padding:0 20px;gap:16px;}
+    .tile-grid{grid-template-columns:1fr;gap:16px;}
+    .foot-inner{padding:0 20px;}
     .tile{border-radius:20px;}
     .tile-grid .tile{height:auto;min-height:0;padding:30px 20px;}
     .tile-grid .t-title{font-size:22px;}

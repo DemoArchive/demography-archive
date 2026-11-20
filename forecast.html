@@ -6,8 +6,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>未来人口预测 - 人口档案馆</title>
 <meta name="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景，并可自定义生育率。本页数据均为预测结果，仅供参考。预测方法详见“人口预测模型”（队列要素法）">
+<meta name="keywords" content="中国人口预测,2026-2100人口预测,队列要素法,总人口预测,出生人口预测,总和生育率情景,人口档案馆">
+<meta name="author" content="人口档案馆 (Demography Archive)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://demoarchive.net/forecast.html">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://demoarchive.net/sitemap.xml">
+<link rel="alternate" type="text/markdown" title="LLMs.txt" href="https://demoarchive.net/llms.txt">
+<meta itemprop="name" content="未来人口预测 - 人口档案馆">
+<meta itemprop="description" content="中国未来人口预测（2026~2100）：总人口、出生人口、死亡人口与年减少人数，高 / 中 / 低三种情景，支持自定义生育率。">
+<meta itemprop="image" content="https://demoarchive.net/images/home/fc-mini-pop.png">
+<meta property="og:site_name" content="人口档案馆">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:title" content="未来人口预测 - 人口档案馆">
+<meta property="og:description" content="中国未来人口预测（2026~2100）：基于队列要素法推演总人口、出生人口、死亡人口与年减少人数，提供高（TFR 1.3）/ 中（1.0）/ 低（0.8）情景及自定义生育率模拟。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://demoarchive.net/forecast.html">
+<meta property="og:image" content="https://demoarchive.net/images/home/fc-mini-pop.png">
+<meta property="og:image:alt" content="2026~2100 年中国总人口高、中、低三种情景预测折线图 - 人口档案馆">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dataset",
+      "@id": "https://demoarchive.net/forecast.html#dataset",
+      "name": "2026~2100 年中国未来人口预测数据集",
+      "description": "基于队列要素法（Cohort-Component Method）推演 2026~2100 年中国总人口、出生人口、死亡人口与年减少人数（TFR 1.3 / 1.0 / 0.8 三情景）。",
+      "url": "https://demoarchive.net/forecast.html",
+      "inLanguage": "zh-CN",
+      "temporalCoverage": "2026/2100",
+      "spatialCoverage": "China",
+      "creator": {
+        "@type": "Organization",
+        "name": "人口档案馆",
+        "url": "https://demoarchive.net/"
+      },
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "contentUrl": "https://demoarchive.net/data/forecast-all.xlsx"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://demoarchive.net/" },
+        { "@type": "ListItem", "position": 2, "name": "未来人口预测", "item": "https://demoarchive.net/forecast.html" }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16.2 5.0 C15.2 14.2 11.4 20.8 5.6 26.2' stroke='%231D1D1F' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M18.2 17.2 C19.1 19.1 20.2 20.6 21.5 22.0' stroke='%230071E3' stroke-width='3.0' stroke-linecap='round'/%3E%3Ccircle cx='25.8' cy='25.8' r='2.2' fill='%23E13D3D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.loli.net">
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
@@ -245,8 +296,8 @@
   .page-note a{color:var(--faint);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--faint);}
   .page-note a:hover{color:var(--accent);}
 
-  footer{border-top:1px solid var(--line);margin-top:44px;padding:12px 32px;}
-  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:12px 0;}
+  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);letter-spacing:normal;}
 
   @media (max-width:960px){
     .head{padding:26px 20px 0;}

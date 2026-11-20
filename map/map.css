@@ -53,6 +53,9 @@
   /* ---------- 章节（一页两节，上下排列） ---------- */
   .sec + .sec{border-top:1px solid var(--line);margin-top:38px;}
   .sec-head{max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;}
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
   .sec-head h2{
     font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.2vw,40px);
     letter-spacing:normal;line-height:1.2;margin-top:30px;
@@ -332,9 +335,9 @@
     max-width:var(--page-max,1200px);margin:18px auto 0;padding:0 32px;
     font-size:11.5px;line-height:2;color:var(--faint);letter-spacing:normal;
   }
-  footer{border-top:1px solid var(--line);margin-top:26px;padding:12px 32px;}
+  footer{border-top:1px solid var(--line);margin-top:26px;padding:12px 0;}
   .foot-inner{
-    max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     font-size:11.5px;color:var(--faint);letter-spacing:normal;
   }
 

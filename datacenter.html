@@ -6,8 +6,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>数据中心 - 人口档案馆</title>
 <meta name="description" content="人口档案馆：数据中心，全国历年出生人口、未来人口预测、各省历年出生数据——在线浏览，xlsx 一键下载。">
+<meta name="keywords" content="中国出生人口数据下载,人口数据Excel,七普数据,各省出生人口xlsx,世界银行生育率数据,OECD生育补贴数据,人口档案馆">
+<meta name="author" content="人口档案馆 (Demography Archive)">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://demoarchive.net/datacenter.html">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://demoarchive.net/sitemap.xml">
+<link rel="alternate" type="text/markdown" title="LLMs.txt" href="https://demoarchive.net/llms.txt">
+<meta itemprop="name" content="数据中心 - 人口档案馆">
+<meta itemprop="description" content="全国历年出生人口、未来人口预测、各省历年出生数据与全球生育率数据集——在线浏览，xlsx 一键下载。">
+<meta itemprop="image" content="https://demoarchive.net/images/nav/story-births.png">
+<meta property="og:site_name" content="人口档案馆">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:title" content="数据中心 - 人口档案馆">
+<meta property="og:description" content="全国历年出生人口、七普回溯、未来人口预测、34 省历年出生数据、世界各国生育率与 OECD 生育补贴支出——在线浏览，xlsx 一键下载。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://demoarchive.net/datacenter.html">
+<meta property="og:image" content="https://demoarchive.net/images/nav/story-births.png">
+<meta property="og:image:alt" content="数据中心 - 人口档案馆">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "DataCatalog",
+      "@id": "https://demoarchive.net/datacenter.html#catalog",
+      "name": "人口档案馆数据中心",
+      "description": "开源人口数据集目录，提供全国历年出生人口、七普回溯、未来人口预测（2026~2100）、34 省历年出生数据、世界生育率与 OECD 生育补贴支出下载。",
+      "url": "https://demoarchive.net/datacenter.html",
+      "inLanguage": "zh-CN",
+      "publisher": {
+        "@type": "Organization",
+        "name": "人口档案馆",
+        "url": "https://demoarchive.net/"
+      },
+      "dataset": [
+        {
+          "@type": "Dataset",
+          "name": "全国历年出生人口（国家统计局 & 育娲人口智库）",
+          "url": "https://demoarchive.net/datacenter.html#secNat",
+          "distribution": [
+            { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/nbs-national-data.xlsx" },
+            { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/yuwa-births-backcast.xlsx" }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "七普回溯：历年出生人口（2020 年仍在世）",
+          "url": "https://demoarchive.net/datacenter.html#secCensus",
+          "distribution": { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/population-census-2020.xlsx" }
+        },
+        {
+          "@type": "Dataset",
+          "name": "各年代年均出生人口",
+          "url": "https://demoarchive.net/datacenter.html#secDec",
+          "distribution": { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/avg-births-by-decade.xlsx" }
+        },
+        {
+          "@type": "Dataset",
+          "name": "未来人口预测（2026~2100）",
+          "url": "https://demoarchive.net/datacenter.html#secFc",
+          "distribution": { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/forecast-all.xlsx" }
+        },
+        {
+          "@type": "Dataset",
+          "name": "各省出生人口下降幅度（2016~2025）",
+          "url": "https://demoarchive.net/datacenter.html#secDecline",
+          "distribution": { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/provincial-births-decline-2016-2025.xlsx" }
+        },
+        {
+          "@type": "Dataset",
+          "name": "各国生育率（世界银行 WDI 1960~2024）",
+          "url": "https://demoarchive.net/datacenter.html#secWorld",
+          "distribution": { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/wdi-tfr-by-country.xlsx" }
+        },
+        {
+          "@type": "Dataset",
+          "name": "各国生育补贴支出（OECD SOCX 2010~2023）",
+          "url": "https://demoarchive.net/datacenter.html#secSupport",
+          "distribution": { "@type": "DataDownload", "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contentUrl": "https://demoarchive.net/data/public-family-spending-by-type-gdp-pct.xlsx" }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://demoarchive.net/" },
+        { "@type": "ListItem", "position": 2, "name": "数据中心", "item": "https://demoarchive.net/datacenter.html" }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M16.2 5.0 C15.2 14.2 11.4 20.8 5.6 26.2' stroke='%231D1D1F' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M18.2 17.2 C19.1 19.1 20.2 20.6 21.5 22.0' stroke='%230071E3' stroke-width='3.0' stroke-linecap='round'/%3E%3Ccircle cx='25.8' cy='25.8' r='2.2' fill='%23E13D3D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.loli.net">
 <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
@@ -142,8 +231,8 @@
   }
   .decline-grid .dc-c{width:100%;min-width:0;}
 
-  footer{border-top:1px solid var(--line);background:var(--bg-elevated);margin-top:40px;padding:12px 32px;}
-  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;font-size:12px;color:var(--faint);letter-spacing:normal;}
+  footer{border-top:1px solid var(--line);background:var(--bg-elevated);margin-top:40px;padding:12px 0;}
+  .foot-inner{max-width:var(--page-max,1200px);margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;font-size:12px;color:var(--faint);letter-spacing:normal;}
   .foot-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
   .foot-links a{color:var(--muted);transition:color .2s;}
   .foot-links a:hover{color:var(--accent);}
@@ -173,7 +262,7 @@
   .toc a:first-of-type{padding-left:14px;text-indent:-.5em;font-weight:600;color:var(--ink);}
   .toc a:first-of-type.on{color:var(--accent);}
   .content{min-width:0;}
-  .content .block{padding-top:0;}
+  .content .block{padding:0;}
   .content .block + .block{margin-top:44px;padding-top:44px;border-top:1px solid var(--line);}
   .content .sec-note{padding:0;}
 
