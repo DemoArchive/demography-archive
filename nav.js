@@ -1213,3 +1213,492 @@
   window.addEventListener("scroll", scheduleReposition, { passive: true });
   window.addEventListener("resize", scheduleReposition, { passive: true });
 })();
+
+/* ============================================================
+   全站分享按钮与国内社交分享浮层（微信扫码 / 复制链接 / 微博 / QQ）
+   ============================================================ */
+(function () {
+  "use strict";
+  var navInner = document.querySelector(".nav-inner");
+  if (!navInner) return;
+
+  /* ---------- 本地 ISO 18004 二维码生成（Byte 模式 · V1~V10 · ECC-M） ---------- */
+  var GF_EXP = new Uint8Array(512);
+  var GF_LOG = new Uint8Array(256);
+  for (var gx = 1, gi = 0; gi < 255; gi++) {
+    GF_EXP[gi] = gx;
+    GF_LOG[gx] = gi;
+    gx <<= 1;
+    if (gx & 256) gx ^= 0x11d;
+  }
+  for (var gi2 = 255; gi2 < 512; gi2++) GF_EXP[gi2] = GF_EXP[gi2 - 255];
+
+  function gfMul(a, b) {
+    return (a === 0 || b === 0) ? 0 : GF_EXP[GF_LOG[a] + GF_LOG[b]];
+  }
+
+  function rsEncode(data, ecLen) {
+    var g = [1];
+    for (var i = 0; i < ecLen; i++) {
+      var ng = new Array(g.length + 1);
+      for (var k = 0; k < ng.length; k++) ng[k] = 0;
+      var root = GF_EXP[i];
+      for (var j = 0; j < g.length; j++) {
+        ng[j] ^= g[j];
+        ng[j + 1] ^= gfMul(g[j], root);
+      }
+      g = ng;
+    }
+    var res = new Uint8Array(data.length + ecLen);
+    res.set(data);
+    for (var d = 0; d < data.length; d++) {
+      var coef = res[d];
+      if (coef !== 0) {
+        for (var m = 0; m < g.length; m++) res[d + m] ^= gfMul(g[m], coef);
+      }
+    }
+    return res.slice(data.length);
+  }
+
+  var VER_M = [
+    null,
+    [16, 10, [1, 16]],
+    [28, 16, [1, 28]],
+    [44, 26, [1, 44]],
+    [64, 18, [2, 32]],
+    [86, 24, [2, 43]],
+    [108, 16, [4, 27]],
+    [124, 18, [4, 31]],
+    [154, 22, [2, 38], [2, 39]],
+    [182, 22, [3, 36], [2, 37]],
+    [216, 26, [4, 43], [1, 44]]
+  ];
+  var ALIGN = [[], [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50]];
+
+  function encodeUtf8(str) {
+    if (typeof TextEncoder === "function") return new TextEncoder().encode(str);
+    var utf8 = unescape(encodeURIComponent(str));
+    var out = new Uint8Array(utf8.length);
+    for (var i = 0; i < utf8.length; i++) out[i] = utf8.charCodeAt(i);
+    return out;
+  }
+
+  function makeQrSvg(text) {
+    var bytes = encodeUtf8(text);
+    var ver = 1;
+    while (ver <= 10) {
+      if (4 + (ver <= 9 ? 8 : 16) + bytes.length * 8 <= VER_M[ver][0] * 8) break;
+      ver++;
+    }
+    if (ver > 10) return "";
+    var spec = VER_M[ver], totalData = spec[0], ecLen = spec[1], bits = [];
+    function pushBits(val, n) {
+      for (var i = n - 1; i >= 0; i--) bits.push((val >> i) & 1);
+    }
+    pushBits(4, 4);
+    pushBits(bytes.length, ver <= 9 ? 8 : 16);
+    for (var bi = 0; bi < bytes.length; bi++) pushBits(bytes[bi], 8);
+    var maxBits = totalData * 8;
+    for (var ti = 0; ti < 4 && bits.length < maxBits; ti++) bits.push(0);
+    while (bits.length & 7) bits.push(0);
+    for (var pi = 0; bits.length < maxBits; pi++) pushBits((pi & 1) ? 0x11 : 0xec, 8);
+
+    var dataBytes = new Uint8Array(totalData);
+    for (var di = 0; di < totalData; di++) {
+      var v = 0;
+      for (var dj = 0; dj < 8; dj++) v = (v << 1) | bits[di * 8 + dj];
+      dataBytes[di] = v;
+    }
+
+    var blocks = [], ecs = [], off = 0;
+    for (var gi = 2; gi < spec.length; gi++) {
+      var cnt = spec[gi][0], dlen = spec[gi][1];
+      for (var b = 0; b < cnt; b++) {
+        var blk = dataBytes.slice(off, off + dlen);
+        off += dlen;
+        blocks.push(blk);
+        ecs.push(rsEncode(blk, ecLen));
+      }
+    }
+
+    var cw = [], maxD = 0;
+    for (var k = 0; k < blocks.length; k++) if (blocks[k].length > maxD) maxD = blocks[k].length;
+    for (var i2 = 0; i2 < maxD; i2++) {
+      for (var k2 = 0; k2 < blocks.length; k2++) if (i2 < blocks[k2].length) cw.push(blocks[k2][i2]);
+    }
+    for (var i3 = 0; i3 < ecLen; i3++) {
+      for (var k3 = 0; k3 < ecs.length; k3++) cw.push(ecs[k3][i3]);
+    }
+
+    var size = ver * 4 + 17;
+    var mod = [], isFunc = [];
+    for (var r0 = 0; r0 < size; r0++) {
+      var mRow = [], fRow = [];
+      for (var c0 = 0; c0 < size; c0++) { mRow.push(0); fRow.push(0); }
+      mod.push(mRow);
+      isFunc.push(fRow);
+    }
+    function setF(r, c, dark) { mod[r][c] = dark ? 2 : 1; isFunc[r][c] = 1; }
+    function drawFinder(fr, fc) {
+      for (var dr = -1; dr <= 7; dr++) {
+        for (var dc = -1; dc <= 7; dc++) {
+          var r = fr + dr, c = fc + dc;
+          if (r < 0 || r >= size || c < 0 || c >= size) continue;
+          var in7 = dr >= 0 && dr <= 6 && dc >= 0 && dc <= 6;
+          setF(r, c, in7 && (dr === 0 || dr === 6 || dc === 0 || dc === 6 || (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4)));
+        }
+      }
+    }
+    drawFinder(0, 0);
+    drawFinder(0, size - 7);
+    drawFinder(size - 7, 0);
+
+    var ap = ALIGN[ver];
+    for (var ar = 0; ar < ap.length; ar++) {
+      for (var ac = 0; ac < ap.length; ac++) {
+        if (isFunc[ap[ar]][ap[ac]]) continue;
+        for (var dr2 = -2; dr2 <= 2; dr2++) {
+          for (var dc2 = -2; dc2 <= 2; dc2++) {
+            setF(ap[ar] + dr2, ap[ac] + dc2, Math.max(Math.abs(dr2), Math.abs(dc2)) !== 1);
+          }
+        }
+      }
+    }
+    for (var ti2 = 8; ti2 < size - 8; ti2++) {
+      if (!isFunc[6][ti2]) setF(6, ti2, ti2 % 2 === 0);
+      if (!isFunc[ti2][6]) setF(ti2, 6, ti2 % 2 === 0);
+    }
+    setF(size - 8, 8, true);
+    for (var fi = 0; fi < 9; fi++) {
+      if (!isFunc[8][fi]) setF(8, fi, false);
+      if (!isFunc[fi][8]) setF(fi, 8, false);
+    }
+    for (var fi2 = 0; fi2 < 8; fi2++) {
+      if (!isFunc[8][size - 1 - fi2]) setF(8, size - 1 - fi2, false);
+      if (fi2 < 7 && !isFunc[size - 1 - fi2][8]) setF(size - 1 - fi2, 8, false);
+    }
+    if (ver >= 7) {
+      var vrem = ver;
+      for (var vi = 0; vi < 12; vi++) vrem = (vrem << 1) ^ ((vrem >> 11) * 0x1f25);
+      var vb = (ver << 12) | vrem;
+      for (var vi2 = 0; vi2 < 18; vi2++) {
+        var vd = ((vb >> vi2) & 1) === 1;
+        setF(size - 11 + (vi2 % 3), Math.floor(vi2 / 3), vd);
+        setF(Math.floor(vi2 / 3), size - 11 + (vi2 % 3), vd);
+      }
+    }
+
+    var bitIdx = 0, totalBits = cw.length * 8;
+    for (var right = size - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      for (var vert = 0; vert < size; vert++) {
+        for (var j = 0; j < 2; j++) {
+          var cc = right - j;
+          var rr = ((right + 1) & 2) === 0 ? size - 1 - vert : vert;
+          if (!isFunc[rr][cc]) {
+            var dk = bitIdx < totalBits ? ((cw[bitIdx >> 3] >> (7 - (bitIdx & 7))) & 1) === 1 : false;
+            bitIdx++;
+            mod[rr][cc] = dk ? 2 : 1;
+          }
+        }
+      }
+    }
+
+    var maskFn = [
+      function (r, c) { return (r + c) % 2 === 0; },
+      function (r, c) { return r % 2 === 0; },
+      function (r, c) { return c % 3 === 0; },
+      function (r, c) { return (r + c) % 3 === 0; },
+      function (r, c) { return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0; },
+      function (r, c) { return ((r * c) % 2 + (r * c) % 3) === 0; },
+      function (r, c) { return (((r * c) % 2 + (r * c) % 3) % 2) === 0; },
+      function (r, c) { return (((r + c) % 2 + (r * c) % 3) % 2) === 0; }
+    ];
+
+    var bestPen = Infinity, bestGrid = null;
+    for (var m = 0; m < 8; m++) {
+      var g = [];
+      for (var r = 0; r < size; r++) {
+        var gr = [];
+        for (var c = 0; c < size; c++) {
+          gr.push((!isFunc[r][c] && maskFn[m](r, c)) ? mod[r][c] !== 2 : mod[r][c] === 2);
+        }
+        g.push(gr);
+      }
+      var rem = m;
+      for (var ri = 0; ri < 10; ri++) rem = (rem << 1) ^ ((rem >> 9) * 0x537);
+      var fb = ((m << 10) | rem) ^ 0x5412;
+      for (var f1 = 0; f1 < 6; f1++) g[8][f1] = ((fb >> (14 - f1)) & 1) === 1;
+      g[8][7] = ((fb >> 8) & 1) === 1;
+      g[8][8] = ((fb >> 7) & 1) === 1;
+      g[7][8] = ((fb >> 6) & 1) === 1;
+      for (var f2 = 0; f2 < 6; f2++) g[5 - f2][8] = ((fb >> (5 - f2)) & 1) === 1;
+      for (var f3 = 0; f3 < 7; f3++) g[size - 1 - f3][8] = ((fb >> (14 - f3)) & 1) === 1;
+      for (var f4 = 0; f4 < 8; f4++) g[8][size - 8 + f4] = ((fb >> (7 - f4)) & 1) === 1;
+
+      var pen = 0;
+      for (var pr = 0; pr < size; pr++) {
+        var runR = 1, runC = 1;
+        for (var pi2 = 1; pi2 < size; pi2++) {
+          if (g[pr][pi2] === g[pr][pi2 - 1]) { runR++; if (runR === 5) pen += 3; else if (runR > 5) pen++; } else runR = 1;
+          if (g[pi2][pr] === g[pi2 - 1][pr]) { runC++; if (runC === 5) pen += 3; else if (runC > 5) pen++; } else runC = 1;
+        }
+      }
+      for (var br = 0; br < size - 1; br++) {
+        for (var bc = 0; bc < size - 1; bc++) {
+          if (g[br][bc] === g[br][bc + 1] && g[br][bc] === g[br + 1][bc] && g[br][bc] === g[br + 1][bc + 1]) pen += 3;
+        }
+      }
+      if (pen < bestPen) { bestPen = pen; bestGrid = g; }
+    }
+
+    var paths = [];
+    for (var sr = 0; sr < size; sr++) {
+      for (var sc = 0; sc < size; sc++) {
+        if (bestGrid[sr][sc]) paths.push("M" + sc + "," + sr + "h1v1h-1z");
+      }
+    }
+    return '<svg viewBox="0 0 ' + size + ' ' + size + '" aria-hidden="true"><path fill="#1D1D1F" d="' + paths.join("") + '"/></svg>';
+  }
+
+  /* ---------- 注入顶栏分享按钮与页脚分享链接 ---------- */
+  var shareIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7.5 7.5 12 3l4.5 4.5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+
+  var navShareBtn = document.createElement("button");
+  navShareBtn.type = "button";
+  navShareBtn.className = "nav-share";
+  navShareBtn.setAttribute("aria-label", "分享本页");
+  navShareBtn.setAttribute("title", "分享本页");
+  navShareBtn.setAttribute("aria-expanded", "false");
+  navShareBtn.setAttribute("aria-haspopup", "dialog");
+  navShareBtn.innerHTML = shareIcon;
+
+  var navGithub = navInner.querySelector(".nav-github");
+  var navBurger = navInner.querySelector(".nav-burger");
+  if (navGithub) navInner.insertBefore(navShareBtn, navGithub);
+  else if (navBurger) navInner.insertBefore(navShareBtn, navBurger);
+  else navInner.appendChild(navShareBtn);
+
+  var footShareBtn = null;
+  var footLinks = document.querySelector("footer .foot-links");
+  if (footLinks) {
+    footShareBtn = document.createElement("button");
+    footShareBtn.type = "button";
+    footShareBtn.className = "foot-share";
+    footShareBtn.textContent = "分享本页";
+    footShareBtn.setAttribute("aria-expanded", "false");
+    footShareBtn.setAttribute("aria-haspopup", "dialog");
+    footLinks.insertBefore(footShareBtn, footLinks.firstChild);
+  }
+
+  /* ---------- 分享浮层 ---------- */
+  var pop = null, qrEl = null, copyBtn = null, weiboLink = null, qqLink = null, nativeBtn = null;
+  var activeBtn = null, copyTimer = null;
+
+  function getShareMeta() {
+    var canonEl = document.querySelector('link[rel="canonical"]');
+    var descEl = document.querySelector('meta[name="description"]');
+    var imgEl = document.querySelector('meta[property="og:image"]');
+    var url = location.href;
+    if (location.protocol === "file:" && canonEl && canonEl.href) {
+      url = canonEl.href + (location.hash || "");
+    }
+    return {
+      url: url,
+      title: document.title || "人口档案馆",
+      desc: descEl ? (descEl.getAttribute("content") || "") : "",
+      image: imgEl ? (imgEl.getAttribute("content") || "") : ""
+    };
+  }
+
+  function ensurePopover() {
+    if (pop) return pop;
+    pop = document.createElement("div");
+    pop.className = "share-popover";
+    pop.setAttribute("role", "dialog");
+    pop.setAttribute("aria-modal", "false");
+    pop.setAttribute("aria-label", "分享本页");
+    pop.innerHTML =
+      '<div class="share-head">' +
+        '<span class="share-title">分享本页</span>' +
+        '<button type="button" class="share-close" aria-label="关闭分享浮层">×</button>' +
+      '</div>' +
+      '<div class="share-qr-box">' +
+        '<div class="share-qr-frame"></div>' +
+        '<div class="share-qr-tip">微信「扫一扫」打开页面并转发</div>' +
+      '</div>' +
+      '<div class="share-actions">' +
+        '<button type="button" class="share-btn is-primary" data-act="copy">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>' +
+          '<span>复制页面链接</span>' +
+        '</button>' +
+        '<a class="share-btn" data-act="weibo" target="_blank" rel="noopener">' +
+          '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.8 19.6c-4.5.4-8.3-1.6-8.5-4.6-.2-2.9 3.3-5.6 7.8-6 4.5-.4 8.3 1.6 8.5 4.6.2 2.9-3.3 5.6-7.8 6zm9.8-10.3c-.4-.1-.7-.2-.5-.6.4-1.1.4-2.1 0-2.8-.8-1.3-2.9-1.2-5.4-.1 0 0-.8.3-.6-.3.4-1.2.3-2.3-.3-2.9-1.4-1.4-5.1 0-8.2 3.1-2.4 2.4-3.7 4.9-3.7 7.1 0 4.2 5.4 6.7 10.7 6.7 6.9 0 11.5-4 11.5-7.2 0-1.9-1.6-3-3.5-3zm-9.4 7.7c-2.5.2-4.6-.9-4.7-2.6-.1-1.6 1.8-3.1 4.2-3.4 2.5-.2 4.6.9 4.7 2.6.1 1.7-1.7 3.2-4.2 3.4zm-.8-3.9c-1.1-.1-2.1.5-2.3 1.4-.1.9.6 1.7 1.7 1.8 1.1.1 2.1-.5 2.3-1.4.2-.9-.6-1.7-1.7-1.8zM20.2 3.9a5.8 5.8 0 0 0-4.9-1.5.7.7 0 0 0 .2 1.4 4.4 4.4 0 0 1 3.7 1.1 4.4 4.4 0 0 1 1 3.7.7.7 0 0 0 1.4.2 5.8 5.8 0 0 0-1.4-4.9z"/></svg>' +
+          '<span>微博</span>' +
+        '</a>' +
+        '<a class="share-btn" data-act="qq" target="_blank" rel="noopener">' +
+          '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c-3.9 0-6.8 2.8-6.8 7 0 .8.1 1.5.3 2.1-1.3 1.4-2.1 3.1-2.1 4.5 0 1 .4 1.5.9 1.5.5 0 1.1-.5 1.6-1.3.4.9 1 1.7 1.8 2.3-.9.3-1.5.8-1.5 1.3 0 .8 1.4 1.3 3.1 1.3 1.2 0 2.2-.3 2.7-.7.5.4 1.5.7 2.7.7 1.7 0 3.1-.5 3.1-1.3 0-.5-.6-1-1.5-1.3.8-.6 1.4-1.4 1.8-2.3.5.8 1.1 1.3 1.6 1.3.5 0 .9-.5.9-1.5 0-1.4-.8-3.1-2.1-4.5.2-.6.3-1.3.3-2.1 0-4.2-2.9-7-6.8-7z"/></svg>' +
+          '<span>QQ</span>' +
+        '</a>' +
+      '</div>';
+
+    qrEl = pop.querySelector(".share-qr-frame");
+    copyBtn = pop.querySelector('[data-act="copy"]');
+    weiboLink = pop.querySelector('[data-act="weibo"]');
+    qqLink = pop.querySelector('[data-act="qq"]');
+
+    if (typeof navigator.share === "function") {
+      nativeBtn = document.createElement("button");
+      nativeBtn.type = "button";
+      nativeBtn.className = "share-btn is-native";
+      nativeBtn.innerHTML = shareIcon + "<span>调用系统分享</span>";
+      pop.querySelector(".share-actions").appendChild(nativeBtn);
+      nativeBtn.addEventListener("click", function () {
+        var meta = getShareMeta();
+        navigator.share({ title: meta.title, text: meta.desc, url: meta.url }).catch(function () {});
+      });
+    }
+
+    pop.querySelector(".share-close").addEventListener("click", function () {
+      var prev = activeBtn;
+      closeShare();
+      if (prev && typeof prev.focus === "function") prev.focus();
+    });
+
+    copyBtn.addEventListener("click", function () {
+      var meta = getShareMeta();
+      function markCopied() {
+        copyBtn.classList.add("is-copied");
+        copyBtn.querySelector("span").textContent = "已复制链接 ✓";
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(function () {
+          copyBtn.classList.remove("is-copied");
+          copyBtn.querySelector("span").textContent = "复制页面链接";
+        }, 2000);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(meta.url).then(markCopied, function () { fallbackCopy(meta.url, markCopied); });
+      } else {
+        fallbackCopy(meta.url, markCopied);
+      }
+    });
+
+    document.body.appendChild(pop);
+    return pop;
+  }
+
+  function fallbackCopy(text, onDone) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;left:-9999px;top:-9999px;opacity:0;";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      if (document.execCommand("copy")) onDone();
+    } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  function positionShare() {
+    if (!pop || !activeBtn) return;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var pw = pop.offsetWidth, ph = pop.offsetHeight;
+    var margin = 12;
+
+    if (vw <= 640) {
+      pop.setAttribute("data-pos", activeBtn === footShareBtn ? "top" : "bottom");
+      pop.style.left = Math.round((vw - pw) / 2) + "px";
+      var topMobile = activeBtn === footShareBtn
+        ? Math.max(margin, vh - ph - 24)
+        : Math.max(margin, Math.min(64, vh - ph - margin));
+      pop.style.top = Math.round(topMobile) + "px";
+      return;
+    }
+
+    var rect = activeBtn.getBoundingClientRect();
+    var left = Math.max(margin, Math.min(rect.right - pw, vw - pw - margin));
+    var gap = 10;
+    var pos = "bottom";
+    var top = rect.bottom + gap;
+    if (top + ph > vh - margin && rect.top - gap - ph >= margin) {
+      pos = "top";
+      top = rect.top - ph - gap;
+    }
+    top = Math.max(margin, Math.min(top, vh - ph - margin));
+    pop.setAttribute("data-pos", pos);
+    pop.style.left = Math.round(left) + "px";
+    pop.style.top = Math.round(top) + "px";
+  }
+
+  function openShare(btn) {
+    ensurePopover();
+    var meta = getShareMeta();
+    var svg = makeQrSvg(meta.url);
+    if (!svg && meta.url.indexOf("#") !== -1) svg = makeQrSvg(meta.url.split("#")[0]);
+    qrEl.innerHTML = svg;
+
+    weiboLink.href = "https://service.weibo.com/share/share.php?url=" + encodeURIComponent(meta.url) +
+      "&title=" + encodeURIComponent(meta.title + (meta.desc ? " — " + meta.desc : "")) +
+      (meta.image ? "&pic=" + encodeURIComponent(meta.image) : "");
+    qqLink.href = "https://connect.qq.com/widget/shareqq/index.html?url=" + encodeURIComponent(meta.url) +
+      "&title=" + encodeURIComponent(meta.title) +
+      (meta.desc ? "&summary=" + encodeURIComponent(meta.desc) : "") +
+      (meta.image ? "&pics=" + encodeURIComponent(meta.image) : "");
+
+    if (activeBtn && activeBtn !== btn) activeBtn.setAttribute("aria-expanded", "false");
+    activeBtn = btn;
+    btn.setAttribute("aria-expanded", "true");
+    pop.classList.remove("is-open");
+    positionShare();
+    requestAnimationFrame(function () {
+      if (activeBtn === btn) {
+        positionShare();
+        pop.classList.add("is-open");
+      }
+    });
+  }
+
+  function closeShare() {
+    if (!pop) return;
+    pop.classList.remove("is-open");
+    if (activeBtn) {
+      activeBtn.setAttribute("aria-expanded", "false");
+      activeBtn = null;
+    }
+  }
+
+  function toggleShare(btn, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (document.body.classList.contains("nav-open")) {
+      document.body.classList.remove("nav-open");
+      var burger = document.querySelector(".nav-burger");
+      if (burger) burger.setAttribute("aria-expanded", "false");
+    }
+    if (activeBtn === btn && pop && pop.classList.contains("is-open")) {
+      closeShare();
+    } else {
+      openShare(btn);
+    }
+  }
+
+  navShareBtn.addEventListener("click", function (e) { toggleShare(navShareBtn, e); });
+  if (footShareBtn) footShareBtn.addEventListener("click", function (e) { toggleShare(footShareBtn, e); });
+
+  document.addEventListener("click", function (e) {
+    if (!pop || !pop.classList.contains("is-open")) return;
+    if (!e.target.closest || !e.target.closest(".share-popover")) closeShare();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && pop && pop.classList.contains("is-open")) {
+      var prev = activeBtn;
+      closeShare();
+      if (prev && typeof prev.focus === "function") prev.focus();
+    }
+  });
+  window.addEventListener("resize", function () {
+    if (pop && pop.classList.contains("is-open")) positionShare();
+  }, { passive: true });
+})();

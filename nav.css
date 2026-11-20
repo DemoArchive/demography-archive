@@ -65,7 +65,7 @@ html{
 /* 按压反馈（Apple 同款）：去掉浏览器默认的蓝色/灰色点击高亮，按下时铺一层
    浅灰底色、松手即退；桌面鼠标同样适用。 */
 .nav a,.nav-burger{-webkit-tap-highlight-color:transparent;}
-.brand:active,.nav-links > a:active,.nav-drop > a:active,.nav-burger:active,.nav-github:active{background:#F0F0F0;}
+.brand:active,.nav-links > a:active,.nav-drop > a:active,.nav-burger:active,.nav-github:active,.nav-share:active{background:#F0F0F0;}
 .nav-links > a.here,.nav-drop > a.here{background:#F4F4F4;color:#171A20;}
 /* —— 悬停面板（Apple 官网风格：满幅磨砂浮层 + 栏目专属内容 + 展开动画）——
    关键约束：带 backdrop-filter 的元素会成为「背景根」，其子树内的 backdrop-filter
@@ -372,15 +372,18 @@ html{
 .tl-shell .tl-swap .tp-anim{animation:none;opacity:1;transform:none;}
 @keyframes tp-swap-in{from{opacity:0}to{opacity:1}}
 
-/* —— GitHub 开源入口（桌面最右端；窄屏位于汉堡按钮左侧） —— */
+/* —— 分享本页按钮 & GitHub 开源入口（桌面最右端；窄屏位于汉堡按钮左侧） —— */
+.nav-share,
 .nav-github{
   flex:none;display:inline-flex;align-items:center;justify-content:center;
   width:34px;height:34px;margin-left:4px;border-radius:50%;
-  color:#171A20;text-decoration:none;
+  color:#171A20;text-decoration:none;background:transparent;border:none;padding:0;cursor:pointer;
   transition:background-color .33s,color .33s;
 }
-@media (hover:hover){.nav-github:hover{background:#F4F4F4;}}
-.nav-github:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
+@media (hover:hover){.nav-share:hover,.nav-github:hover{background:#F4F4F4;}}
+.nav-share:focus-visible,.nav-github:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;}
+.nav-share[aria-expanded="true"]{background:#F0F0F0;}
+.nav-share svg{width:18px;height:18px;display:block;}
 .nav-github svg{width:20px;height:20px;display:block;fill:currentColor;}
 
 /* —— 汉堡按钮（窄屏显示，桌面隐藏） —— */
@@ -403,18 +406,19 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 @media (min-width:1081px){
   .nav-links{gap:4px;margin-left:auto;}
   .nav-links > a,.nav-drop > a{padding:0 8px;}
-  .nav-github{margin-left:-5.5px;}
+  .nav-share{margin-left:-4px;}
+  .nav-github{margin-left:-4px;}
 }
 @media (min-width:1241px){
-  /* 右端 GitHub 图标挂到「其他」右侧（--page-max 外缘），左侧品牌图标左缘对齐内容左缘（32px）；
-     末项内边距 8px：左边距 -16 = 抵消 flex 间距 16 + 末项内边距 8 的差值 */
+  /* 右端 GitHub 图标挂到外缘，分享按钮紧贴其左侧；左侧品牌图标左缘对齐内容左缘（32px） */
   .brand{margin-left:.75px;}
-  .nav-github{margin-left:-16px;margin-right:-34px;}
+  .nav-share{margin-left:-4px;}
+  .nav-github{margin-left:-12px;margin-right:-34px;}
 }
 @media (min-width:1321px){
   .nav-links > a,.nav-drop > a{padding:0 12px;}
-  /* 末项内边距 12px：-20 使「其他」二字右缘正好落到内容栏右缘（32px） */
-  .nav-github{margin-left:-20px;}
+  .nav-share{margin-left:-8px;}
+  .nav-github{margin-left:-12px;}
 }
 @media (min-width:1441px){
   .brand{margin-left:1.5px;}
@@ -424,13 +428,13 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 }
 @media (min-width:1600px){
   .nav-links > a,.nav-drop > a{padding:0 14px;}
-  /* 末项内边距 14px：-22 使「其他」二字右缘正好落到内容栏右缘（32px） */
-  .nav-github{margin-left:-22px;}
+  .nav-share{margin-left:-10px;}
+  .nav-github{margin-left:-12px;}
 }
 @media (min-width:1800px){
   .nav-links > a,.nav-drop > a{padding:0 16px;}
-  /* 末项内边距 16px：-24 使「其他」二字右缘正好落到内容栏右缘（32px） */
-  .nav-github{margin-left:-24px;}
+  .nav-share{margin-left:-12px;}
+  .nav-github{margin-left:-12px;}
 }
 @media (max-width:1320px){
   .nav-links > a,.nav-drop > a{font-size:15px;}
@@ -453,7 +457,8 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 @media (max-width:1080px){
   .menu.tl-panel{display:none;}
   .nav-burger{display:flex;}
-  .nav-github{margin-left:auto;}
+  .nav-share{margin-left:auto;}
+  .nav-github{margin-left:2px;}
   .brand{margin-left:8px;}
   .brand svg{width:24px;height:24px;}
   .nav-links{gap:2px;padding:0;border-radius:0;background:transparent;}
@@ -527,9 +532,11 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
   .nav-links{display:none;}
 }
 @media (max-width:374px){
-  .nav-inner{padding:0 8px;gap:8px;}
+  .nav-inner{padding:0 8px;gap:6px;}
   .brand{width:32px;height:32px;margin-left:4px;}
   .brand svg{width:22px;height:22px;}
+  .nav-share,.nav-github{width:30px;height:30px;margin-left:0;}
+  .nav-burger{margin-left:2px;}
   .nav-links > a,.nav-drop > a{font-size:11.5px;padding:0 6px;}
 }
 
@@ -540,7 +547,7 @@ body.nav-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 :root{
   --ap-ease-enter:cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-html.ap-preload body > :not(.nav):not(.nav-veil):not(.tl-panel):not(.da-loader):not(.fn-popover){
+html.ap-preload body > :not(.nav):not(.nav-veil):not(.tl-panel):not(.da-loader):not(.fn-popover):not(.share-popover){
   opacity:0 !important;
 }
 .ap-anim-wait{
@@ -715,5 +722,119 @@ sup:has(.fn-ref),
   border-top:1px solid rgba(0,0,0,.09);
 }
 @media (prefers-reduced-motion: reduce){
-  .fn-ref,.fn-popover{transition:none;}
+  .fn-ref,.fn-popover,.share-popover{transition:none;}
+}
+
+/* ============================================================
+   全站分享按钮与国内社交分享浮层（微信扫码 / 复制链接 / 微博 / QQ）
+   ============================================================ */
+.foot-share{
+  background:transparent;border:none;padding:0;margin:0;
+  font:inherit;color:var(--muted,#6E6E73);cursor:pointer;
+  transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+@media (hover:hover){.foot-share:hover{color:var(--accent,#0071E3);}}
+.foot-share:focus-visible{outline:2px solid #3E6AE1;outline-offset:2px;border-radius:3px;}
+
+.share-popover{
+  position:fixed;
+  z-index:85;
+  width:min(316px,calc(100vw - 24px));
+  background:rgba(255,255,255,.95);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(0,0,0,.09);
+  border-radius:16px;
+  box-shadow:0 18px 48px rgba(0,0,0,.14),0 2px 10px rgba(0,0,0,.05);
+  padding:15px 16px 16px;
+  color:#1D1D1F;
+  font-family:"SF Pro Text","PingFang SC","Noto Sans SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-6px) scale(.98);
+  transition:opacity .2s cubic-bezier(.32,.72,0,1),transform .22s cubic-bezier(.32,.72,0,1),visibility .2s;
+  pointer-events:none;
+}
+.share-popover[data-pos="top"]{transform:translateY(6px) scale(.98);}
+.share-popover.is-open{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+.share-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin-bottom:10px;
+}
+.share-title{
+  font-size:13px;font-weight:600;color:#1D1D1F;letter-spacing:.01em;
+}
+.share-close{
+  width:24px;height:24px;border:none;border-radius:50%;
+  background:rgba(0,0,0,.05);color:#6E6E73;font-size:16px;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background-color .18s ease,color .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+@media (hover:hover){.share-close:hover{background:rgba(0,0,0,.1);color:#1D1D1F;}}
+.share-close:focus-visible{outline:2px solid #0071E3;outline-offset:1px;}
+
+.share-qr-box{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:12px 12px 10px;
+  background:#F5F5F7;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+.share-qr-frame{
+  width:136px;height:136px;padding:8px;box-sizing:border-box;
+  background:#FFFFFF;border-radius:10px;
+  border:1px solid rgba(0,0,0,.06);
+  display:flex;align-items:center;justify-content:center;
+}
+.share-qr-frame svg{width:100%;height:100%;display:block;shape-rendering:crispEdges;}
+.share-qr-tip{
+  font-size:12px;color:#6E6E73;text-align:center;line-height:1.45;
+}
+
+.share-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.share-btn{
+  appearance:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  height:36px;padding:0 10px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#FFFFFF;
+  color:#1D1D1F;
+  font-family:inherit;font-size:12.5px;font-weight:500;
+  text-decoration:none;cursor:pointer;
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+@media (hover:hover){
+  .share-btn:hover{background:#F5F5F7;border-color:rgba(0,0,0,.14);}
+}
+.share-btn:active{background:#EBEBEF;}
+.share-btn:focus-visible{outline:2px solid #0071E3;outline-offset:1px;}
+.share-btn svg{width:15px;height:15px;flex:none;display:block;}
+.share-btn.is-primary{
+  grid-column:1 / -1;
+  background:#1D1D1F;border-color:#1D1D1F;color:#FFFFFF;
+}
+@media (hover:hover){
+  .share-btn.is-primary:hover{background:#333336;border-color:#333336;}
+}
+.share-btn.is-copied{
+  background:#0071E3;border-color:#0071E3;color:#FFFFFF;
+}
+@media (hover:hover){
+  .share-btn.is-copied:hover{background:#0071E3;border-color:#0071E3;}
+}
+.share-btn.is-native{
+  grid-column:1 / -1;
 }
