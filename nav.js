@@ -1475,7 +1475,7 @@
 
   var navGithub = navInner.querySelector(".nav-github");
   var navBurger = navInner.querySelector(".nav-burger");
-  if (navGithub) navInner.insertBefore(navShareBtn, navGithub);
+  if (navGithub && navGithub.parentNode === navInner) navInner.insertBefore(navShareBtn, navGithub.nextSibling);
   else if (navBurger) navInner.insertBefore(navShareBtn, navBurger);
   else navInner.appendChild(navShareBtn);
 
@@ -1652,12 +1652,8 @@
     btn.setAttribute("aria-expanded", "true");
     pop.classList.remove("is-open");
     positionShare();
-    requestAnimationFrame(function () {
-      if (activeBtn === btn) {
-        positionShare();
-        pop.classList.add("is-open");
-      }
-    });
+    void pop.offsetWidth;
+    pop.classList.add("is-open");
   }
 
   function closeShare() {
